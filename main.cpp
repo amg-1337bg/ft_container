@@ -9,12 +9,12 @@ int main()
 	vec.push_back(8);
 	vec.push_back(182);
 	std::vector<int>::const_iterator it;
-	// ft::vector<int>::iterator it3;
 	std::vector<int>::iterator it2;
 	std::vector<int>::iterator it3;
 	// it3 = vec.begin();
 	it = vec.begin();
 	it2 = vec.end();
+	it.distance
 	std::cout << it[9] << std::endl;
 	// it++;
 	// std::vector<int>::iterator it2(it);
