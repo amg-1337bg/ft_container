@@ -20,51 +20,40 @@ public:
 		ptr = it.ptr;
 		return *this;
 	}
-	const Iterator &operator=(const Iterator &it) const
-	{
-		ptr = it.ptr;
-		return *this;
-	}
 	~Iterator() {}
 
 	// Compare operator
-	bool operator==(Iterator &it)
+	bool operator==(const Iterator &it)
 	{
 		if (this->ptr == it.ptr)
 			return true;
 		return false;
 	}
-	bool operator!=(Iterator &it)
+	bool operator!=(const Iterator &it)
 	{
 		if (this->ptr != it.ptr)
 			return true;
 		return false;
 	}
-	bool operator!=(const Iterator &it) const
-	{
-		if (this->ptr != it.ptr)
-			return true;
-		return false;
-	}
-	bool operator<(Iterator &it)
+	bool operator<(const Iterator &it)
 	{
 		if (this->ptr < it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>(Iterator &it)
+	bool operator>(const Iterator &it)
 	{
 		if (this->ptr > it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>=(Iterator &it)
+	bool operator>=(const Iterator &it)
 	{
 		if (this->ptr >= it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<=(Iterator &it)
+	bool operator<=(const Iterator &it)
 	{
 		if (this->ptr <= it.ptr)
 			return true;
@@ -77,7 +66,7 @@ public:
 
 	void operator*(T ptr_val) { *ptr = ptr_val; }
 	T &operator->() { return *ptr; } // Needs correction
-
+	const T &operator->() const { return *ptr; }
 	// increament operators post and pre
 	Iterator &operator++()
 	{
@@ -143,7 +132,7 @@ public:
 	}
 
 	void	setptr(T *ptr) { this->ptr = ptr; }
-	void	setptr(T *ptr) const { this->ptr = ptr; }
+	// void	setptr(T *ptr) const { this->ptr = ptr; }
 };
 
 #endif

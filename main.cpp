@@ -13,13 +13,13 @@ int main()
 	ft::vector<int>::iterator m;
 	ft::vector<int>::iterator m1;
 	std::vector<int>::const_iterator cons;
+	std::vector<int>::const_iterator cons1;
 	ft::vector<int>::const_iterator consm;
 	// std::vector<int>::iterator it2;
 	// std::vector<int>::iterator it3;
 	// it3 = vec.begin();
 	cons = vec.begin();
 	consm = mine.begin();
-	vec[0] = 0;
 	it = vec.begin();
 	ite = vec.end();
 	m = test2.begin();
@@ -31,11 +31,11 @@ int main()
 		cons++;
 	}
 	std::cout << "-----------Seperator--------" << std::endl;
-	// while (consm != m1)
-	// {
-	// 	std::cout << *consm << std::endl;
-	// 	consm++;
-	// }
+	while (consm != m1)
+	{
+		std::cout << *consm << std::endl;
+		consm++;
+	}
 	
 
 	// for (size_t i = 0; i < 10; i++)
