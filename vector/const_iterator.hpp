@@ -1,59 +1,59 @@
-#ifndef ITERATOR_HPP
-#define ITERATOR_HPP
+#ifndef CONST_ITERATOR_HPP
+#define CONST_ITERATOR_HPP
 
 #include <memory>
 
 template <class T>
-class Iterator : public std::iterator<std::random_access_iterator_tag(), T>
+class Const_Iterator : public std::iterator<std::random_access_iterator_tag(), T>
 {
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::difference_type difference_type;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::iterator_category iterator_category;
-	T *ptr;
+	const T *ptr;
 
 public:
-	Iterator() {}
-	Iterator(const Iterator &it) : ptr(it.ptr) {}
-	Iterator &operator=(const Iterator &it)
+	Const_Iterator() {}
+	Const_Iterator(const iterator &it) : ptr(it.ptr) {}
+	const Const_Iterator &operator=(const Const_Iterator &it)
 	{
 		ptr = it.ptr;
 		return *this;
 	}
-	~Iterator() {}
+	~Const_Iterator() {}
 
 	// Compare operator
-	bool operator==(Iterator &it)
+	bool operator==(Const_Iterator &it)
 	{
 		if (this->ptr == it.ptr)
 			return true;
 		return false;
 	}
-	bool operator!=(Iterator &it)
+	bool operator!=(Const_Iterator &it)
 	{
 		if (this->ptr != it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<(Iterator &it)
+	bool operator<(Const_Iterator &it)
 	{
 		if (this->ptr < it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>(Iterator &it)
+	bool operator>(Const_Iterator &it)
 	{
 		if (this->ptr > it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>=(Iterator &it)
+	bool operator>=(Const_Iterator &it)
 	{
 		if (this->ptr >= it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<=(Iterator &it)
+	bool operator<=(Const_Iterator &it)
 	{
 		if (this->ptr <= it.ptr)
 			return true;
@@ -61,64 +61,64 @@ public:
 	}
 
 	// Dereference
-	T &operator*() { return *ptr; }
+	const T &operator*() { return *ptr; }
 
 	void operator*(T ptr_val) { *ptr = ptr_val; }
-	T &operator->() { return *ptr; } // Needs correction
+	const T &operator->() { return *ptr; } // Needs correction
 
 	// increament operators post and pre
-	Iterator &operator++()
+	const Const_Iterator &operator++()
 	{
 		this->ptr++;
 		return *this;
 	} // pre
-	Iterator operator++(int)
+	const Const_Iterator operator++(int)
 	{
-		Iterator tmp;
+		Const_Iterator tmp;
 		tmp = *this;
 		this->ptr++;
 		return (tmp);
 	}
-	Iterator &operator--()
+	const Const_Iterator &operator--()
 	{
 		this->ptr--;
 		return *this;
 	}
-	Iterator operator--(int)
+	const Const_Iterator operator--(int)
 	{
-		Iterator tmp;
+		Const_Iterator tmp;
 		tmp = *this;
 		this->ptr--;
 		return (tmp);
 	} // post
 
 	//arithmetic operation
-	Iterator &operator+(difference_type n)
+	const Const_Iterator &operator+(difference_type n)
 	{
 		ptr += n;
 		return (*this);
 	}
-	Iterator &operator-(difference_type n)
+	const Const_Iterator &operator-(difference_type n)
 	{
 		ptr -= n;
 		return (*this);
 	}
-	difference_type operator-(const Iterator &it)
+	const difference_type operator-(const Const_Iterator &it)
 	{
 		return ptr - it.ptr;
 	}
 
-	Iterator &operator+=(difference_type n)
+	const Const_Iterator &operator+=(difference_type n)
 	{
 		ptr += n;
 		return (*this);
 	}
-	Iterator &operator-=(difference_type n)
+	const Const_Iterator &operator-=(difference_type n)
 	{
 		ptr -= n;
 		return (*this);
 	}
-	T& operator[](difference_type n)
+	const T& operator[](difference_type n)
 	{
 		return ptr[n];
 	}

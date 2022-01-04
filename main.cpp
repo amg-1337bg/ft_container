@@ -3,12 +3,11 @@
 #include <iostream>
 int main()
 {
-	std::vector<int> vec;
-	ft::vector<int> mine(10, 5);
-	vec.push_back(18);
-	vec.push_back(1);
-	vec.push_back(8);
-	vec.push_back(182);
+	int gg[] = { 12321,13231,134,25,23424,252,24};
+	std::vector<int> vec(gg, gg+ 7);
+	std::vector<int> test(vec);
+	ft::vector<int> mine(gg, gg + 7);
+	ft::vector<int> test2(mine);
 	std::vector<int>::iterator it;
 	std::vector<int>::iterator ite;
 	ft::vector<int>::iterator m;
@@ -16,15 +15,22 @@ int main()
 	// std::vector<int>::iterator it2;
 	// std::vector<int>::iterator it3;
 	// it3 = vec.begin();
+	vec[0] = 0;
 	it = vec.begin();
 	ite = vec.end();
-	m = mine.begin();
-	m1 = mine.end();
+	m = test2.begin();
+	m1 = test2.end();
 	// it--;
 	while (it != ite)
 	{
-		std::cout << it.base() << std::endl;
+		std::cout << *it << std::endl;
 		it++;
+	}
+	std::cout << "-----------Seperator--------" << std::endl;
+	while (m != m1)
+	{
+		std::cout << *m << std::endl;
+		m++;
 	}
 	
 
