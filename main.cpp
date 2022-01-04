@@ -31,11 +31,11 @@ int main()
 		cons++;
 	}
 	std::cout << "-----------Seperator--------" << std::endl;
-	while (consm != m1)
-	{
-		std::cout << *consm << std::endl;
-		consm++;
-	}
+	// while (consm != m1)
+	// {
+	// 	std::cout << *consm << std::endl;
+	// 	consm++;
+	// }
 	
 
 	// for (size_t i = 0; i < 10; i++)

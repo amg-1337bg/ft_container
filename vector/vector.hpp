@@ -7,7 +7,7 @@
 namespace ft
 {
 #include "iterator.hpp"
-#include "const_iterator.hpp"
+// #include "const_iterator.hpp"
 
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
@@ -25,7 +25,7 @@ namespace ft
 
 	public:
 		typedef Iterator<T> iterator;
-		typedef Const_Iterator<T> const_iterator;
+		typedef const Iterator<T> const_iterator;
 
 
 		vector(const allocator_type &alloc = allocator_type())

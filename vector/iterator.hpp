@@ -20,6 +20,11 @@ public:
 		ptr = it.ptr;
 		return *this;
 	}
+	const Iterator &operator=(const Iterator &it) const
+	{
+		ptr = it.ptr;
+		return *this;
+	}
 	~Iterator() {}
 
 	// Compare operator
@@ -30,6 +35,12 @@ public:
 		return false;
 	}
 	bool operator!=(Iterator &it)
+	{
+		if (this->ptr != it.ptr)
+			return true;
+		return false;
+	}
+	bool operator!=(const Iterator &it) const
 	{
 		if (this->ptr != it.ptr)
 			return true;
@@ -62,6 +73,7 @@ public:
 
 	// Dereference
 	T &operator*() { return *ptr; }
+	const T &operator*() const { return *ptr; }
 
 	void operator*(T ptr_val) { *ptr = ptr_val; }
 	T &operator->() { return *ptr; } // Needs correction
@@ -73,6 +85,13 @@ public:
 		return *this;
 	} // pre
 	Iterator operator++(int)
+	{
+		Iterator tmp;
+		tmp = *this;
+		this->ptr++;
+		return (tmp);
+	}
+	const Iterator operator++(int) const
 	{
 		Iterator tmp;
 		tmp = *this;
@@ -124,6 +143,7 @@ public:
 	}
 
 	void	setptr(T *ptr) { this->ptr = ptr; }
+	void	setptr(T *ptr) const { this->ptr = ptr; }
 };
 
 #endif
