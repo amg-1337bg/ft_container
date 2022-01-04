@@ -2,6 +2,7 @@
 #define CONST_ITERATOR_HPP
 
 #include <memory>
+#include "iterator.hpp"
 
 template <class T>
 class Const_Iterator : public std::iterator<std::random_access_iterator_tag(), T>
@@ -13,15 +14,14 @@ class Const_Iterator : public std::iterator<std::random_access_iterator_tag(), T
 	const T *ptr;
 
 public:
-	Const_Iterator() {}
-	Const_Iterator(const iterator &it) : ptr(it.ptr) {}
+	Const_Iterator() : ptr(0) {}
+	Const_Iterator(const Const_Iterator &it) : ptr(it.ptr) {}
 	const Const_Iterator &operator=(const Const_Iterator &it)
 	{
 		ptr = it.ptr;
 		return *this;
 	}
 	~Const_Iterator() {}
-
 	// Compare operator
 	bool operator==(Const_Iterator &it)
 	{

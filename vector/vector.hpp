@@ -26,6 +26,8 @@ namespace ft
 	public:
 		typedef Iterator<T> iterator;
 		typedef Const_Iterator<T> const_iterator;
+
+
 		vector(const allocator_type &alloc = allocator_type())
 		{
 			_buffer = 0;

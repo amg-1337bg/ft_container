@@ -6,31 +6,35 @@ int main()
 	int gg[] = { 12321,13231,134,25,23424,252,24};
 	std::vector<int> vec(gg, gg+ 7);
 	std::vector<int> test(vec);
-	ft::vector<int> mine(gg, gg + 7);
+	const ft::vector<int> mine(gg, gg + 7);
 	ft::vector<int> test2(mine);
 	std::vector<int>::iterator it;
 	std::vector<int>::iterator ite;
 	ft::vector<int>::iterator m;
 	ft::vector<int>::iterator m1;
+	std::vector<int>::const_iterator cons;
+	ft::vector<int>::const_iterator consm;
 	// std::vector<int>::iterator it2;
 	// std::vector<int>::iterator it3;
 	// it3 = vec.begin();
+	cons = vec.begin();
+	consm = mine.begin();
 	vec[0] = 0;
 	it = vec.begin();
 	ite = vec.end();
 	m = test2.begin();
 	m1 = test2.end();
 	// it--;
-	while (it != ite)
+	while (cons != ite)
 	{
-		std::cout << *it << std::endl;
-		it++;
+		std::cout << *cons << std::endl;
+		cons++;
 	}
 	std::cout << "-----------Seperator--------" << std::endl;
-	while (m != m1)
+	while (consm != m1)
 	{
-		std::cout << *m << std::endl;
-		m++;
+		std::cout << *consm << std::endl;
+		consm++;
 	}
 	
 
