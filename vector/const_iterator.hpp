@@ -1,8 +1,7 @@
 #ifndef CONST_ITERATOR_HPP
 #define CONST_ITERATOR_HPP
 
-#include <memory>
-#include "iterator.hpp"
+#include <iterator>
 
 template <class T>
 class Const_Iterator : public std::iterator<std::random_access_iterator_tag(), T>
@@ -11,6 +10,7 @@ class Const_Iterator : public std::iterator<std::random_access_iterator_tag(), T
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::iterator_category iterator_category;
+	typedef	Iterator<T> iterator;
 	const T *ptr;
 
 public:
@@ -21,41 +21,83 @@ public:
 		ptr = it.ptr;
 		return *this;
 	}
+	const Const_Iterator &operator=(const iterator &it)
+	{
+		ptr = it.getptr();
+		return *this;
+	}
 	~Const_Iterator() {}
 	// Compare operator
-	bool operator==(Const_Iterator &it)
+	bool operator==(const Const_Iterator &it)
 	{
 		if (this->ptr == it.ptr)
 			return true;
 		return false;
 	}
-	bool operator!=(Const_Iterator &it)
+	bool operator!=(const Const_Iterator &it)
 	{
 		if (this->ptr != it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<(Const_Iterator &it)
+	bool operator<(const Const_Iterator &it)
 	{
 		if (this->ptr < it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>(Const_Iterator &it)
+	bool operator>(const Const_Iterator &it)
 	{
 		if (this->ptr > it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>=(Const_Iterator &it)
+	bool operator>=(const Const_Iterator &it)
 	{
 		if (this->ptr >= it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<=(Const_Iterator &it)
+	bool operator<=(const Const_Iterator &it)
 	{
 		if (this->ptr <= it.ptr)
+			return true;
+		return false;
+	}
+	// Overload Compare Operator
+	bool operator==(const iterator &it)
+	{
+		if (this->ptr == it.getptr())
+			return true;
+		return false;
+	}
+	bool operator!=(const iterator &it)
+	{
+		if (this->ptr != it.getptr())
+			return true;
+		return false;
+	}
+	bool operator<(const iterator &it)
+	{
+		if (this->ptr < it.getptr())
+			return true;
+		return false;
+	}
+	bool operator>(const iterator &it)
+	{
+		if (this->ptr > it.getptr())
+			return true;
+		return false;
+	}
+	bool operator>=(const iterator &it)
+	{
+		if (this->ptr >= it.getptr())
+			return true;
+		return false;
+	}
+	bool operator<=(const iterator &it)
+	{
+		if (this->ptr <= it.getptr())
 			return true;
 		return false;
 	}
@@ -124,6 +166,7 @@ public:
 	}
 
 	void	setptr(T *ptr) { this->ptr = ptr; }
+	const T* getptr() const { return ptr; }
 };
 
 #endif
