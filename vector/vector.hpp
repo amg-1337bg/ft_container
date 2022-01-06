@@ -50,10 +50,12 @@ namespace ft
 		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type())
 		{
 			_N = 0;
+			// std::cout << *last << std::endl;
 			InputIterator tmp = first;
 			while (tmp != last)
 			{
 				_N++;
+				std::cout << *tmp << std::endl;
 				tmp++;
 			}
 			allocator_copy = alloc;
