@@ -4,14 +4,16 @@
 
 int main()
 {
-	// int gg[] = { 12321,13231,134,25,23424,252,24};
+	int gg[] = { 12321,13231,134,25,23424,252,24};
 	// std::vector<int> vec(gg, gg+ 7);
 	// std::vector<int> foo((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
-	std::vector<int> foo((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
-	std::vector<int>::iterator it;
-	std::vector<int>::iterator ite;
+	// ft::vector<int> foo((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
+	ft::vector<int> foo(gg , gg + 7);
+	ft::vector<int>::iterator it;
+	ft::vector<int>::iterator ite;
 	ite = foo.end();
-	std::cout << foo.capacity() << std::endl; 
+	// std::cout << "Capacity = " << foo.capacity() << std::endl; 
+	std::cout << "Size = " << foo.size() << std::endl;
 	for (it = foo.begin(); it != ite; it++)
 		std::cout << *it << std::endl;
 	

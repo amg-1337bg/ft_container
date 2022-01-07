@@ -19,7 +19,7 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
-		typedef	size_t	size_type;
+		typedef size_t size_type;
 		value_type *_buffer;
 		size_type _N;
 		allocator_type allocator_copy;
@@ -30,7 +30,6 @@ namespace ft
 
 		typedef ft::ReverseIterator<T> reverse_iterator;
 		typedef ft::ConstReverseIterator<T> const_reverse_iterator;
-
 
 		vector(const allocator_type &alloc = allocator_type())
 		{
@@ -50,24 +49,31 @@ namespace ft
 		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type())
 		{
 			_N = 0;
-			// std::cout << *last << std::endl;
-			InputIterator tmp = first;
-			while (tmp != last)
-			{
-				_N++;
-				std::cout << *tmp << std::endl;
-				tmp++;
-			}
 			allocator_copy = alloc;
-			_buffer = allocator_copy.allocate(_N + 1);
-			int i = 0;
+			_buffer = allocator_copy.allocate(1, 0);
+			value_type *tmp = _buffer;
+			// std::cout << *last << std::endl;
+			// InputIterator tmp = first;
 			while (first != last)
 			{
-				allocator_copy.construct(&_buffer[i++], *first);
+				std::cout << tmp - _buffer << std::endl;
+				if (_N == 0)
+					allocator_copy.construct(&tmp[_N], *first);
+				else
+				{
+					tmp = allocator_copy.allocate(1, tmp);
+					allocator_copy.construct(&tmp[0], *first);
+				}
+				_N++;
 				first++;
 			}
+			// int i = 0;
+			// while (first != last)
+			// {
+			// 	first++;
+			// }
 		}
-		vector(const	vector &x)
+		vector(const vector &x)
 		{
 			if (_buffer)
 			{
@@ -156,7 +162,7 @@ namespace ft
 		{
 			return Alloc();
 		}
-		size_type	size() const
+		size_type size() const
 		{
 			return _N;
 		}
