@@ -4,25 +4,18 @@
 
 int main()
 {
-	int gg[] = { 12321,13231,134,25,23424,252,24};
-	// std::vector<int> vec(gg, gg+ 7);
-	// std::vector<int> foo((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
-	// ft::vector<int> foo((std::istream_iterator<int>(std::cin)), std::istream_iterator<int>());
-	ft::vector<int> foo(gg , gg + 7);
-	ft::vector<int>::iterator it;
-	ft::vector<int>::iterator ite;
-	ite = foo.end();
-	// std::cout << "Capacity = " << foo.capacity() << std::endl; 
-	std::cout << "Size = " << foo.size() << std::endl;
-	for (it = foo.begin(); it != ite; it++)
+	int i[] = {1,2,3,4,5,6,7,8,9};
+	if (typeid(ft::iterator_traits<int*>::iterator_category) == typeid(std::random_access_iterator_tag))
+		std::cout << "random Access iterator" << std::endl;
+	ft::vector<int> vect(i, i + 9);
+	ft::vector<int>::iterator it = vect.begin();
+	ft::vector<int>::iterator ite = vect.end();
+
+	ft::reverse_iterator<int> rev_begin(ite);
+	ft::reverse_iterator<int> rev_end(it);
+	while (it != vect.end())
+	{
 		std::cout << *it << std::endl;
-	
-	// for(size_t i = 0 ; i < 100 ; i++)
-	// {
-	// 	foo.push_back(i);
-	// 	std::cout << foo.capacity() << std::endl;
-	// }
-	// std::cout << vec.capacity() << std::endl;
-	// vec.push_back(3);
-	// std::cout << vec.capacity() << std::endl;
+		it++;
+	}
 }

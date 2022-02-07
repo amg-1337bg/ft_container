@@ -10,7 +10,7 @@ class ConstReverseIterator : public std::iterator<std::random_access_iterator_ta
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::iterator_category iterator_category;
-	typedef	ReverseIterator<T> reverseiterator;
+	typedef	reverse_iterator<T> reverseiterator;
 	const T *ptr;
 
 public:

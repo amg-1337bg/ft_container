@@ -3,63 +3,69 @@
 
 #include <iterator>
 
-namespace ft 
-{
-template <class T> class ReverseIterator;
+template <class T> class reverse_iterator;
 #include "const_reverse_iterator.hpp"
+#include "iterator.hpp"
 template<class T>
-class	ReverseIterator : public std::iterator<std::random_access_iterator_tag(), T>
+class	reverse_iterator : public std::iterator<std::random_access_iterator_tag(), T>
 {
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::difference_type difference_type;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::iterator_category iterator_category;
 	typedef ConstReverseIterator<T> const_reverse_iterator;
+	typedef ft::Iterator<T> iterator;
 	T *ptr;
 	
 	
 	public:
-	ReverseIterator() {}
-	ReverseIterator(const ReverseIterator &it) : ptr(it.ptr) {}
-	ReverseIterator &operator=(const ReverseIterator &it)
+	reverse_iterator() {}
+	reverse_iterator(const reverse_iterator &it) : ptr(it.ptr) {}
+	reverse_iterator(const iterator &it) { ptr = it.getptr(); }
+	reverse_iterator &operator=(const reverse_iterator &it)
 	{
 		ptr = it.ptr;
 		return *this;
 	}
-	~ReverseIterator() {}
+	reverse_iterator &operator=(const iterator &it)
+	{
+		ptr = it.getptr();
+		return *this;
+	}
+	~reverse_iterator() {}
 
 	// Compare operator
-	bool operator==(const ReverseIterator &it)
+	bool operator==(const reverse_iterator &it)
 	{
 		if (this->ptr == it.ptr)
 			return true;
 		return false;
 	}
-	bool operator!=(const ReverseIterator &it)
+	bool operator!=(const reverse_iterator &it)
 	{
 		if (this->ptr != it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<(const ReverseIterator &it)
+	bool operator<(const reverse_iterator &it)
 	{
 		if (this->ptr < it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>(const ReverseIterator &it)
+	bool operator>(const reverse_iterator &it)
 	{
 		if (this->ptr > it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>=(const ReverseIterator &it)
+	bool operator>=(const reverse_iterator &it)
 	{
 		if (this->ptr >= it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<=(const ReverseIterator &it)
+	bool operator<=(const reverse_iterator &it)
 	{
 		if (this->ptr <= it.ptr)
 			return true;
@@ -109,53 +115,53 @@ class	ReverseIterator : public std::iterator<std::random_access_iterator_tag(), 
 	void operator*(T ptr_val) { *ptr = ptr_val; }
 	T &operator->() { return *ptr; } // Needs correction
 	// increament operators post and pre
-	ReverseIterator &operator++()
+	reverse_iterator &operator++()
 	{
 		this->ptr--;
 		return *this;
 	} // pre
-	ReverseIterator operator++(int)
+	reverse_iterator operator++(int)
 	{
-		ReverseIterator tmp;
+		reverse_iterator tmp;
 		tmp = *this;
 		this->ptr--;
 		return (tmp);
 	}
-	ReverseIterator &operator--()
+	reverse_iterator &operator--()
 	{
 		this->ptr++;
 		return *this;
 	}
-	ReverseIterator operator--(int)
+	reverse_iterator operator--(int)
 	{
-		ReverseIterator tmp;
+		reverse_iterator tmp;
 		tmp = *this;
 		this->ptr++;
 		return (tmp);
 	} // post
 
 	//arithmetic operation
-	ReverseIterator &operator+(difference_type n)
+	reverse_iterator &operator+(difference_type n)
 	{
 		ptr -= n;
 		return (*this);
 	}
-	ReverseIterator &operator-(difference_type n)
+	reverse_iterator &operator-(difference_type n)
 	{
 		ptr += n;
 		return (*this);
 	}
-	difference_type operator-(const ReverseIterator &it)
+	difference_type operator-(const reverse_iterator &it)
 	{
 		return ptr - it.ptr;
 	}
 
-	ReverseIterator &operator+=(difference_type n)
+	reverse_iterator &operator+=(difference_type n)
 	{
 		ptr -= n;
 		return (*this);
 	}
-	ReverseIterator &operator-=(difference_type n)
+	reverse_iterator &operator-=(difference_type n)
 	{
 		ptr += n;
 		return (*this);
@@ -169,5 +175,4 @@ class	ReverseIterator : public std::iterator<std::random_access_iterator_tag(), 
 	const T* getptr() const { return ptr; }
 };
 
-}
 #endif
