@@ -33,7 +33,9 @@ public:
 	}
 	reference	operator*() const
 	{
-		return *iter;
+		iterator_type tmp(iter);
+		--tmp;
+		return *tmp;
 	}
 	reverse_iterator operator+(difference_type n) const
 	{
@@ -42,13 +44,13 @@ public:
 	}
 	reverse_iterator& operator++()
 	{
-		return iter--;
+		iter--;
+		return *this;
 	}
-	reverse_iterator  operator++(int)
-	{
-		reverse_iterator tmp = *this;
-		--(*this);
-		return tmp;
+	reverse_iterator operator++(int) {
+  		reverse_iterator temp = *this;
+  		++(*this);
+  		return temp;
 	}
 	reverse_iterator& operator+= (difference_type n)
 	{
@@ -62,7 +64,8 @@ public:
 	}
 	reverse_iterator& operator--()
 	{
-		return iter++;
+		iter++;
+		return *this;
 	}
 	reverse_iterator  operator--(int)
 	{
@@ -80,9 +83,8 @@ public:
 	}
 	reference operator[] (difference_type n) const
 	{
-		iterator_type tmp = iter;
-		tmp -= n;
-		return *tmp;
+		return this->base()[-n-1];
+		// return iter[-n];
 	}
 
 };

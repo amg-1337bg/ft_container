@@ -26,7 +26,7 @@ int main()
 
 	ft::reverse_iterator<ft::vector<int>::iterator> rev_b(itoe);
 	ft::reverse_iterator<ft::vector<int>::iterator> rev_e(ito);
-	std::cout << "pointing " << rev_b[3] << std::endl;
+	std::cout << "pointing " << rev_e[-3] << std::endl;
 	while (rev_b != rev_e)
 	{
 		std::cout << *rev_b << std::endl;
