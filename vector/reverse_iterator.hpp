@@ -9,6 +9,7 @@ template <class T> class reverse_iterator;
 template<class T>
 class	reverse_iterator : public std::iterator<std::random_access_iterator_tag(), T>
 {
+	typedef T	value_type;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::difference_type difference_type;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
@@ -21,7 +22,9 @@ class	reverse_iterator : public std::iterator<std::random_access_iterator_tag(),
 	public:
 	reverse_iterator() {}
 	reverse_iterator(const reverse_iterator &it) : ptr(it.ptr) {}
-	reverse_iterator(const iterator &it) { ptr = it.getptr(); }
+	reverse_iterator(const iterator &it) {
+		*this = it;
+		}
 	reverse_iterator &operator=(const reverse_iterator &it)
 	{
 		ptr = it.ptr;
@@ -172,7 +175,7 @@ class	reverse_iterator : public std::iterator<std::random_access_iterator_tag(),
 	}
 
 	void	setptr(T *ptr) { this->ptr = ptr; }
-	const T* getptr() const { return ptr; }
+	T* getptr() const { return ptr; }
 };
 
 #endif

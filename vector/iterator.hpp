@@ -10,15 +10,16 @@ template<class T> class Iterator;
 template <class T>
 class Iterator : public std::iterator<std::random_access_iterator_tag(), T>
 {
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::value_type value_type;
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::difference_type difference_type;
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::iterator_category iterator_category;
 	typedef Const_Iterator<T> const_iterator;
 	T *ptr;
 
 public:
+	typedef typename std::iterator<std::random_access_iterator_tag(), T>::value_type value_type;
+	typedef typename std::iterator<std::random_access_iterator_tag(), T>::difference_type difference_type;
+	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
+	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
+	typedef typename std::random_access_iterator_tag iterator_category;
+
 	Iterator() {}
 	Iterator(const Iterator &it) : ptr(it.ptr) {}
 	Iterator &operator=(const Iterator &it)
@@ -135,16 +136,17 @@ public:
 	} // post
 
 	//arithmetic operation
-	Iterator &operator+(difference_type n)
+	Iterator operator+(difference_type n) const
 	{
-		std::cout << "hello" << std::endl;
-		ptr += n;
-		return (*this);
+		Iterator tmp = *this;
+		tmp += n;
+		return tmp;
 	}
-	Iterator &operator-(difference_type n)
+	Iterator operator-(difference_type n) const
 	{
-		ptr -= n;
-		return (*this);
+		Iterator tmp = *this;
+		tmp -= n;
+		return tmp;
 	}
 	difference_type operator-(const Iterator &it)
 	{
@@ -167,7 +169,7 @@ public:
 	}
 
 	void	setptr(T *ptr) { this->ptr = ptr; }
-	const T* getptr() const { return ptr; }
+	T* getptr() const { return ptr; }
 	// void	setptr(T *ptr) const { this->ptr = ptr; }
 };
 

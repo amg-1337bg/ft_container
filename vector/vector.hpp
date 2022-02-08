@@ -8,11 +8,10 @@ namespace ft
 {
 #include "iterator.hpp"
 #include "const_iterator.hpp"
-#include "reverse_iterator.hpp"
+// #include "reverse_iterator.hpp"
+#include "reverse_iterator1.hpp"
 #include "const_reverse_iterator.hpp"
-	template <class Iterator> class iterator_traits;
-	template <class T> class iterator_traits<T*>;
-	template <class T> class iterator_traits<const T*>;
+#include "utilities.hpp"
 
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
@@ -31,8 +30,7 @@ namespace ft
 	public:
 		typedef ft::Iterator<T> iterator;
 		typedef ft::Const_Iterator<T> const_iterator;
-		typedef reverse_iterator<T> reverse_iterator;
-
+		typedef reverse_iterator<iterator> reverse_iterator;
 		typedef ConstReverseIterator<T> const_reverse_iterator;
 
 		vector(const allocator_type &alloc = allocator_type())
@@ -56,9 +54,9 @@ namespace ft
 			int i = 0;
 			InputIterator tmp;
 			allocator_copy = alloc;
-			typedef typename iterator_traits<InputIterator>::iterator_category category;
-			if (typeid(category) == typeid(std::random_access_iterator_tag))
-				std::cout << "true" << std::endl;
+			// typedef typename iterator_traits<InputIterator>::iterator_category category;
+			// if (typeid(category) == typeid(std::random_access_iterator_tag))
+			// 	std::cout << "true" << std::endl;
 			tmp = first;
 			while (tmp != last)
 			{
@@ -72,8 +70,6 @@ namespace ft
 				first++;
 				i++;
 			}
-			
-
 		}
 		vector(const vector &x)
 		{
@@ -170,36 +166,6 @@ namespace ft
 		}
 	};
 
-	template <class Iterator>
-	class iterator_traits
-	{
-		public :
-		typedef typename Iterator::difference_type difference_type;
-		typedef typename Iterator::value_type value_type;
-		typedef typename Iterator::pointer pointer;
-		typedef typename Iterator::reference reference;
-		typedef typename Iterator::iterator_category iterator_category;
-	};
-	template <class T>
-	class iterator_traits<T*>
-	{
-		public :
-		typedef ptrdiff_t						difference_type;
-		typedef T								value_type;
-		typedef T*								pointer;
-		typedef T&								reference;
-		typedef std::random_access_iterator_tag	iterator_category;
-	};
-	template <class T>
-	class iterator_traits<const T*>
-	{
-		public :
-		typedef const ptrdiff_t							difference_type;
-		typedef const T									value_type;
-		typedef const T*								pointer;
-		typedef const T&								reference;
-		typedef const std::random_access_iterator_tag	iterator_category;
-	};
 }
 
 #endif
