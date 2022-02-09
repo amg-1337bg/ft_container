@@ -25,11 +25,11 @@ public:
 	template <class Iter>
 	reverse_iterator(const reverse_iterator<Iter>& rev_it)
 	{
-		*this = rev_it;	
+		*this = rev_it;
 	}
 	iterator_type base() const
 	{
-		return iter + 1;
+		return iter;
 	}
 	reference	operator*() const
 	{
@@ -124,6 +124,20 @@ template <class Iterator>
                    const reverse_iterator<Iterator>& rhs)
 {
 	return (lhs.base() <= rhs.base());
+}
+template <class Iterator>
+  reverse_iterator<Iterator> operator+ (
+             typename reverse_iterator<Iterator>::difference_type n,
+             const reverse_iterator<Iterator>& rev_it)
+{
+	return rev_it - n;
+}
+template <class Iterator>
+  reverse_iterator<Iterator> operator- (
+             typename reverse_iterator<Iterator>::difference_type n,
+             const reverse_iterator<Iterator>& rev_it)
+{
+	return rev_it + n;
 }
 
 

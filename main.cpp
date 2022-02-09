@@ -19,14 +19,18 @@ int main()
 	// 	rev_begin++;
 	// }
 
-	std::cout << "the mine One" << std::endl;
 	ft::vector<int> vec(i, i + 9);
 	ft::vector<int>::iterator ito = vec.begin();
+	ft::vector<int>::iterator itocopy;
 	ft::vector<int>::iterator itoe = vec.end();
 
 	ft::reverse_iterator<ft::vector<int>::iterator> rev_b(itoe);
+	ft::reverse_iterator<ft::vector<int>::iterator> rev_copy;
 	ft::reverse_iterator<ft::vector<int>::iterator> rev_e(ito);
-	std::cout << "pointing " << rev_e[-3] << std::endl;
+	rev_copy = rev_e - 2;
+	// itocopy = ito + 2;
+	std::cout << *rev_copy << std::endl;
+	std::cout << "pointing " << *rev_b << std::endl;
 	while (rev_b != rev_e)
 	{
 		std::cout << *rev_b << std::endl;

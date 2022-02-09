@@ -158,10 +158,22 @@ public:
 		ptr += n;
 		return (*this);
 	}
+	Iterator operator+=(difference_type n) const
+	{
+		Iterator iter = *this;
+		iter += n;
+		return (iter);
+	}
 	Iterator &operator-=(difference_type n)
 	{
 		ptr -= n;
 		return (*this);
+	}
+	Iterator operator-=(difference_type n) const
+	{
+		Iterator iter = *this;
+		iter -= n;
+		return (iter);
 	}
 	T& operator[](difference_type n)
 	{
