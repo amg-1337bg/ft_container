@@ -18,22 +18,25 @@ int main()
 	// 	std::cout << *rev_begin << std::endl;
 	// 	rev_begin++;
 	// }
-
+	std::vector<int>::iterator io;
+	std::iterator<std::random_access_iterator_tag, int> itte(io);
 	ft::vector<int> vec(i, i + 9);
-	ft::vector<int>::iterator ito = vec.begin();
-	ft::vector<int>::iterator itocopy;
-	ft::vector<int>::iterator itoe = vec.end();
+	ft::vector<int>::iterator ito = vec.end();
+	ft::ft::Iterator<int> tt(ito);
+	ft::reverse_iterator<ft::vector<int>::iterator> iil;
+	std::cout << "ito = " << *ito << std::endl;
+	// std::vector<int>::iterator itoe = vec.end();
 
-	ft::reverse_iterator<ft::vector<int>::iterator> rev_b(itoe);
-	ft::reverse_iterator<ft::vector<int>::iterator> rev_copy;
-	ft::reverse_iterator<ft::vector<int>::iterator> rev_e(ito);
-	rev_copy = rev_e - 2;
-	// itocopy = ito + 2;
-	std::cout << *rev_copy << std::endl;
-	std::cout << "pointing " << *rev_b << std::endl;
-	while (rev_b != rev_e)
-	{
-		std::cout << *rev_b << std::endl;
-		rev_b++;
-	}
+	// std::reverse_iterator<std::vector<int>::iterator> rev_b(itoe);
+	// std::reverse_iterator<std::vector<int>::iterator> rev_copy;
+	// std::reverse_iterator<std::vector<int>::iterator> rev_e(ito);
+	// rev_copy = rev_e - 2;
+	// // itocopy = ito + 2;
+	// std::cout << *rev_copy << std::endl;
+	// std::cout << "pointing " << *rev_b << std::endl;
+	// while (rev_b != rev_e)
+	// {
+	// 	std::cout << *rev_b << std::endl;
+	// 	rev_b++;
+	// }
 }

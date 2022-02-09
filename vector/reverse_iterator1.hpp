@@ -140,6 +140,4 @@ template <class Iterator>
 	return rev_it + n;
 }
 
-
-
 #endif

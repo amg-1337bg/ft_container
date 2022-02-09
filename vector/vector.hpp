@@ -29,9 +29,9 @@ namespace ft
 
 	public:
 		typedef ft::Iterator<T> iterator;
-		typedef ft::Const_Iterator<T> const_iterator;
+		typedef const ft::Iterator<T> const_iterator;
 		typedef reverse_iterator<iterator> reverse_iterator;
-		typedef ConstReverseIterator<T> const_reverse_iterator;
+		typedef const reverse_iterator const_reverse_iterator;
 
 		vector(const allocator_type &alloc = allocator_type())
 		{
