@@ -3,14 +3,12 @@
 
 #include <iterator>
 
-namespace ft
-{
-	template <class T, class Alloc = std::allocator<T> >class vector;
 template <class T>
 class Iterator : public std::iterator<std::random_access_iterator_tag(), T>
 {
 private:
-	friend class vector<T	>;
+	template <class U, class Alloc>
+	friend class vector;
 	T *ptr;
 
 public:
@@ -181,6 +179,5 @@ public:
 	}
 };
 
-}
 
 #endif

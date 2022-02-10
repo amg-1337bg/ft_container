@@ -15,6 +15,7 @@ namespace ft
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
 	{
+	public:
 		typedef T value_type;
 		typedef Alloc allocator_type;
 		typedef typename allocator_type::reference reference;
@@ -22,21 +23,24 @@ namespace ft
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
 		typedef size_t size_type;
+	
+	private:
 		value_type *_buffer;
 		size_type _N;
 		allocator_type allocator_copy;
 		ft::Iterator<T> iter;
 
+
 	public:
-		typedef ft::Iterator<T> iterator;
-		typedef const ft::Iterator<T> const_iterator;
+		typedef Iterator<T> iterator;
+		typedef const Iterator<T> const_iterator;
 		typedef reverse_iterator<iterator> reverse_iterator;
 		typedef const reverse_iterator const_reverse_iterator;
 
 		vector(const allocator_type &alloc = allocator_type())
 		{
 			_buffer = 0;
-			_N = 0;
+			_N = "jshfj";
 			allocator_copy = alloc;
 		}
 		vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
