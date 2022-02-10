@@ -7,7 +7,6 @@
 namespace ft
 {
 #include "iterator.hpp"
-#include "const_iterator.hpp"
 // #include "reverse_iterator.hpp"
 #include "reverse_iterator1.hpp"
 #include "const_reverse_iterator.hpp"
@@ -26,6 +25,7 @@ namespace ft
 		value_type *_buffer;
 		size_type _N;
 		allocator_type allocator_copy;
+		ft::Iterator<T> iter;
 
 	public:
 		typedef ft::Iterator<T> iterator;
@@ -77,7 +77,7 @@ namespace ft
 			{
 				iterator it = this->begin();
 				for (; it != this->end(); it++)
-					allocator_copy.destroy(it.getptr());
+					allocator_copy.destroy(&(*it));
 				allocator_copy.deallocate(_buffer, _N + 1);
 			}
 			iterator it = x.begin();
@@ -94,66 +94,58 @@ namespace ft
 		}
 		~vector()
 		{
-			std::cout << "destructor Called" << std::endl;
-			value_type *ptr = _buffer;
-			iterator ite = this->end();
-			for (; ptr != ite.getptr(); ptr++)
-				allocator_copy.destroy(ptr);
+			iterator it = this->begin();
+			for (; it != this->end(); it++)
+				allocator_copy.destroy(&(*it));
 			allocator_copy.deallocate(_buffer, _N + 1);
 		}
 
-		// vector& operator= (const vector& x)
-		// {
-
-		// }
-
 		iterator begin()
 		{
-			iterator it;
-			it.setptr(this->_buffer);
-			return it;
+			iter.ptr = _buffer;
+			return iter;
 		}
 		const const_iterator begin() const
 		{
 			const_iterator it;
-			it.setptr(this->_buffer);
+			it.ptr = _buffer;
 			return it;
 		}
 		iterator end()
 		{
 			iterator it;
-			it.setptr(&_buffer[_N]);
+			it.ptr = &_buffer[_N];
 			return it;
 		}
 		const const_iterator end() const
 		{
 			const_iterator it;
-			it.setptr(&_buffer[_N]);
+			it.ptr = &_buffer[_N];
 			return it;
 		}
 		// Reverse Iterator rbegin() and rend()
 		reverse_iterator rbegin()
 		{
 			reverse_iterator it;
-			it.setptr(&_buffer[_N - 1]);
+			it.ptr = &_buffer[_N - 1];
 			return it;
 		}
 		const const_reverse_iterator rbegin() const
 		{
 			const_reverse_iterator it;
-			it.setptr(_buffer[_N - 1]);
+			it.ptr = &_buffer[_N - 1];
 			return it;
 		}
 		reverse_iterator rend()
 		{
 			reverse_iterator it;
-			it.setptr(&_buffer[-1]);
+			it.ptr = &_buffer[-1];
 			return it;
 		}
 		const const_reverse_iterator rend() const
 		{
 			const_reverse_iterator it;
-			it.setptr(&_buffer[-1]);
+			it.ptr = &_buffer[-1];
 			return it;
 		}
 		allocator_type get_allocator() const

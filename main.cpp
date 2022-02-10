@@ -18,13 +18,15 @@ int main()
 	// 	std::cout << *rev_begin << std::endl;
 	// 	rev_begin++;
 	// }
-	std::vector<int>::iterator io;
-	std::iterator<std::random_access_iterator_tag, int> itte(io);
 	ft::vector<int> vec(i, i + 9);
+	ft::vector<int>::const_iterator cons = vec.begin();
 	ft::vector<int>::iterator ito = vec.end();
-	ft::ft::Iterator<int> tt(ito);
+	ft::vector<int>::iterator ito1 = vec.end();
+	std::vector<int>::iterator ii;
+	if (cons == ito)
+		std::cout << "True" << std::endl;
 	ft::reverse_iterator<ft::vector<int>::iterator> iil;
-	std::cout << "ito = " << *ito << std::endl;
+	std::cout << "ito = " << *(--ito) << std::endl;
 	// std::vector<int>::iterator itoe = vec.end();
 
 	// std::reverse_iterator<std::vector<int>::iterator> rev_b(itoe);

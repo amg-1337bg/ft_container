@@ -5,12 +5,12 @@
 
 namespace ft
 {
-template<class T> class Iterator;
-#include "const_iterator.hpp"
+	template <class T, class Alloc = std::allocator<T> >class vector;
 template <class T>
 class Iterator : public std::iterator<std::random_access_iterator_tag(), T>
 {
-	typedef Const_Iterator<T> const_iterator;
+private:
+	friend class vector<T	>;
 	T *ptr;
 
 public:
@@ -66,40 +66,40 @@ public:
 			return true;
 		return false;
 	}
-	// Overload Compare operators
-	bool operator==(const const_iterator &it)
+	// // Overload Compare operators
+	bool operator==(const Iterator &it) const
 	{
-		if (this->ptr == it.getptr())
+		if (this->ptr == it.ptr)
 			return true;
 		return false;
 	}
-	bool operator!=(const const_iterator &it)
+	bool operator!=(const Iterator &it) const
 	{
-		if (this->ptr != it.getptr())
+		if (this->ptr != it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<(const const_iterator &it)
+	bool operator<(const Iterator &it) const
 	{
-		if (this->ptr < it.getptr())
+		if (this->ptr < it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>(const const_iterator &it)
+	bool operator>(const Iterator &it) const
 	{
-		if (this->ptr > it.getptr())
+		if (this->ptr > it.ptr)
 			return true;
 		return false;
 	}
-	bool operator>=(const const_iterator &it)
+	bool operator>=(const Iterator &it) const
 	{
-		if (this->ptr >= it.getptr())
+		if (this->ptr >= it.ptr)
 			return true;
 		return false;
 	}
-	bool operator<=(const const_iterator &it)
+	bool operator<=(const Iterator &it) const
 	{
-		if (this->ptr <= it.getptr())
+		if (this->ptr <= it.ptr)
 			return true;
 		return false;
 	}
@@ -179,10 +179,6 @@ public:
 	{
 		return ptr[n];
 	}
-
-	void	setptr(T *ptr) { this->ptr = ptr; }
-	T* getptr() const { return ptr; }
-	// void	setptr(T *ptr) const { this->ptr = ptr; }
 };
 
 }
