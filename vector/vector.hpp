@@ -7,9 +7,7 @@
 namespace ft
 {
 #include "iterator.hpp"
-// #include "reverse_iterator.hpp"
-#include "reverse_iterator1.hpp"
-#include "const_reverse_iterator.hpp"
+#include "reverse_iterator.hpp"
 #include "utilities.hpp"
 
 	template <class T, class Alloc = std::allocator<T> >

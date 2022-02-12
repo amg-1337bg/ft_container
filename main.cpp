@@ -4,6 +4,9 @@
 
 int main()
 {
+	if (ft::is_integral< ft::vector<int> >::value)
+		std::cout << "true" << std::endl;
+
 	// int i[] = {1,2,3,4,5,6,7,8,9};
 	// if (typeid(ft::iterator_traits<int*>::iterator_category) == typeid(std::random_access_iterator_tag))
 	// 	std::cout << "random Access iterator" << std::endl;
@@ -21,17 +24,17 @@ int main()
 	// ft::vector<int>::value_type a = 5;
 	// ft::vector<int> tes;
 	// std::cout << a << std::endl;
-	std::vector<int> vec;
-	std::cout << vec.capacity() << std::endl;
-	vec.push_back(12);
-	std::cout << vec.capacity() << std::endl;
-	vec.push_back(12);
-	std::cout << vec.capacity() << std::endl;
-	vec.push_back(12);
-	std::cout << vec.capacity() << std::endl;
-	vec.push_back(12);
-	vec.push_back(12);
-	std::cout << vec.capacity() << std::endl;
+	// std::vector<bool> p;
+	// std::cout << vec.capacity() << std::endl;
+	// vec.push_back(12);
+	// std::cout << vec.capacity() << std::endl;
+	// vec.push_back(12);
+	// std::cout << vec.capacity() << std::endl;
+	// vec.push_back(12);
+	// std::cout << vec.capacity() << std::endl;
+	// vec.push_back(12);
+	// vec.push_back(12);
+	// std::cout << vec.capacity() << std::endl;
 	// vec.push_back(12);
 	// vec.push_back(12);
 	// vec.push_back(12);
