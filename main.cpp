@@ -1,12 +1,13 @@
 #include  <vector>
 #include "./vector/vector.hpp"
-#include <iostream>
+#include <algorithm>
+
 
 int main()
 {
-	if (ft::is_integral< ft::vector<int> >::value)
-		std::cout << "true" << std::endl;
-
+	std::vector<int> vec(3, 5);
+	std::vector<int>::iterator it = vec.begin();
+	std::vector<int>::iterator it2(&(*it));
 	// int i[] = {1,2,3,4,5,6,7,8,9};
 	// if (typeid(ft::iterator_traits<int*>::iterator_category) == typeid(std::random_access_iterator_tag))
 	// 	std::cout << "random Access iterator" << std::endl;

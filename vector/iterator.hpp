@@ -20,6 +20,7 @@ public:
 
 	Iterator() {}
 	Iterator(const Iterator &it) : ptr(it.ptr) {}
+	Iterator(T *it) : ptr(it) {}
 	Iterator &operator=(const Iterator &it)
 	{
 		ptr = it.ptr;

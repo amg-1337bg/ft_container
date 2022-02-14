@@ -3,7 +3,7 @@
 
 #include <memory>
 #include <iostream>
-#include <algorithm>
+// #include <algorithm>
 namespace ft
 {
 #include "iterator.hpp"
@@ -38,7 +38,7 @@ namespace ft
 		vector(const allocator_type &alloc = allocator_type())
 		{
 			_buffer = 0;
-			_N = "jshfj";
+			_N = 0;
 			allocator_copy = alloc;
 		}
 		vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
