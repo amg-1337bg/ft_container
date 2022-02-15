@@ -2,12 +2,30 @@
 #include "./vector/vector.hpp"
 #include <algorithm>
 
+void	copy()
+{
+	// int I[] = {13, 523,5634 ,63,2 ,23};
+	std::vector<int> vec('c');
+	std::vector<int>::iterator it = vec.begin();
+	while (it != vec.end())
+	{
+		std::cout << *it << std::endl;
+		it++;
+	}
+	// ft::vector<int> vect(12);
+	// x = vect;
+}
 
 int main()
 {
-	std::vector<int> vec(3, 5);
-	std::vector<int>::iterator it = vec.begin();
-	std::vector<int>::iterator it2(&(*it));
+	ft::vector<int> x;
+	copy();
+	ft::vector<int>::iterator it = x.begin();
+	while (it != x.end())
+	{
+		std::cout << *it << std::endl;
+		it++;
+	}
 	// int i[] = {1,2,3,4,5,6,7,8,9};
 	// if (typeid(ft::iterator_traits<int*>::iterator_category) == typeid(std::random_access_iterator_tag))
 	// 	std::cout << "random Access iterator" << std::endl;

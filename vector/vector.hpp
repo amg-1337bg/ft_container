@@ -20,11 +20,13 @@ namespace ft
 		typedef typename allocator_type::const_reference const_reference;
 		typedef typename allocator_type::pointer pointer;
 		typedef typename allocator_type::const_pointer const_pointer;
+		typedef ptrdiff_t difference_type;
 		typedef size_t size_type;
 	
 	private:
-		value_type *_buffer;
-		size_type _N;
+		pointer _buffer;
+		size_type _S;
+		size_type _C;
 		allocator_type allocator_copy;
 		ft::Iterator<T> iter;
 
@@ -35,24 +37,26 @@ namespace ft
 		typedef reverse_iterator<iterator> reverse_iterator;
 		typedef const reverse_iterator const_reverse_iterator;
 
-		vector(const allocator_type &alloc = allocator_type())
+		explicit vector(const allocator_type &alloc = allocator_type()) : _buffer(), _S(), _C()
 		{
-			_buffer = 0;
-			_N = 0;
 			allocator_copy = alloc;
 		}
-		vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
+		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
 		{
-			_N = n;
+			std::cout << "here" << std::endl;
+			_S = n;
 			allocator_copy = alloc;
-			this->_buffer = allocator_copy.allocate(n + 1);
+			_buffer = allocator_copy.allocate(n + 1);
 			for (size_type i = 0; i < n; i++)
 				allocator_copy.construct(&_buffer[i], val);
 		}
+		
+		
 		template <class InputIterator>
-		vector(InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type())
+		vector  (InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename enable_if<!(is_integral<InputIterator>::value), InputIterator>::type = 0)
 		{
-			_N = 0;
+			_S = 0;
+			value_type val;
 			int i = 0;
 			InputIterator tmp;
 			allocator_copy = alloc;
@@ -62,44 +66,53 @@ namespace ft
 			tmp = first;
 			while (tmp != last)
 			{
-				_N++;
+				_S++;
 				tmp++;
 			}
-			_buffer = allocator_copy.allocate(_N);
+			_buffer = allocator_copy.allocate(_S);
 			while (first != last)
 			{
-				allocator_copy.construct(&_buffer[i], *first);
+				val = *first;
+				allocator_copy.construct(&_buffer[i], val);
 				first++;
 				i++;
 			}
 		}
+		
+		
 		vector(const vector &x)
 		{
-			if (_buffer)
-			{
-				iterator it = this->begin();
-				for (; it != this->end(); it++)
-					allocator_copy.destroy(&(*it));
-				allocator_copy.deallocate(_buffer, _N + 1);
-			}
-			iterator it = x.begin();
-			iterator ite = x.end();
-			_N = x.size();
-			allocator_copy = x.get_allocator();
-			_buffer = allocator_copy.allocate(_N + 1);
-			int i = 0;
-			while (it != ite)
-			{
-				allocator_copy.construct(&_buffer[i++], *it);
-				it++;
-			}
+			*this = x;
 		}
 		~vector()
 		{
 			iterator it = this->begin();
 			for (; it != this->end(); it++)
 				allocator_copy.destroy(&(*it));
-			allocator_copy.deallocate(_buffer, _N + 1);
+			allocator_copy.deallocate(_buffer, _S + 1);
+		}
+
+		vector& operator= (const vector& x)
+		{
+			if (_buffer)
+			{
+				iterator it = this->begin();
+				for (; it != this->end(); it++)
+					allocator_copy.destroy(&(*it));
+				allocator_copy.deallocate(_buffer, _S + 1);
+			}
+			iterator it = x.begin();
+			iterator ite = x.end();
+			_S = x.size();
+			allocator_copy = x.get_allocator();
+			_buffer = allocator_copy.allocate(_S + 1);
+			int i = 0;
+			while (it != ite)
+			{
+				allocator_copy.construct(&(_buffer[i++]), *it);
+				it++;
+			}
+			return *this;
 		}
 
 		iterator begin()
@@ -109,33 +122,33 @@ namespace ft
 		}
 		const const_iterator begin() const
 		{
-			const_iterator it;
+			iterator it;
 			it.ptr = _buffer;
 			return it;
 		}
 		iterator end()
 		{
 			iterator it;
-			it.ptr = &_buffer[_N];
+			it.ptr = &_buffer[_S];
 			return it;
 		}
 		const const_iterator end() const
 		{
-			const_iterator it;
-			it.ptr = &_buffer[_N];
+			iterator it;
+			it.ptr = &_buffer[_S];
 			return it;
 		}
 		// Reverse Iterator rbegin() and rend()
 		reverse_iterator rbegin()
 		{
 			reverse_iterator it;
-			it.ptr = &_buffer[_N - 1];
+			it.ptr = &_buffer[_S - 1];
 			return it;
 		}
 		const const_reverse_iterator rbegin() const
 		{
-			const_reverse_iterator it;
-			it.ptr = &_buffer[_N - 1];
+			reverse_iterator it;
+			it.ptr = &_buffer[_S - 1];
 			return it;
 		}
 		reverse_iterator rend()
@@ -146,7 +159,7 @@ namespace ft
 		}
 		const const_reverse_iterator rend() const
 		{
-			const_reverse_iterator it;
+			reverse_iterator it;
 			it.ptr = &_buffer[-1];
 			return it;
 		}
@@ -156,7 +169,7 @@ namespace ft
 		}
 		size_type size() const
 		{
-			return _N;
+			return _S;
 		}
 	};
 
