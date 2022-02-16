@@ -52,32 +52,33 @@ namespace ft
 				allocator_copy.construct(&_buffer[i], val);
 		}
 		
-		
 		template <class InputIterator>
-		vector  (InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename enable_if<!(is_integral<InputIterator>::value), InputIterator>::type = 0)
+		vector  (InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename enable_if<!(is_integral<InputIterator>::value), int>::type = 0)
+		: _buffer(), _S(), _C()
 		{
-			_S = 0;
-			value_type val;
-			int i = 0;
-			InputIterator tmp;
 			allocator_copy = alloc;
-			// typedef typename iterator_traits<InputIterator>::iterator_category category;
-			// if (typeid(category) == typeid(std::random_access_iterator_tag))
-			// 	std::cout << "true" << std::endl;
-			tmp = first;
-			while (tmp != last)
-			{
-				_S++;
-				tmp++;
-			}
-			_buffer = allocator_copy.allocate(_S);
-			while (first != last)
-			{
-				val = *first;
-				allocator_copy.construct(&_buffer[i], val);
-				first++;
-				i++;
-			}
+			assign(first, last);
+			// _S = 0;
+			// value_type val;
+			// int i = 0;
+			// InputIterator tmp;
+			// // typedef typename iterator_traits<InputIterator>::iterator_category category;
+			// // if (typeid(category) == typeid(std::random_access_iterator_tag))
+			// // 	std::cout << "true" << std::endl;
+			// tmp = first;
+			// while (tmp != last)
+			// {
+			// 	_S++;
+			// 	tmp++;
+			// }
+			// _buffer = allocator_copy.allocate(_S);
+			// while (first != last)
+			// {
+			// 	val = *first;
+			// 	allocator_copy.construct(&_buffer[i], val);
+			// 	first++;
+			// 	i++;
+			// }
 		}
 		
 		
@@ -265,7 +266,88 @@ namespace ft
 		const_reference front() const
 		{
 			return _buffer[0];
-		}	
+		}
+		reference back()
+		{
+			return _buffer[_S - 1];
+		}
+		const_reference back() const
+		{
+			return _buffer[_S - 1];
+		}
+
+		// Modifiers Methods
+		template <class InputIterator>
+  		void assign (InputIterator first, InputIterator last, typename enable_if<!(is_integral<InputIterator>::value), int>::type = 0)
+		{
+			_S = 0;
+			typedef typename iterator_traits<InputIterator>::iterator_category category;
+			if (typeid(category()) != typeid(std::random_access_iterator_tag()) && typeid(category()) != typeid(std::bidirectional_iterator_tag()))
+			{
+				while (first != last)
+				{
+					push_back(*first);
+					first++;
+				}
+			}
+			else
+			{
+				try
+				{
+					InputIterator tmp = first;
+					size_type c = 0;
+					while(tmp != last)
+					{
+						c++;
+						tmp++;
+					}
+					if (c > _C)
+					{
+						for (size_t i = 0; i < _C; i++)
+							allocator_copy.destroy(&(_buffer[i]));
+						allocator_copy.deallocate(_buffer, _C + 1);
+						_C = c;
+						_buffer = allocator_copy.allocate(_C + 1);
+					}
+					while (c <= _C && first != last)
+					{
+						push_back(*first);
+						first++;
+					}
+				}
+				catch(const std::exception& e)
+				{
+					std::cerr << e.what() << std::endl;
+				}
+
+			}
+		}
+		void assign (size_type n, const value_type& val)
+		{
+			try
+			{
+				_S = 0;
+				size_type i = 0;
+				if (n > _C)
+				{
+					for (size_t i = 0; i < _C; i++)
+						allocator_copy.destroy(&(_buffer[i]));
+					allocator_copy.deallocate(_buffer, _C + 1);
+					_C = n;
+					_buffer = allocator_copy.allocate(_C + 1);
+				}
+				while (i < n)
+				{
+					push_back(val);
+					i++;
+				}
+			}
+			catch(const std::exception& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+			
+		}
 
 		void	push_back(const value_type& val)
 		{

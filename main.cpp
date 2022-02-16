@@ -4,82 +4,12 @@
 
 int main()
 {
+	// int i[] = {13,1,2     43,6652,52,543,26,7 , 234,23,246,567,5};
 	std::vector<int> vec;
-	std::cout << "max = " << vec.max_size() << std::endl;
-	std::cout << &vec[0] << std::endl;
-	std::cout << "Cap = " << vec.capacity() << std::endl;
-	vec.push_back(100);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	vec.push_back(14);
-	std::vector<int>::iterator it = vec.begin();
-	while (it != vec.end())
-	{
-		std::cout << *it << std::endl;
-		it++;
-	}
-	std::cout << "Cap = " << vec.capacity() << std::endl;
-	std::cout << &vec[0] << std::endl;
-
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	// vec.pop_back();
-	vec.reserve(100);
-	try
-	{
-		vec.at(21) = 11;
-	}
-	catch(const std::out_of_range& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
-	
-	it = vec.begin();
-	while (it != vec.end())
-	{
-		std::cout << *it << std::endl;
-		it++;
-	}
-	std::cout << "Cap = " << vec.capacity() << std::endl;
-	std::cout << "Size = " << vec.size() << std::endl;
-
-	vec.front() = 200;
-	std::cout << "front = " << vec.front() << std::endl;
+	vec.assign(11, 100);
+	// std::cout << vec.capacity() << std::endl;
+	// vec.assign((std::istream_iterator<int>(std::cin)),std::istream_iterator<int>());
+	std::cout << vec.capacity() << std::endl;
 	// int i[] = {1,2,3,4,5,6,7,8,9};
 	// if (typeid(ft::iterator_traits<int*>::iterator_category) == typeid(std::random_access_iterator_tag))
 	// 	std::cout << "random Access iterator" << std::endl;
