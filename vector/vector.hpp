@@ -4,7 +4,7 @@
 #include <memory>
 #include <iostream>
 #include <stdexcept>
-// #include <algorithm>
+#include <algorithm>
 namespace ft
 {
 #include "iterator.hpp"
@@ -58,27 +58,6 @@ namespace ft
 		{
 			allocator_copy = alloc;
 			assign(first, last);
-			// _S = 0;
-			// value_type val;
-			// int i = 0;
-			// InputIterator tmp;
-			// // typedef typename iterator_traits<InputIterator>::iterator_category category;
-			// // if (typeid(category) == typeid(std::random_access_iterator_tag))
-			// // 	std::cout << "true" << std::endl;
-			// tmp = first;
-			// while (tmp != last)
-			// {
-			// 	_S++;
-			// 	tmp++;
-			// }
-			// _buffer = allocator_copy.allocate(_S);
-			// while (first != last)
-			// {
-			// 	val = *first;
-			// 	allocator_copy.construct(&_buffer[i], val);
-			// 	first++;
-			// 	i++;
-			// }
 		}
 		
 		
@@ -395,7 +374,6 @@ namespace ft
 				{
 					std::cerr << e.what() << '\n';
 				}
-				
 			}
 		}
 
@@ -404,8 +382,90 @@ namespace ft
 			allocator_copy.destroy(&(_buffer[_S - 1]));
 			_S--;
 		}
-	};
 
+		iterator insert (iterator position, const value_type& val)
+		{
+			if (_C > _S) // Still Space to add elements
+			{
+				push_back(val);
+				iterator ite = end();
+				iterator tmp, tmp1;
+				ite--;
+				while(ite != position)
+				{
+					tmp = ite;
+					tmp1 = tmp - 1;
+					std::swap(*tmp, *tmp1);
+					ite--;
+				}
+			}
+			else //Need to Reallocate
+			{
+				try
+				{
+					pointer tmp;
+					tmp = allocator_copy.allocate((_C * 2) + 1);
+					iterator it = this->begin();
+					size_type i = 0, t = 0;
+					while(it != this->end())
+					{
+						if (it == position)
+						{
+							allocator_copy.construct(&(tmp[i]), val);
+							position.ptr = &(tmp[i]);
+							t = 1;
+						}
+						allocator_copy.construct(&(tmp[i + t]), *it);
+						allocator_copy.destroy(&(_buffer[i]));
+						i++;
+						it++;
+					}
+					allocator_copy.deallocate(_buffer, _C);
+					_buffer = tmp;
+					_C *= 2;
+					if (t == 0)
+					{
+						push_back(val);
+						return end() - 1;
+					}
+					else
+						_S++;
+				}
+				catch(const std::exception& e)
+				{
+					std::cerr << e.what() << '\n';
+				}
+			}
+			return position;
+		}
+		void insert (iterator position, size_type n, const value_type& val)
+		{
+			if (_S + n < _C)
+			{
+				while (n--)
+					insert(position, val);
+				return ;
+			}
+			iterator it = begin();
+			size_type i = 0;
+			while (it++ != position)
+				i++;
+			if (_S + n < _C * 2)
+			{
+				reserve(_C * 2);
+				it = begin() + i;
+				while (n--)
+					insert(it, val);
+			}
+			else
+			{
+				reserve(_S + n);
+				it = begin() + i;
+				while (n--)
+					insert(it, val);
+			}
+		}
+	};
 }
 
 #endif
