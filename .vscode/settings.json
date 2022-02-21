@@ -63,6 +63,15 @@
 		"type_traits": "cpp",
 		"typeinfo": "cpp",
 		"__memory": "cpp",
-		"__cxx_version": "cpp"
+		"__cxx_version": "cpp",
+		"__tree": "cpp",
+		"iomanip": "cpp",
+		"list": "cpp",
+		"map": "cpp",
+		"numeric": "cpp",
+		"queue": "cpp",
+		"random": "cpp",
+		"set": "cpp",
+		"stack": "cpp"
 	}
 }

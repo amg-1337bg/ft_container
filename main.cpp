@@ -4,25 +4,29 @@
 
 int main()
 {
-	// int i[] = {13,1,243,6652,52,543,26,7 , 234,23,246,567,5};
-	ft::vector<int> vec;
-	vec.push_back(10);
-	vec.push_back(20);
-	vec.push_back(30);
-	vec.push_back(40);
-	std::cout << "Cap = " << vec.capacity() << std::endl;
-	vec.insert(vec.begin() + 3, 1, 11);
-	std::cout << "Cap = " << vec.capacity() << std::endl;
-	// vec.assign(11, 100);
-	// std::cout << vec.capacity() << std::endl;
-	// std::cout << "Cap = " << vec.capacity() << std::endl;
-	ft::vector<int>::iterator it = vec.begin();
-	while (it != vec.end())
+	std::vector<std::string> v(3, "hello");
+    std::vector<std::string>::const_iterator it = v.begin();
+    /*--------------- ft::vector-------------------- */
+    ft::vector<std::string> my_v(3, "hello");
+    ft::vector<std::string>::const_iterator my_it = my_v.begin();
+    /*---------------------------------------------- */
+
+	while (my_it != my_v.end())
 	{
-		std::cout << *it << std::endl;
-		it++;
+		std::cout << &(*my_it) << std::endl;
+		my_it++;
 	}
+
 	
+	
+	// for (size_t i = 0; i < 8; i++)
+	// 	vec.push_back(i);
+	
+	// std::vector<int> vec2(vec);
+	// if (vec2 == vec)
+	// 	std::cout << "True" << std::endl;
+	// else
+	// 	std::cout << "False" << std::endl;
 	// int i[] = {1,2,3,4,5,6,7,8,9};
 	// if (typeid(ft::iterator_traits<int*>::iterator_category) == typeid(std::random_access_iterator_tag))
 	// 	std::cout << "random Access iterator" << std::endl;

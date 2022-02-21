@@ -9,7 +9,7 @@ class Iterator : public std::iterator<std::random_access_iterator_tag(), T>
 private:
 	template <class U, class Alloc>
 	friend class vector;
-	T *ptr;
+	T ptr;
 
 public:
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::value_type value_type;
@@ -18,13 +18,18 @@ public:
 	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
 	typedef typename std::random_access_iterator_tag iterator_category;
 
-	Iterator() {}
+	Iterator() : ptr() {}
 	Iterator(const Iterator &it) : ptr(it.ptr) {}
 	Iterator(T *it) : ptr(it) {}
 	Iterator &operator=(const Iterator &it)
 	{
 		ptr = it.ptr;
 		return *this;
+	}
+	Iterator operator=(const Iterator &it) const
+	{
+		Iterator i(it);
+		return i;
 	}
 	~Iterator() {}
 
@@ -104,10 +109,12 @@ public:
 	}
 
 	// Dereference
-	T &operator*() { return *ptr; }
+	T* &operator*() { return *ptr; }
+	const T* &operator*() const { return *ptr; }
 
 	void operator*(T ptr_val) { *ptr = ptr_val; }
-	T &operator->() { return *ptr; } // Needs correction
+	T *operator->() { return ptr; }
+	T *operator->() const { return ptr; } // Needs correction
 	// increament operators post and pre
 	Iterator &operator++()
 	{
@@ -134,8 +141,33 @@ public:
 		return (tmp);
 	} // post
 
+	// Overload Const Object
+	const Iterator operator++() const
+	{
+		(*this)++;
+		return *this;
+	} // pre
+	const Iterator operator++(int) const
+	{
+		Iterator tmp(*this);
+		(*this) += 1;
+		return (tmp);
+	}
+	const Iterator &operator--() const
+	{
+		(*this)--;
+		return *this;
+	}
+	const Iterator operator--(int) const
+	{
+		const Iterator tmp;
+		tmp = *this;
+		*(this)--;
+		return (tmp);
+	} // post
+
 	//arithmetic operation
-	Iterator operator+(difference_type n) const
+	Iterator operator+(difference_type n)
 	{
 		Iterator tmp = *this;
 		tmp += n;
@@ -178,7 +210,23 @@ public:
 	{
 		return ptr[n];
 	}
+	const T& operator[](difference_type n) const
+	{
+		return ptr[n];
+	}
 };
+
+template<typename T>
+Iterator<T>	operator+(ptrdiff_t n, Iterator<T> it)
+{
+	return it + n;
+}
+
+template<typename T>
+Iterator<T>	operator-(ptrdiff_t n, Iterator<T> it)
+{
+	return it - n;
+}
 
 
 #endif

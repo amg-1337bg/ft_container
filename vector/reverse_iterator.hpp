@@ -6,7 +6,8 @@
 template <class iterator>
 class reverse_iterator
 {
-private:
+
+public :
 	typedef	iterator	iterator_type;
 	typedef typename iterator_traits<iterator>::iterator_category iterator_category;
 	typedef typename iterator_traits<iterator>::value_type value_type;
@@ -14,6 +15,7 @@ private:
 	typedef typename iterator_traits<iterator>::pointer	pointer;
 	typedef typename iterator_traits<iterator>::reference reference;
 
+private:
 	iterator_type iter;
 
 public:
