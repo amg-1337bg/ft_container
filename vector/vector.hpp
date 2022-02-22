@@ -33,10 +33,10 @@ namespace ft
 
 
 	public:
-		typedef Iterator<pointer> iterator;
-		typedef Iterator<const_pointer> const_iterator;
+		typedef Iterator<value_type> iterator;
+		typedef Iterator<const value_type> const_iterator;
 		typedef reverse_iterator<iterator> reverse_iterator;
-		typedef const reverse_iterator const_reverse_iterator;
+		typedef ft::reverse_iterator<const value_type> const_reverse_iterator;
 
 		explicit vector(const allocator_type &alloc = allocator_type()) : _buffer(), _S(), _C()
 		{

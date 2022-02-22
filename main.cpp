@@ -5,15 +5,28 @@
 int main()
 {
 	std::vector<std::string> v(3, "hello");
-    std::vector<std::string>::const_iterator it = v.begin();
+    // std::vector<std::string>::const_iterator it = v.begin();
+    // std::vector<std::string>::iterator enit = v.end();
+
+	// if (enit != it)
+	// 	std::cout << "true" << std::endl;
     /*--------------- ft::vector-------------------- */
     ft::vector<std::string> my_v(3, "hello");
+	ft::vector<std::string>::iterator eit = my_v.begin();
     ft::vector<std::string>::const_iterator my_it = my_v.begin();
     /*---------------------------------------------- */
 
+	if (eit != my_it)
+	{
+		std::cout << "true" << std::endl;
+	} else 
+	{
+		std::cout << "false" << std::endl;
+	}
+
 	while (my_it != my_v.end())
 	{
-		std::cout << &(*my_it) << std::endl;
+		std::cout << *my_it << std::endl;
 		my_it++;
 	}
 
