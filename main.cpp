@@ -4,33 +4,42 @@
 
 int main()
 {
-	std::vector<std::string> v(3, "hello");
-    // std::vector<std::string>::const_iterator it = v.begin();
-    // std::vector<std::string>::iterator enit = v.end();
+	// std::vector<std::string> v(3, "hello");
+	// std::vector<std::string>::reverse_iterator enit = v.rend();
+	// std::vector<std::string>::reverse_iterator nit = v.rbegin();
+	// // std::vector<std::string>::iterator it;
 
-	// if (enit != it)
-	// 	std::cout << "true" << std::endl;
+	// // size_t t = enit - nit;
+
+	// // if (enit != it)
+	// // 	std::cout << "true and the base is = " << *(it.base()) << std::endl;
+	// while (nit != enit)
+	// {
+	// 	std::cout << *nit << std::endl;
+	// 	++nit;
+ 	// }
+	
     /*--------------- ft::vector-------------------- */
-    ft::vector<std::string> my_v(3, "hello");
-	ft::vector<std::string>::iterator eit = my_v.begin();
-    ft::vector<std::string>::const_iterator my_it = my_v.begin();
+    ft::vector<std::string> my_v(4);
+	my_v.push_back("hello0");
+	my_v.push_back("hello1");
+	my_v.push_back("hello2");
+	my_v.push_back("hello3");
+	std::cout << "Capacity" << my_v.capacity() << std::endl;
+	ft::vector<std::string>::reverse_iterator eit = my_v.rend();
+    ft::vector<std::string>::reverse_iterator my_it = my_v.rbegin();
     /*---------------------------------------------- */
 
-	if (eit != my_it)
+	// eit = 1 + my_it;
+	// std::cout << "heheh " << *my_it << std::endl;
+	// std::cout << &(*eit.base()) << std::endl;
+	while (my_it != eit)
 	{
-		std::cout << "true" << std::endl;
-	} else 
-	{
-		std::cout << "false" << std::endl;
-	}
-
-	while (my_it != my_v.end())
-	{
+		// std::cout << "moving = " << &(*my_it) << std::endl;
 		std::cout << *my_it << std::endl;
 		my_it++;
-	}
-
-	
+ 	}
+	// std::cout << *(eit + 1) << std::endl;
 	
 	// for (size_t i = 0; i < 8; i++)
 	// 	vec.push_back(i);

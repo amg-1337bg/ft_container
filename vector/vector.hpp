@@ -36,7 +36,7 @@ namespace ft
 		typedef Iterator<value_type> iterator;
 		typedef Iterator<const value_type> const_iterator;
 		typedef reverse_iterator<iterator> reverse_iterator;
-		typedef ft::reverse_iterator<const value_type> const_reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 		explicit vector(const allocator_type &alloc = allocator_type()) : _buffer(), _S(), _C()
 		{
@@ -103,48 +103,53 @@ namespace ft
 			iter.ptr = _buffer;
 			return iter;
 		}
-		// const_iterator begin() const
-		// {
-		// 	const_iterator it;
-		// 	it.ptr = _buffer;
-		// 	return it;
-		// }
+		const_iterator begin() const
+		{
+			const_iterator it;
+			it.ptr = _buffer;
+			return it;
+		}
 		iterator end()
 		{
 			iterator it;
 			it.ptr = &_buffer[_S];
 			return it;
 		}
-		const const_iterator end() const
+		const_iterator end() const
 		{
 			iterator it;
-			it.ptr = &_buffer[_S];
+			it.ptr = &(_buffer[_S]);
 			return it;
 		}
 		// Reverse Iterator rbegin() and rend()
 		reverse_iterator rbegin()
 		{
-			reverse_iterator it;
-			it.ptr = &_buffer[_S - 1];
-			return it;
+			iterator it;
+			it.ptr = &(_buffer[_S - 1]);
+			reverse_iterator rit(it);
+
+			return rit;
 		}
-		const const_reverse_iterator rbegin() const
+		const_reverse_iterator rbegin() const
 		{
-			reverse_iterator it;
-			it.ptr = &_buffer[_S - 1];
+			iterator it;
+			it.ptr = &(_buffer[_S - 1]);
+			reverse_iterator rit(it);
 			return it;
 		}
 		reverse_iterator rend()
 		{
-			reverse_iterator it;
-			it.ptr = &_buffer[-1];
-			return it;
+			iterator it;
+			it.ptr = &(_buffer[-1]);
+			reverse_iterator rit(it);
+			return rit;
 		}
-		const const_reverse_iterator rend() const
+		const_reverse_iterator rend() const
 		{
-			reverse_iterator it;
+			iterator it;
 			it.ptr = &_buffer[-1];
-			return it;
+			reverse_iterator rit(it);
+			return rit;
 		}
 
 		// Capacity Methods
