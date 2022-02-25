@@ -82,8 +82,8 @@ namespace ft
 					allocator_copy.destroy(&(*it));
 				allocator_copy.deallocate(_buffer, _S + 1);
 			}
-			iterator it = x.begin();
-			iterator ite = x.end();
+			const_iterator it = x.begin();
+			const_iterator ite = x.end();
 			_S = x.size();
 			allocator_copy = x.get_allocator();
 			_buffer = allocator_copy.allocate(_S + 1);
@@ -547,7 +547,7 @@ namespace ft
   	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		if (lhs.size() == rhs.size())
-			return equal(lhs.begin(), lhs.end(), rhs.begin());
+			return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	  	return false;
 	}
 
@@ -555,7 +555,7 @@ namespace ft
   	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		if (lhs.size() == rhs.size())
-			return !(equal(lhs.begin(), lhs.end(), rhs.begin()));
+			return !(ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 		return true;
 	}
 
@@ -565,7 +565,7 @@ namespace ft
 		if (lhs.size() < rhs.size())
 			return true;
 		else if (lhs.size() == rhs.size())
-			return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		return false;
 	}
 
@@ -581,7 +581,7 @@ namespace ft
 		if (lhs.size() > rhs.size())
 			return true;
 		else if (lhs.size() == rhs.size())
-			return !(lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+			return !(ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 		return false;
 	}
 

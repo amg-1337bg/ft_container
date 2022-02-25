@@ -19,13 +19,10 @@ private:
 	iterator_type iter;
 
 public:
-	reverse_iterator(){}
-	explicit reverse_iterator(iterator_type &it) : iter(it){}
+	reverse_iterator() : iter() {}
+	explicit reverse_iterator(iterator_type it) : iter(it){}
 	template <class Iter>
-	reverse_iterator(const reverse_iterator<Iter>& rev_it)
-	{
-		*this = rev_it;
-	}
+  	reverse_iterator (const reverse_iterator<Iter>& rev_it) : iter(rev_it){}
 	iterator_type base() const
 	{
 		return iter;
@@ -65,7 +62,7 @@ public:
 	}
 	difference_type operator-(const reverse_iterator &it)
 	{
-		return iter - it;
+		return iter - it.iter;
 	}
 	reverse_iterator operator-(difference_type n)
 	{
