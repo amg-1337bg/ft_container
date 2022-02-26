@@ -21,21 +21,21 @@ private:
 public:
 	reverse_iterator() : iter() {}
 	explicit reverse_iterator(iterator_type it) : iter(it){}
-	template <class Iter>
-  	reverse_iterator (const reverse_iterator<Iter>& rev_it) : iter(rev_it){}
+	template <class U>
+  	reverse_iterator (const reverse_iterator<U>& rev_it) : iter(rev_it.base()){}
+	template <class U>
+  	reverse_iterator& operator= (const reverse_iterator<U>& rev_it)
+	{
+		iter = rev_it.base() - 1;
+		return *this;
+	}
 	iterator_type base() const
 	{
-		return iter;
-	}
-	reference	operator*()
-	{
-		return *iter;
+		return iter + 1;
 	}
 	reference	operator*() const
 	{
-		iterator_type tmp(iter);
-		--tmp;
-		return *tmp;
+		return *(iter - 1);
 	}
 	reverse_iterator operator+(difference_type n) 
 	{
