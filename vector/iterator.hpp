@@ -210,7 +210,7 @@ public:
 		iter -= n;
 		return (iter);
 	}
-	T& operator[](difference_type n)
+	reference operator[](difference_type n)
 	{
 		return ptr[n];
 	}

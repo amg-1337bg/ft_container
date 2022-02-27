@@ -135,7 +135,7 @@ namespace ft
 			iterator it;
 			it.ptr = &(_buffer[_S - 1]);
 			reverse_iterator rit(it);
-			return it;
+			return rit;
 		}
 		reverse_iterator rend()
 		{

@@ -60,15 +60,7 @@ public:
 		iter -= n;
 		return (*this);
 	}
-	difference_type operator-(const reverse_iterator &it)
-	{
-		return iter - it.iter;
-	}
-	reverse_iterator operator-(difference_type n)
-	{
-		return reverse_iterator(iter + n);
-	}
-	const reverse_iterator operator-(difference_type n) const 
+	reverse_iterator operator-(difference_type n) const 
 	{
 		return reverse_iterator(iter + n);
 	}
@@ -96,10 +88,9 @@ public:
 	pointer operator->() const {
   		return &(operator*());
 	}
-	reference operator[] (difference_type n) const
+	reference operator[] (difference_type n)
 	{
-		return this->base()[-n-1];
-		// return iter[-n];
+		return iter[n - 1];
 	}
 
 };
@@ -145,14 +136,14 @@ template <class Iterator>
              typename reverse_iterator<Iterator>::difference_type n,
              const reverse_iterator<Iterator>& rev_it)
 {
-	return rev_it - n;
+	return reverse_iterator<Iterator> (rev_it.base() - n);
 }
 template <class Iterator>
-  reverse_iterator<Iterator> operator- (
-             typename reverse_iterator<Iterator>::difference_type n,
-             const reverse_iterator<Iterator>& rev_it)
+  typename reverse_iterator<Iterator>::difference_type operator- (
+    const reverse_iterator<Iterator>& lhs,
+    const reverse_iterator<Iterator>& rhs)
 {
-	return rev_it + n;
+	return rhs.base() - lhs.base();
 }
 
 #endif
