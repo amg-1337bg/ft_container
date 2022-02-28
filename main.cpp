@@ -1,6 +1,7 @@
 #include  <vector>
-#include "./vector/vector.hpp"
-#include <algorithm>
+#include <string>
+#include "vector/vector.hpp"
+#include <iostream>
 
 int main()
 {
@@ -20,14 +21,14 @@ int main()
  	// }
 	
     /*--------------- ft::vector-------------------- */
-    ft::vector<std::string> my_v(4);
+    std::vector<std::string> my_v(4);
 	my_v.push_back("hello0");
 	my_v.push_back("hello1");
 	my_v.push_back("hello2");
 	my_v.push_back("hello3");
 	std::cout << "Capacity" << my_v.capacity() << std::endl;
-	ft::vector<std::string>::reverse_iterator eit = my_v.rend();
-    ft::vector<std::string>::reverse_iterator my_it = my_v.rbegin();
+	std::vector<std::string>::reverse_iterator eit = my_v.rend();
+    std::vector<std::string>::reverse_iterator my_it = my_v.rbegin();
     /*---------------------------------------------- */
 
 	// eit = 1 + my_it;
