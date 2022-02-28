@@ -7,30 +7,55 @@
 
 int main()
 {
-	{
-        /*------------------ std::vectors ---------------------*/
-        std::vector<std::string> v1(10, "string2");
-        std::vector<std::string> const v2(10, "string2");
-        /*-----------------------------------------------------*/
-        /*------------------ ft::vectors ---------------------*/
-        ft::vector<std::string> ft_v1(10, "string2");
-        ft::vector<std::string> const ft_v2(10, "string2");
-        /*----------------------------------------------------*/
-        /*------------------ strings to store the results ----*/
-        std::string res, ft_res, c_res, c_ft_res;
-        /*----------------------------------------------------*/
-        for (std::vector<std::string>::reverse_iterator rit = v1.rbegin(); rit != v1.rend(); ++rit) // fill res from v1
-            res += *rit;
-        for (std::vector<std::string>::const_reverse_iterator rit = v2.rbegin(); rit != v2.rend(); ++rit) // fill c_res from const v1
-            c_res += *rit;
+	bool cond;
+        /*------------------------------------------ test 1: lhs.size == rhs.size ------------------*/
+        {
+            std::vector<int> v(100, 5);
+            std::vector<int> v1(100, 5);
+            ft::vector<int> ft_v(100, 5);
+            ft::vector<int> ft_v1(100, 5);
 
-        for (ft::vector<std::string>::reverse_iterator rit = ft_v1.rbegin(); rit != ft_v1.rend(); ++rit) // fill ft_res from ft_v1
-            ft_res += *rit;
-			std::cout << "true" << std::endl;
-        // for (ft::vector<std::string>::const_reverse_iterator rit = ft_v2.rbegin(); rit != ft_v2.rend(); ++rit) // fill c_ft_res from const ft_v1
-        //     c_ft_res += *rit;
+            cond = ((v > v1) == (ft_v > ft_v1));
+            v[80] = 4;
+            ft_v[80] = 4;
+            cond = (cond && ((v > v1) == (ft_v > ft_v1)));
+            v1[80] = 3;
+            ft_v1[80] = 3;
+            cond = (cond && ((v > v1) == (ft_v > ft_v1)));
 
-        if(res == ft_res && c_ft_res == c_res)
+        }
+        /*------------------------------------------------------------------------------------------*/
+        /*------------------------------------------ test 2: lhs.size < rhs.size ------------------*/
+        {
+            std::vector<int> v(50, 5);
+            std::vector<int> v1(100, 5);
+            ft::vector<int> ft_v(50, 5);
+            ft::vector<int> ft_v1(100, 5);
+
+            cond = (cond && (v > v1) == (ft_v > ft_v1));
+            v[40] = 4;
+            ft_v[40] = 4;
+            cond = (cond && ((v > v1) == (ft_v > ft_v1)));
+            v1[80] = 3;
+            ft_v1[80] = 3;
+            cond = (cond && ((v > v1) == (ft_v > ft_v1)));
+        }
+        /*------------------------------------------------------------------------------------------*/
+        /*------------------------------------------ test 3: lhs.size > rhs.size ------------------*/
+        {
+            std::vector<int> v(100, 5);
+            std::vector<int> v1(50, 5);
+            ft::vector<int> ft_v(100, 5);
+            ft::vector<int> ft_v1(50, 5);
+
+            cond = (cond && (v > v1) == (ft_v > ft_v1));
+            v[80] = 4;
+            ft_v[80] = 4;
+            cond = (cond && ((v > v1) == (ft_v > ft_v1)));
+            v1[40] = 3;
+            ft_v1[40] = 3;
+            cond = (cond && ((v > v1) == (ft_v > ft_v1)));
+        }
+        if(cond)
 			std::cout << "true" << std::endl;
-    }
 }
