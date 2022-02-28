@@ -3,26 +3,21 @@
 #include <iomanip>
 #include <unistd.h>
 #include <sys/time.h>
+#include <ctime>
 // #include <algorithm>
 
+int maketimestamp(timeval time)
+{
+	return (time.tv_sec * 1000000) + time.tv_usec;
+}
 int main()
 {
-	// std::vector<int> v(3, 4);
-    // std::vector<int>::reverse_iterator rit(v.end()), rit_1(v.end() - 1);
-    // /*----------------------------------*/
-    // /*------------ ft::reverse_iterator ---------*/
-    // ft::vector<int> my_v(3, 4);
-    // ft::vector<int>::reverse_iterator my_rit(my_v.end()), my_rit1(my_v.end() - 1);
-	// if((&(*my_rit) == &(*my_rit1.base())))
-	// 	std::cout << "true" << std::endl;
-	std::vector<std::string> str;
-	ft::vector<std::string> ft_str;
-
-	str.push_back("brahim");
-	str.push_back("amghough");
-	ft_str.push_back("brahim");
-	ft_str.push_back("amghough");
-
-	std::vector<std::string>::reverse_iterator rit(ft_str.end() - 1);
-	std::cout << *(rit.base()) << std::endl;
+	ft::vector<std::string> orig(1000000, "hello");
+	ft::vector<std::string> orig_copy;
+	timeval tstart;
+	timeval tend;
+	gettimeofday(&tstart, nullptr);
+	orig_copy = orig;
+	gettimeofday(&tend, nullptr);
+	std::cout << "total " << maketimestamp(tend) - maketimestamp(tstart) << std::endl;
 }

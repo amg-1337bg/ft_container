@@ -26,7 +26,7 @@ public:
 	template <class U>
   	reverse_iterator& operator= (const reverse_iterator<U>& rev_it)
 	{
-		iter = rev_it.base() - 1;
+		iter = rev_it.base();
 		return *this;
 	}
 	iterator_type base() const

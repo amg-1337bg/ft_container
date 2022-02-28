@@ -440,7 +440,6 @@ namespace ft
 		void insert (iterator position, size_type n, const value_type& val)
 		{
 			bool is_it_end = false;
-
 			if (position == end())
 				is_it_end = true;
 			if (_S + n <= _C)
