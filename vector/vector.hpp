@@ -61,7 +61,7 @@ namespace ft
 		}
 		
 		
-		vector(const vector &x)
+		vector(const vector &x) : _buffer(), _S(), _C()
 		{
 			*this = x;
 		}
@@ -124,30 +124,26 @@ namespace ft
 		// Reverse Iterator rbegin() and rend()
 		reverse_iterator rbegin()
 		{
-			iterator it;
-			it.ptr = &(_buffer[_S - 1]);
+			iterator it(end() - 1);
 			reverse_iterator rit(it);
 
 			return rit;
 		}
 		const_reverse_iterator rbegin() const
 		{
-			iterator it;
-			it.ptr = &(_buffer[_S - 1]);
+			iterator it(end() - 1);
 			reverse_iterator rit(it);
 			return rit;
 		}
 		reverse_iterator rend()
 		{
-			iterator it;
-			it.ptr = &(_buffer[-1]);
+			iterator it(begin() - 1);
 			reverse_iterator rit(it);
 			return rit;
 		}
 		const_reverse_iterator rend() const
 		{
-			iterator it;
-			it.ptr = &_buffer[-1];
+			iterator it(begin() - 1);
 			reverse_iterator rit(it);
 			return rit;
 		}
