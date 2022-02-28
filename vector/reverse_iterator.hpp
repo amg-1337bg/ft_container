@@ -31,7 +31,7 @@ public:
 	}
 	iterator_type base() const
 	{
-		return iter + 1;
+		return iter;
 	}
 	reference	operator*() const
 	{

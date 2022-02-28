@@ -7,26 +7,22 @@
 
 int main()
 {
-	std::vector<std::string> v1(10, "string2");
-        std::vector<std::string> const v2(10, "string2");
-        /*-----------------------------------------------------*/
-        /*------------------ ft::vectors ---------------------*/
-        ft::vector<std::string> ft_v1(10, "string2");
-        ft::vector<std::string> const ft_v2(10, "string2");
-        /*----------------------------------------------------*/
-        /*------------------ strings to store the results ----*/
-        std::string res, ft_res, c_res, c_ft_res;
-        /*----------------------------------------------------*/
-        for (std::vector<std::string>::reverse_iterator rit = v1.rbegin(); rit != v1.rend(); ++rit) // fill res from v1
-            res += *rit;
-        for (std::vector<std::string>::const_reverse_iterator rit = v2.rbegin(); rit != v2.rend(); ++rit) // fill c_res from const v1
-            c_res += *rit;
+	// std::vector<int> v(3, 4);
+    // std::vector<int>::reverse_iterator rit(v.end()), rit_1(v.end() - 1);
+    // /*----------------------------------*/
+    // /*------------ ft::reverse_iterator ---------*/
+    // ft::vector<int> my_v(3, 4);
+    // ft::vector<int>::reverse_iterator my_rit(my_v.end()), my_rit1(my_v.end() - 1);
+	// if((&(*my_rit) == &(*my_rit1.base())))
+	// 	std::cout << "true" << std::endl;
+	std::vector<std::string> str;
+	ft::vector<std::string> ft_str;
 
-        for (ft::vector<std::string>::reverse_iterator rit = ft_v1.rbegin(); rit != ft_v1.rend(); ++rit) // fill ft_res from ft_v1
-            ft_res += *rit;
-        // for (ft::vector<std::string>::const_reverse_iterator rit = ft_v2.rbegin(); rit != ft_v2.rend(); ++rit) // fill c_ft_res from const ft_v1
-        //     c_ft_res += *rit;
+	str.push_back("brahim");
+	str.push_back("amghough");
+	ft_str.push_back("brahim");
+	ft_str.push_back("amghough");
 
-        if(res == ft_res && c_ft_res == c_res)
-			std::cout << "True" << std::endl;
+	std::vector<std::string>::reverse_iterator rit(ft_str.end() - 1);
+	std::cout << *(rit.base()) << std::endl;
 }
