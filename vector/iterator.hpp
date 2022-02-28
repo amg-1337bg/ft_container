@@ -23,7 +23,7 @@ public:
 
 	Iterator() : ptr() {}
 	template <typename S>
-	Iterator(const Iterator<S> &it) : ptr(&(*it)) {}
+	Iterator(const Iterator<S> &it) : ptr(it.base()) {}
 	template <typename S>
 	Iterator &operator=(const Iterator<S> &it)
 	{
@@ -210,7 +210,7 @@ public:
 		iter -= n;
 		return (iter);
 	}
-	T& operator[](difference_type n)
+	reference operator[](difference_type n)
 	{
 		return ptr[n];
 	}
@@ -220,6 +220,10 @@ public:
 	}
 
 	const value_type*	base() const
+	{
+		return ptr;
+	}
+	value_type*	base()
 	{
 		return ptr;
 	}

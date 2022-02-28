@@ -61,7 +61,7 @@ namespace ft
 		}
 		
 		
-		vector(const vector &x)
+		vector(const vector &x) : _buffer(), _S(), _C()
 		{
 			*this = x;
 		}
@@ -82,9 +82,10 @@ namespace ft
 					allocator_copy.destroy(&(*it));
 				allocator_copy.deallocate(_buffer, _S + 1);
 			}
-			iterator it = x.begin();
-			iterator ite = x.end();
+			const_iterator it = x.begin();
+			const_iterator ite = x.end();
 			_S = x.size();
+			_C = x.capacity();
 			allocator_copy = x.get_allocator();
 			_buffer = allocator_copy.allocate(_S + 1);
 			int i = 0;
@@ -124,31 +125,27 @@ namespace ft
 		// Reverse Iterator rbegin() and rend()
 		reverse_iterator rbegin()
 		{
-			iterator it;
-			it.ptr = &(_buffer[_S - 1]);
+			iterator it(end());
 			reverse_iterator rit(it);
 
 			return rit;
 		}
 		const_reverse_iterator rbegin() const
 		{
-			iterator it;
-			it.ptr = &(_buffer[_S - 1]);
-			reverse_iterator rit(it);
-			return it;
+			const_iterator it(end());
+			const_reverse_iterator rit(it);
+			return rit;
 		}
 		reverse_iterator rend()
 		{
-			iterator it;
-			it.ptr = &(_buffer[-1]);
+			iterator it(begin());
 			reverse_iterator rit(it);
 			return rit;
 		}
 		const_reverse_iterator rend() const
 		{
-			iterator it;
-			it.ptr = &_buffer[-1];
-			reverse_iterator rit(it);
+			const_iterator it(begin());
+			const_reverse_iterator rit(it);
 			return rit;
 		}
 
@@ -168,13 +165,12 @@ namespace ft
 		{
 			if (n < _S)
 			{
-				for(; _S != n; _S--)
+				for(; _S > n;)
 					this->pop_back();
 			}
 			else
 			{
-				for (; _S != n; )
-					this->push_back(val);
+				insert(end(), n - _S, val);
 			}
 		}
 
@@ -190,6 +186,8 @@ namespace ft
 
 		void	reserve(size_type n)
 		{
+			if (n > max_size())
+				throw std::length_error("allocator<T>::allocate(size_t n) 'n' exceeds maximum supported size");
 			if (n > _C)
 			{
 				try
@@ -211,7 +209,7 @@ namespace ft
 				}
 				catch(const std::exception& e)
 				{
-					std::cerr << e.what() << '\n';
+					std::cerr << e.what() << std::endl;
 				}
 			}
 		}
@@ -441,8 +439,24 @@ namespace ft
 		}
 		void insert (iterator position, size_type n, const value_type& val)
 		{
+			bool is_it_end = false;
+			iterator it = begin();
+			size_type i = 0;
+
+			while (it++ != position)	//get the index of the position
+				i++;
+			if (position == end())
+				is_it_end = true;
 			if (_S + n <= _C)
 			{
+				if (is_it_end)
+				{
+					while (is_it_end && n--)
+					{
+						push_back(val);
+					}
+					return;
+				}
 				while (n--)
 					insert(position, val);
 				return ;
@@ -460,7 +474,17 @@ namespace ft
 			}
 			else
 			{
+				if (position == end())
+					is_it_end = true;
 				reserve(_S + n);
+				if (is_it_end)
+				{
+					while (is_it_end && n--)
+					{
+						push_back(val);
+					}
+					return;
+				}
 				it = begin() + i;
 				while (n--)
 					insert(it, val);
@@ -473,11 +497,21 @@ namespace ft
 			iterator index = begin();
 			while (index++ != position)
 				i++;
-
 			vector tmp(first, last);
 			iterator it = tmp.begin();
 			if (tmp.size() == 0)
 				return ;
+			if (tmp.size() + _S <= _C)
+			{
+				index = begin() + i;
+				while (it != tmp.end())
+				{
+					insert(index, *it);
+					it++;
+					index++;
+				}
+				return ;
+			}
 			if (tmp.size() + _S > _C * 2) // Needs Exact Reallocation
 				reserve(_S + tmp.size());
 			else	// Reallocation of 2x Capacity
@@ -547,7 +581,7 @@ namespace ft
   	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		if (lhs.size() == rhs.size())
-			return equal(lhs.begin(), lhs.end(), rhs.begin());
+			return ft::equal(lhs.begin(), lhs.end(), rhs.begin());
 	  	return false;
 	}
 
@@ -555,7 +589,7 @@ namespace ft
   	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
 		if (lhs.size() == rhs.size())
-			return !(equal(lhs.begin(), lhs.end(), rhs.begin()));
+			return !(ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 		return true;
 	}
 
@@ -565,7 +599,7 @@ namespace ft
 		if (lhs.size() < rhs.size())
 			return true;
 		else if (lhs.size() == rhs.size())
-			return lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 		return false;
 	}
 
@@ -578,11 +612,7 @@ namespace ft
 	template <class T, class Alloc>
   	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs.size() > rhs.size())
-			return true;
-		else if (lhs.size() == rhs.size())
-			return !(lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
-		return false;
+		return rhs < lhs;
 	}
 
 	template <class T, class Alloc>

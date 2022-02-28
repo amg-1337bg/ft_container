@@ -1,10 +1,24 @@
 #include  <vector>
+<<<<<<< HEAD
 #include <string>
 #include "vector/vector.hpp"
 #include <iostream>
+=======
+#include "./vector/vector.hpp"
+#include <iomanip>
+#include <unistd.h>
+#include <sys/time.h>
+#include <ctime>
+// #include <algorithm>
+>>>>>>> 9413814d5a09c01662810d0e4a5aec9b716009d1
 
+int maketimestamp(timeval time)
+{
+	return (time.tv_sec * 1000000) + time.tv_usec;
+}
 int main()
 {
+<<<<<<< HEAD
 	// std::vector<std::string> v(3, "hello");
 	// std::vector<std::string>::reverse_iterator enit = v.rend();
 	// std::vector<std::string>::reverse_iterator nit = v.rbegin();
@@ -109,4 +123,14 @@ int main()
 	// 	std::cout << *rev_b << std::endl;
 	// 	rev_b++;
 	// }
+=======
+	ft::vector<std::string> orig(1000000, "hello");
+	ft::vector<std::string> orig_copy;
+	timeval tstart;
+	timeval tend;
+	gettimeofday(&tstart, nullptr);
+	orig_copy = orig;
+	gettimeofday(&tend, nullptr);
+	std::cout << "total " << maketimestamp(tend) - maketimestamp(tstart) << std::endl;
+>>>>>>> 9413814d5a09c01662810d0e4a5aec9b716009d1
 }
