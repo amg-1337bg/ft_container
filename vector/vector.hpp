@@ -439,55 +439,37 @@ namespace ft
 		}
 		void insert (iterator position, size_type n, const value_type& val)
 		{
-			bool is_it_end = false;
 			iterator it = begin();
 			size_type i = 0;
+			vector		tmp;
 
 			while (it++ != position)	//get the index of the position
 				i++;
-			if (position == end())
-				is_it_end = true;
-			if (_S + n <= _C)
+			if (_S + n <= _C * 2) // Need to reallocate 2x Capacity
+				reserve (_C * 2);
+			else if (_S + n > _C * 2) // need To reallocate the exact amount of Capacity
+				reserve (_S + n);
+			it = begin();
+			for (size_t j = 0; j < _S + n; j++)
 			{
-				if (is_it_end)
+				if (j == i)
 				{
-					while (is_it_end && n--)
+					tmp.assign(it, end());
+					erase(it, end());
+					while (n--)
 					{
-						push_back(val);
+						*it = val;
+						it++;
+					}
+					iterator it_tmp = tmp.begin();
+					while (it_tmp != tmp.end())
+					{
+						*it = *it_tmp;
+						it++;
 					}
 					return;
 				}
-				while (n--)
-					insert(position, val);
-				return ;
-			}
-			iterator it = begin();
-			size_type i = 0;
-			while (it++ != position)
-				i++;
-			if (_S + n < _C * 2)
-			{
-				reserve(_C * 2);
-				it = begin() + i;
-				while (n--)
-					insert(it, val);
-			}
-			else
-			{
-				if (position == end())
-					is_it_end = true;
-				reserve(_S + n);
-				if (is_it_end)
-				{
-					while (is_it_end && n--)
-					{
-						push_back(val);
-					}
-					return;
-				}
-				it = begin() + i;
-				while (n--)
-					insert(it, val);
+				it++;
 			}
 		}
 		template <class InputIterator>

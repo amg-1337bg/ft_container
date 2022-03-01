@@ -12,12 +12,12 @@ int maketimestamp(timeval time)
 }
 int main()
 {
-	ft::vector<std::string> orig(1000000, "hello");
-	ft::vector<std::string> orig_copy;
 	timeval tstart;
 	timeval tend;
+
+	ft::vector<std::string> orig(20, "hello");
 	gettimeofday(&tstart, nullptr);
-	orig_copy = orig;
+	orig.insert(orig.begin() + 10,10, "brahim");
 	gettimeofday(&tend, nullptr);
 	std::cout << "total " << maketimestamp(tend) - maketimestamp(tstart) << std::endl;
 }
