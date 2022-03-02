@@ -1,5 +1,7 @@
-#include  <vector>
 #include "./vector/vector.hpp"
+#include "./stack/stack.hpp"
+#include  <vector>
+#include  <stack>
 #include <iomanip>
 #include <unistd.h>
 #include <sys/time.h>
@@ -10,14 +12,22 @@ int maketimestamp(timeval time)
 {
 	return (time.tv_sec * 1000000) + time.tv_usec;
 }
+
+struct test
+{
+	int s;
+};
+
 int main()
 {
-	timeval tstart;
-	timeval tend;
-
-	ft::vector<std::string> orig(20, "hello");
-	gettimeofday(&tstart, nullptr);
-	orig.insert(orig.begin() + 10,10, "brahim");
-	gettimeofday(&tend, nullptr);
-	std::cout << "total " << maketimestamp(tend) - maketimestamp(tstart) << std::endl;
+	std::stack<int> stk, st;
+	for (size_t i = 0; i < 100; i++)
+	{
+		stk.push(i);
+		st.push(i);
+	}	
+	
+	if (stk == st)
+		std::cout << "True" << std::endl;
+	
 }
