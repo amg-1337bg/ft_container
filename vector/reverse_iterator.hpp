@@ -1,5 +1,5 @@
-#ifndef REVERSE_ITER
-#define REVERSE_ITER
+#ifndef REVERSE_ITER_HPP
+#define REVERSE_ITER_HPP
 
 #include "utilities.hpp"
 
