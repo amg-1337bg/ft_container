@@ -8,16 +8,17 @@ class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
 {
 	public:
 		typedef T	value_type;
-		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::distance	difference_type;
+		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::difference_type	difference_type;
 		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::pointer	pointer;
 		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::reference	reference;
-		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::Category	iterator_category;
+		typedef typename std::bidirectional_iterator_tag	iterator_category;
 	
 	private:
-		pointer _ptr;
+		T _ptr;
 	
 	public:
 		miterator() : _ptr(){}
+		miterator(const pointer &ptr) : _ptr(ptr) {}
 		miterator(const miterator &i) : _ptr(i) {}
 		miterator &operator=(const miterator &i)
 		{
