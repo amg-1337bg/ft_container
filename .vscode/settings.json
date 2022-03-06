@@ -72,6 +72,9 @@
 		"queue": "cpp",
 		"random": "cpp",
 		"set": "cpp",
-		"stack": "cpp"
+		"stack": "cpp",
+		"*.tcc": "cpp",
+		"clocale": "cpp",
+		"fstream": "cpp"
 	}
 }
