@@ -17,7 +17,7 @@ public :
 private:
 	template <class U, class Alloc>
 	friend class vector;
-	value_type* ptr;
+	pointer ptr;
 
 public:
 

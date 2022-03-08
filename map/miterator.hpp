@@ -14,62 +14,62 @@ class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
 		typedef typename std::bidirectional_iterator_tag	iterator_category;
 	
 	private:
-		T _ptr;
+		pointer _ptr;
 	
 	public:
 		miterator() : _ptr(){}
 		miterator(const pointer &ptr) : _ptr(ptr) {}
-		miterator(const miterator &i) : _ptr(i) {}
+		miterator(const miterator &i) : _ptr(i._ptr) {}
 		miterator &operator=(const miterator &i)
 		{
 			_ptr = i.ptr;
 			return *this;
 		}
-		~miterator ();
+		~miterator () {}
 
 		// comparison overloads == and !=
-		bool operator==(const miterator& x)
-		{
-			if (_ptr == x._ptr)
-				return true;
-			return false;
-		}
-		bool operator!=(const miterator& x)
-		{
-			if (_ptr != x._ptr)
-				return true;
-			return false;
-		}
+		// bool operator==(const miterator& x)
+		// {
+		// 	if (_ptr == x._ptr)
+		// 		return true;
+		// 	return false;
+		// }
+		// bool operator!=(const miterator& x)
+		// {
+		// 	if (_ptr != x._ptr)
+		// 		return true;
+		// 	return false;
+		// }
 
-		// Dereference overloads
-		reference	operator*() { return *_ptr; }
-		pointer		operator->() { return _ptr; }
+		// // Dereference overloads
+		// reference	operator*() { return *_ptr; }
+		pointer	operator->() { return _ptr; }
 
-		// post and pre incrementation
+		// // post and pre incrementation
 
-		miterator &operator++()
-		{
-			_ptr++;
-			return *this;
-		}
-		miterator operator++(int)
-		{
-			miterator tmp(*this);
-			_ptr++;
-			return tmp;
-		}
+		// miterator &operator++()
+		// {
+		// 	_ptr++;
+		// 	return *this;
+		// }
+		// miterator operator++(int)
+		// {
+		// 	miterator tmp(*this);
+		// 	_ptr++;
+		// 	return tmp;
+		// }
 
-		miterator &operator--()
-		{
-			_ptr--;
-			return *this;
-		}
-		miterator operator--(int)
-		{
-			miterator tmp(*this);
-			_ptr--;
-			return tmp;
-		}
+		// miterator &operator--()
+		// {
+		// 	_ptr--;
+		// 	return *this;
+		// }
+		// miterator operator--(int)
+		// {
+		// 	miterator tmp(*this);
+		// 	_ptr--;
+		// 	return tmp;
+		// }
 };
 
 

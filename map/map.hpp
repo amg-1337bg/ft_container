@@ -31,9 +31,14 @@ namespace ft
 			struct node
 			{
 				value_type pair;
+				int		balancefac;
 				node	*left;
 				node	*right;
 				node	*parent;
+
+				node() : pair(), balancefac(), left(), right(), parent() {}
+				node(const value_type& val) : pair(val), balancefac(), left(), right(), parent() {}
+				
 			};
 
 			node *_node;
@@ -46,13 +51,29 @@ namespace ft
 				node *tmp;
 				std::allocator<node> alloc;
 
-				tmp = alloc.allocate(1);
-				tmp->left = NULL;
-				tmp->parent = NULL;
-				tmp->right = NULL;
-				tmp->pair = val;
-
+				try
+				{
+					tmp = alloc.allocate(1);
+					alloc.construct(tmp ,node(val));
+				}
+				catch(const std::exception& e)
+				{
+					std::cerr << e.what() << std::endl;
+				}
+				
 				return tmp;
+			}
+			// void	swap_nodes(node *node1, node *node2) {} // i'm going to need it
+			int		balance_factor(node *node0)
+			{
+				int left_height = 0, right_height = 0;
+				node *tmp = node0->left;
+				while (tmp++)
+					left_height++;
+				tmp = node0->right;
+				while (tmp++)
+					right_height++;
+				return left_height - right_height;
 			}
 		
 		public :
@@ -64,75 +85,75 @@ namespace ft
 			explicit map (const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type()) : _node() , _key_compare_copy(comp) , _allocator_copy(alloc), _S() {}
 			
-			template <class InputIterator>
-  			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+			// template <class InputIterator>
+  			// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
 			
-			map (const map& x);
+			// map (const map& x) {}
 
-			~map();
+			// ~map() {}
 
-			map& operator= (const map& x);
+			// map& operator= (const map& x) {}
 
 			iterator begin()
 			{
-				iterator it(&_node->pair);
-				return it;
+				node *tmp = _node;
+				while (tmp)
+				{
+					if (!tmp->left)
+						return iterator(tmp);
+					tmp = tmp->left;
+				}
 			}
 			const_iterator begin() const
 			{
 				const_iterator it(_node);
 				return it;
 			}
-			iterator end();
-			const_iterator end() const;
+			// iterator end();
+			// const_iterator end() const;
 
-			reverse_iterator rbegin();
-			const_reverse_iterator rbegin() const;
+			// reverse_iterator rbegin();
+			// const_reverse_iterator rbegin() const;
 
-			reverse_iterator rend();
-			const_reverse_iterator rend() const;
+			// reverse_iterator rend();
+			// const_reverse_iterator rend() const;
 
-			bool	empty() const { return _S; }
-			size_type size() const { return _S; }
-			size_type max_size() const { return _allocator_copy.max_size(); }
+			// bool	empty() const { return _S; }
+			// size_type size() const { return _S; }
+			// size_type max_size() const { return _allocator_copy.max_size(); }
 
-			mapped_type& operator[] (const key_type& k);
+			// mapped_type& operator[] (const key_type& k);
 
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				if(_node == NULL)
+				if (!_node)
 				{
 					_node = new_node(val);
-					iterator it = begin();
-					return pair< it , true >();
+					return ft::make_pair(iterator(_node), true);
 				}
-				node *tmp;
-				tmp = _node;
+				node *tmp = _node;
 				while (tmp)
 				{
 					if (_key_compare_copy(val.first, tmp->pair.first))
 					{
-						if (!tmp->left) // We found the position of the new value && element inserted
+						if (!tmp->left)
 						{
 							tmp->left = new_node(val);
-							iterator it (&tmp->left->pair);
-							return pair< it, true>();
+							return ft::make_pair(iterator(_node), true);
 						}
 						tmp = tmp->left;
 					}
 					else
 					{
-						if (!tmp->right)  // We found the position of the new value && element inserted
+						if (!tmp->right)
 						{
 							tmp->right = new_node(val);
-							iterator it(&tmp->right->pair);
-							return pair< it, true>();
+							return ft::make_pair(iterator(_node), true);
 						}
 						tmp = tmp->right;
 					}
 				}
-				
-
+				return ft::make_pair(iterator(_node), true);
 			}
 
 	};
