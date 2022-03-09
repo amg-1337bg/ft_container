@@ -8,6 +8,7 @@ namespace ft
 {
 	#include "../vector/utilities.hpp"
 	#include "miterator.hpp"
+	#include "Node.hpp"
 	#include "../vector/reverse_iterator.hpp"
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<Key, T> > >
 	class map
@@ -17,7 +18,6 @@ namespace ft
 			typedef T	mapped_type;
 			typedef pair<key_type, mapped_type>	value_type;
 			typedef	Compare	key_compare;
-			// template< class K, class U, class Comp = std::less<Key>, class Allo = std::allocator<pair<Key, T> > >
 			class 	value_compare;
 			typedef Alloc	allocator_type;
 			typedef	typename	allocator_type::reference reference;
@@ -28,59 +28,13 @@ namespace ft
 			typedef	size_t	size_type;
 		
 		private:
-			struct node
-			{
-				value_type pair;
-				int		balancefac;
-				node	*left;
-				node	*right;
-				node	*parent;
-
-				node() : pair(), balancefac(), left(), right(), parent() {}
-				node(const value_type& val) : pair(val), balancefac(), left(), right(), parent() {}
-				
-			};
-
-			node *_node;
 			key_compare _key_compare_copy;
 			allocator_type _allocator_copy;
 			size_type	_S;
 
-			node	*new_node(const value_type &val)
-			{
-				node *tmp;
-				std::allocator<node> alloc;
-
-				try
-				{
-					tmp = alloc.allocate(1);
-					alloc.construct(tmp ,node(val));
-				}
-				catch(const std::exception& e)
-				{
-					std::cerr << e.what() << std::endl;
-				}
-				
-				return tmp;
-			}
-			// void	swap_nodes(node *node1, node *node2) {} // i'm going to need it
-			int		balance_factor(node *node0)
-			{
-				int left_height = 0, right_height = 0;
-				node *tmp = node0->left;
-				while (tmp++)
-					left_height++;
-				tmp = node0->right;
-				while (tmp++)
-					right_height++;
-				return left_height - right_height;
-			}
 		
 		public :
-			typedef	miterator<node>	iterator;
-			typedef	miterator<node>	const_iterator;
-			typedef	reverse_iterator<iterator>	reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator> const_reverse_iterator;
+			typedef miterator<Node>	iterator;
 
 			explicit map (const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type()) : _node() , _key_compare_copy(comp) , _allocator_copy(alloc), _S() {}
@@ -94,67 +48,6 @@ namespace ft
 
 			// map& operator= (const map& x) {}
 
-			iterator begin()
-			{
-				node *tmp = _node;
-				while (tmp)
-				{
-					if (!tmp->left)
-						return iterator(tmp);
-					tmp = tmp->left;
-				}
-			}
-			const_iterator begin() const
-			{
-				const_iterator it(_node);
-				return it;
-			}
-			// iterator end();
-			// const_iterator end() const;
-
-			// reverse_iterator rbegin();
-			// const_reverse_iterator rbegin() const;
-
-			// reverse_iterator rend();
-			// const_reverse_iterator rend() const;
-
-			// bool	empty() const { return _S; }
-			// size_type size() const { return _S; }
-			// size_type max_size() const { return _allocator_copy.max_size(); }
-
-			// mapped_type& operator[] (const key_type& k);
-
-			pair<iterator,bool> insert (const value_type& val)
-			{
-				if (!_node)
-				{
-					_node = new_node(val);
-					return ft::make_pair(iterator(_node), true);
-				}
-				node *tmp = _node;
-				while (tmp)
-				{
-					if (_key_compare_copy(val.first, tmp->pair.first))
-					{
-						if (!tmp->left)
-						{
-							tmp->left = new_node(val);
-							return ft::make_pair(iterator(_node), true);
-						}
-						tmp = tmp->left;
-					}
-					else
-					{
-						if (!tmp->right)
-						{
-							tmp->right = new_node(val);
-							return ft::make_pair(iterator(_node), true);
-						}
-						tmp = tmp->right;
-					}
-				}
-				return ft::make_pair(iterator(_node), true);
-			}
 
 	};
 
