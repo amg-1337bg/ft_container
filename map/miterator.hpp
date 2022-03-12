@@ -9,20 +9,23 @@ class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
 	public:
 		typedef T	value_type;
 		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::difference_type	difference_type;
-		typedef typename T::ptr	pointer;
-		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::reference	reference;
+		typedef typename T::pointer	pointer;
+		typedef typename T::reference	reference;
 		typedef typename std::bidirectional_iterator_tag	iterator_category;
+
+	private:
+		value_type _node;
 	
 	
 	public:
-		// miterator() : _node(){}
-		// miterator(const reference ptr) : _node(ptr) {}
-		// miterator(const miterator &i) : _node(i._node) {}
-		// miterator &operator=(const miterator &i)
-		// {
-		// 	_node = i._node;
-		// 	return *this;
-		// }
+		miterator() {}
+		miterator(const T& ptr) : _node(ptr) {}
+		miterator(const miterator &i) : _node(i._node) {}
+		miterator &operator=(const miterator &i)
+		{
+			_node = i._node;
+			return *this;
+		}
 		~miterator () {}
 
 		// comparison overloads ==   !=
@@ -40,8 +43,8 @@ class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
 		// }
 
 		// // Dereference overloads
-		// reference	operator*() { return *_ptr; }
-		// pointer	operator->() { return _node.pair; }
+		reference	operator*() { return *(_node.value); }
+		pointer	operator->() { return _node.value; }
 
 		// // post and pre incrementation
 

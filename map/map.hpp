@@ -31,13 +31,13 @@ namespace ft
 			key_compare _key_compare_copy;
 			allocator_type _allocator_copy;
 			size_type	_S;
-
+			Node<pointer, allocator_type> *_root;
 		
 		public :
-			typedef miterator<Node>	iterator;
+			typedef miterator< Node<pointer, allocator_type> >	iterator;
 
 			explicit map (const key_compare& comp = key_compare(),
-				const allocator_type& alloc = allocator_type()) : _node() , _key_compare_copy(comp) , _allocator_copy(alloc), _S() {}
+				const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root() {}
 			
 			// template <class InputIterator>
   			// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
@@ -47,7 +47,30 @@ namespace ft
 			// ~map() {}
 
 			// map& operator= (const map& x) {}
+			pair<iterator,bool> insert (const value_type& val)
+			{
+				pair<iterator, bool> ret;
+				if (!_root)
+				{
+					pointer tmp = _allocator_copy.allocate(1);
+					_allocator_copy.construct(tmp, val);
+					_root = new Node<pointer, allocator_type>(tmp);
+					iterator it(*_root);
+					ret.first = it;
+					ret.second = true;
+				}
+				else
+				{
+					
+				}
+				return (ret);
+			}
 
+			iterator begin()
+			{
+				iterator it(*_root);
+				return it;
+			}
 
 	};
 
