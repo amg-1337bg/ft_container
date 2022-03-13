@@ -18,12 +18,17 @@ class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
 	
 	
 	public:
-		miterator() {}
+		miterator() : _node() {}
 		miterator(const T& ptr) : _node(ptr) {}
 		miterator(const miterator &i) : _node(i._node) {}
 		miterator &operator=(const miterator &i)
 		{
 			_node = i._node;
+			return *this;
+		}
+		miterator &operator=(const T& i)
+		{
+			_node = i;
 			return *this;
 		}
 		~miterator () {}

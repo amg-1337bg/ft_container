@@ -28,13 +28,76 @@ namespace ft
 			typedef	size_t	size_type;
 		
 		private:
+			typedef Node<pointer, allocator_type> node_type;
 			key_compare _key_compare_copy;
 			allocator_type _allocator_copy;
 			size_type	_S;
-			Node<pointer, allocator_type> *_root;
+			node_type *_root;
+
+			pair<iterator,bool> insert_node (const node_type& new_node)
+			{
+				pair<iterator, bool> ret;
+				iterator it;
+				if (!_root)
+				{
+					pointer tmp = _allocator_copy.allocate(1);
+					_allocator_copy.construct(tmp, val);
+					_root = new node_type(tmp);
+					it = *_root;
+					ret.first = it;
+					ret.second = true;
+				}
+				else
+				{
+					node_type *tmp;
+					tmp = _root;
+					while (tmp)
+					{
+						if (_key_compare_copy(new_node->value->first, tmp->value->first))
+						{
+							if (!tmp->get_left())
+							{
+								new_node->set_parent(tmp);
+								tmp->set_left(new_node);
+								it = *new_node;
+								break ;
+							}
+							tmp = tmp->get_left();
+						}
+						else
+						{
+							if (new_node->value->first == tmp->value->first))
+							{
+								it = *tmp;
+								ret.first = it;
+								ret.second = false;
+								return ret;
+							}
+							if (!tmp->right)
+							{
+								new_node->set_parent(tmp);
+								tmp->set_right(new_node);
+								it = *new_node;
+								break ;
+ 							}
+							tmp = tmp->get_right();
+						}
+					}
+					ret.second = true;
+					return ret;
+				}
+			}
+
+			void	update_balance( void )
+			{
+				node_type *tmp = _root;
+				node_type *left, *right;
+				int	R_height = 0, l_height = 0;
+				if (tmp)
+			}
 		
 		public :
-			typedef miterator< Node<pointer, allocator_type> >	iterator;
+			typedef miterator< node_type >	iterator;
 
 			explicit map (const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root() {}
@@ -50,19 +113,12 @@ namespace ft
 			pair<iterator,bool> insert (const value_type& val)
 			{
 				pair<iterator, bool> ret;
-				if (!_root)
-				{
-					pointer tmp = _allocator_copy.allocate(1);
-					_allocator_copy.construct(tmp, val);
-					_root = new Node<pointer, allocator_type>(tmp);
-					iterator it(*_root);
-					ret.first = it;
-					ret.second = true;
-				}
-				else
-				{
-					
-				}
+				pointer tmp = _allocator_copy.allocate(1);
+				_allocator_copy.construct(val);
+				node_type node(tmp);
+				// Insert the node 
+				ret = insert_node(node);
+				
 				return (ret);
 			}
 

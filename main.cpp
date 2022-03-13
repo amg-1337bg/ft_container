@@ -9,6 +9,7 @@ int main()
 	ft::pair<int, int> pa = ft::make_pair(10, 11);
 	mp.insert(pa);
 	ft::map<int, int>::iterator it = mp.begin();
-	ft::map<int, int>::iterator it_cop(it);
+	// std::map<int, int>::iterator it_cop(it);
+	it->second = 10;
 	std::cout << (*it).second << std::endl;
 }

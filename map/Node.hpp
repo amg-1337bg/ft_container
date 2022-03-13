@@ -17,6 +17,7 @@ struct Node
 		allocator_type allocator;
 
 		Node() : left(), right(), parent(), balancefac(), value() {}
+		Node(const pointer &val) : left(), right(), parent(), balancefac(), value(val) {}
 		Node(const Node &cp) : left(cp.left) , right(cp.right), parent(cp.parent), balancefac(cp.balancefac), value(cp.value) {}
 		Node	&operator=(const Node &cp)
 		{
@@ -27,7 +28,6 @@ struct Node
 			value = cp.value;
 			return *this;
 		}
-		Node(const pointer &val) : left(), right(), parent(), balancefac(), value(val) {}
 
 		void	set_left(const Node* l) { left = l; }
 		void	set_right(const Node* r) { right = r; }
