@@ -9,6 +9,7 @@ namespace ft
 	#include "../vector/utilities.hpp"
 	#include "miterator.hpp"
 	#include "Node.hpp"
+	#include "map_helper.hpp"
 	#include "../vector/reverse_iterator.hpp"
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<Key, T> > >
 	class map
@@ -33,16 +34,19 @@ namespace ft
 			allocator_type _allocator_copy;
 			size_type	_S;
 			node_type *_root;
+		
+		public :
+			typedef miterator< node_type >	iterator;
 
-			pair<iterator,bool> insert_node (const node_type& new_node)
+		private :
+
+			pair<iterator,bool> insert_node (node_type* new_node)
 			{
 				pair<iterator, bool> ret;
 				iterator it;
 				if (!_root)
 				{
-					pointer tmp = _allocator_copy.allocate(1);
-					_allocator_copy.construct(tmp, val);
-					_root = new node_type(tmp);
+					_root = new_node;
 					it = *_root;
 					ret.first = it;
 					ret.second = true;
@@ -66,14 +70,14 @@ namespace ft
 						}
 						else
 						{
-							if (new_node->value->first == tmp->value->first))
+							if (new_node->value->first == tmp->value->first)
 							{
 								it = *tmp;
 								ret.first = it;
 								ret.second = false;
 								return ret;
 							}
-							if (!tmp->right)
+							if (!tmp->get_right())
 							{
 								new_node->set_parent(tmp);
 								tmp->set_right(new_node);
@@ -83,21 +87,13 @@ namespace ft
 							tmp = tmp->get_right();
 						}
 					}
+					calc_height(new_node);
 					ret.second = true;
-					return ret;
 				}
-			}
-
-			void	update_balance( void )
-			{
-				node_type *tmp = _root;
-				node_type *left, *right;
-				int	R_height = 0, l_height = 0;
-				if (tmp)
+				return ret;
 			}
 		
 		public :
-			typedef miterator< node_type >	iterator;
 
 			explicit map (const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root() {}
@@ -114,8 +110,8 @@ namespace ft
 			{
 				pair<iterator, bool> ret;
 				pointer tmp = _allocator_copy.allocate(1);
-				_allocator_copy.construct(val);
-				node_type node(tmp);
+				_allocator_copy.construct(tmp, val);
+				node_type *node = new node_type(tmp);
 				// Insert the node 
 				ret = insert_node(node);
 				
@@ -124,7 +120,7 @@ namespace ft
 
 			iterator begin()
 			{
-				iterator it(*_root);
+				iterator it(*(most_left(_root)));
 				return it;
 			}
 
