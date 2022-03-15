@@ -73,8 +73,12 @@
 		"random": "cpp",
 		"set": "cpp",
 		"stack": "cpp",
+<<<<<<< HEAD
 		"*.tcc": "cpp",
 		"clocale": "cpp",
 		"fstream": "cpp"
+=======
+		"__functional_03": "cpp"
+>>>>>>> 05ca88eda67e55b438de6f0e2d90c5edf9799443
 	}
 }

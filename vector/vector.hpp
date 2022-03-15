@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
+
 namespace ft
 {
 #include "iterator.hpp"
@@ -166,12 +167,10 @@ namespace ft
 			if (n < _S)
 			{
 				for(; _S > n;)
-					this->pop_back();
+					pop_back();
 			}
 			else
-			{
 				insert(end(), n - _S, val);
-			}
 		}
 
 		size_type capacity() const
@@ -384,145 +383,108 @@ namespace ft
 
 		iterator insert (iterator position, const value_type& val)
 		{
-			if (_C > _S) // Still Space to add elements
+			if (_S == 0)
 			{
 				push_back(val);
-				iterator ite = end();
-				iterator tmp, tmp1;
-				ite--;
-				while(ite != position)
-				{
-					tmp = ite;
-					tmp1 = tmp - 1;
-					std::swap(*tmp, *tmp1);
-					ite--;
-				}
+				return begin();
 			}
-			else //Need to Reallocate
+			if (_C == _S)
 			{
-				try
-				{
-					pointer tmp;
-					tmp = allocator_copy.allocate((_C * 2) + 1);
-					iterator it = this->begin();
-					size_type i = 0, t = 0;
-					while(it != this->end())
-					{
-						if (it == position)
-						{
-							allocator_copy.construct(&(tmp[i]), val);
-							position.ptr = &(tmp[i]);
-							t = 1;
-						}
-						allocator_copy.construct(&(tmp[i + t]), *it);
-						allocator_copy.destroy(&(_buffer[i]));
-						i++;
-						it++;
-					}
-					allocator_copy.deallocate(_buffer, _C);
-					_buffer = tmp;
-					_C *= 2;
-					if (t == 0)
-					{
-						push_back(val);
-						return end() - 1;
-					}
-					else
-						_S++;
-				}
-				catch(const std::exception& e)
-				{
-					std::cerr << e.what() << '\n';
-				}
+				size_type i = position - begin();
+				reserve(_C * 2);
+				position = begin() + i;
+			}
+			push_back(val);
+			iterator ite = end();
+			iterator tmp, tmp1;
+			ite--;
+			while(ite != position)
+			{
+				tmp = ite;
+				tmp1 = tmp - 1;
+				std::swap(*tmp, *tmp1);
+				ite--;
 			}
 			return position;
 		}
 		void insert (iterator position, size_type n, const value_type& val)
 		{
-			bool is_it_end = false;
-			iterator it = begin();
-			size_type i = 0;
+			vector tmp;
 
-			while (it++ != position)	//get the index of the position
-				i++;
-			if (position == end())
-				is_it_end = true;
 			if (_S + n <= _C)
 			{
-				if (is_it_end)
+				tmp.assign(position, end());
+				for (size_t i = 0; i < n; i++)
 				{
-					while (is_it_end && n--)
-					{
-						push_back(val);
-					}
-					return;
+					allocator_copy.destroy(&(*position));
+					*position = val;
+					position++;
 				}
-				while (n--)
-					insert(position, val);
-				return ;
-			}
-			iterator it = begin();
-			size_type i = 0;
-			while (it++ != position)
-				i++;
-			if (_S + n < _C * 2)
-			{
-				reserve(_C * 2);
-				it = begin() + i;
-				while (n--)
-					insert(it, val);
-			}
-			else
-			{
-				if (position == end())
-					is_it_end = true;
-				reserve(_S + n);
-				if (is_it_end)
+				for (iterator it = tmp.begin(); it != tmp.end(); it++)
 				{
-					while (is_it_end && n--)
-					{
-						push_back(val);
-					}
-					return;
+					allocator_copy.destroy(&(*position));
+					*position = *it;
+					position++;
 				}
-				it = begin() + i;
-				while (n--)
-					insert(it, val);
+				_S += n;
+				return;
 			}
+			else if (_S + n <= _C * 2)
+				tmp.reserve(_C * 2);
+			else if (_S + n > _C * 2)
+				tmp.reserve(_S + n);
+			tmp.assign(begin(), position);
+			while (n--)
+				tmp.push_back(val);
+			while (position != end())
+			{
+				tmp.push_back(*position);
+				position++;
+			}
+			swap(tmp);
 		}
 		template <class InputIterator>
     	void insert (iterator position, InputIterator first, InputIterator last, typename enable_if<!(is_integral<InputIterator>::value), int>::type = 0)
 		{
-			size_type i = 0;
-			iterator index = begin();
-			while (index++ != position)
-				i++;
-			vector tmp(first, last);
-			iterator it = tmp.begin();
+			vector tmp(first, last), tmp2;
+
 			if (tmp.size() == 0)
-				return ;
+				return;
 			if (tmp.size() + _S <= _C)
 			{
-				index = begin() + i;
-				while (it != tmp.end())
+				tmp2.assign(position, end());
+				iterator it = tmp.begin();
+				for (size_t i = 0; i < tmp.size(); i++)
 				{
-					insert(index, *it);
+					allocator_copy.destroy(&(*position));
+					*position = *it;
+					position++;
 					it++;
-					index++;
 				}
-				return ;
+				for (iterator it = tmp2.begin(); it != tmp2.end(); it++)
+				{
+					allocator_copy.destroy(&(*position));
+					*position = *it;
+					position++;
+				}
+				_S += tmp.size();
+				return;
 			}
-			if (tmp.size() + _S > _C * 2) // Needs Exact Reallocation
-				reserve(_S + tmp.size());
-			else	// Reallocation of 2x Capacity
-				reserve(_C * 2);
-			index = begin() + i;
-			while (it != tmp.end())
+			else if (_S + tmp.size() <= _C * 2)
+				tmp2.reserve(_C * 2);
+			else if (_S + tmp.size() > _C * 2)
+				tmp2.reserve(_S + tmp.size());
+			tmp2.assign(begin(), position);
+			size_type n = tmp.size();
+			iterator it = tmp.begin();
+			while (n--)
+				tmp2.push_back(*(it++));
+			while (position != end())
 			{
-				insert(index, *it);
-				it++;
-				index++;
+				tmp2.push_back(*position);
+				position++;
 			}
+			swap(tmp2);
 		}
 
 		iterator erase (iterator position)
@@ -540,14 +502,22 @@ namespace ft
 		}
 		iterator erase (iterator first, iterator last)
 		{
+			iterator save_first = first;
 			iterator ret = first;
-			last--;
-			while (last != first)
+			size_type diff = last - first;
+			while (save_first != last)
 			{
-				erase(last);
-				last--;
+				allocator_copy.destroy(&(*save_first));
+				save_first++;
 			}
-			erase(first);
+			while (save_first != end())
+			{
+				*first = *save_first;
+				allocator_copy.destroy(&(*save_first));
+				save_first++;
+				first++;
+			}
+			_S -= diff;
 			return ret;
 		}
 

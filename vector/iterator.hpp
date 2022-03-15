@@ -126,12 +126,12 @@ public:
 	}
 
 	// Dereference
-	reference &operator*() { return *ptr; }
-	reference &operator*() const { return *ptr; }
+	reference operator*() { return *ptr; }
+	reference operator*() const { return *ptr; }
 
 	void operator*(T ptr_val) { *ptr = ptr_val; }
-	T *operator->() { return ptr; }
-	T *operator->() const { return ptr; } // Needs correction
+	pointer operator->() { return ptr; }
+	pointer operator->() const { return ptr; } // Needs correction
 	// increament operators post and pre
 	Iterator &operator++()
 	{
