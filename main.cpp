@@ -6,13 +6,19 @@
 int main()
 {
 	ft::map<int, int> mp;
-	ft::pair<int, int> pa = ft::make_pair(10, 10);
+	ft::pair<int, int> pa = ft::make_pair(100, 100);
 	mp.insert(pa);
-	mp.insert(ft::make_pair(9, 9));
+	mp.insert(ft::make_pair(90, 90));
 	// mp.insert(ft::make_pair(9, 9));
-	mp.insert(ft::make_pair(8, 8));
-	mp.insert(ft::make_pair(7, 7));
-	mp.insert(ft::make_pair(6, 6));
+	mp.insert(ft::make_pair(80, 80));
+	mp.insert(ft::make_pair(70, 70));
+	mp.insert(ft::make_pair(60, 60));
+	mp.insert(ft::make_pair(110, 110));
+	mp.insert(ft::make_pair(120, 120));
+	mp.insert(ft::make_pair(95, 95));
+	mp.insert(ft::make_pair(97, 97));
+	mp.insert(ft::make_pair(101, 101));
+	// mp.insert(ft::make_pair(95, 95));
 	// mp.insert(ft::make_pair(12, 12));
 	mp.debug();
 	// mp.insert(ft::make_pair(11, 11));

@@ -138,7 +138,17 @@ namespace ft
 					std::cout << tmp->value->first << std::endl;
 					std::cin >> ch;
 					std::cin.ignore();
-					if (ch == 'w')
+					if (ch == 'i')
+					{
+						std::cout << "insert an int :";
+						int i;
+						std::cin >> i;
+						std::cin.ignore();
+						insert(ft::make_pair(i, i));
+						tmp = _root;
+						std::cout << "back to root" << std::endl;
+					}
+					else if (ch == 'w')
 					{
 						if (!tmp->get_parent())
 							std::cout << "the parent is Null" << std::endl;
