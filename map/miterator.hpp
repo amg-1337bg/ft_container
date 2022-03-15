@@ -1,14 +1,14 @@
 #ifndef MITERATOR_HPP
 #define MITERATOR_HPP
 
-#include <iterator>
+// #include <iterator>
 
 template <class T>
-class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
+class miterator 
 {
 	public:
 		typedef T	value_type;
-		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::difference_type	difference_type;
+		typedef ptrdiff_t	difference_type;
 		typedef typename T::pointer	pointer;
 		typedef typename T::reference	reference;
 		typedef typename std::bidirectional_iterator_tag	iterator_category;

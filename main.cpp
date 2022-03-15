@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-// #include "map/map.hpp"
-// #include <map>
-#include <iostream>
-#include <iterator>
-#include <vector>
-#include "vector/vector.hpp"
-
-int main()
-{
-	std::vector<int> ve;
-	ve.push_back(19);
-=======
 #include "map/map.hpp"
 #include <map>
 #include "vector/utilities.hpp"
@@ -41,5 +28,4 @@ int main()
 	// std::map<int, int>::iterator it_cop(it);
 	// it->second = 10;
 	// std::cout << (*it).second << std::endl;
->>>>>>> d26b8ab0a32f8901ca8baec7196803f372f45d0f
 }

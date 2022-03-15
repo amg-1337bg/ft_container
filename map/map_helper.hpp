@@ -2,6 +2,8 @@
 # define MAP_HELPER_HPP
 
 #include "Node.hpp"
+#define nullptr NULL
+
 int		balance(int l_h, int r_h) {	return l_h - r_h; }
 
 template< class T, class alloc >

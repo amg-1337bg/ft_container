@@ -3,8 +3,6 @@
 
 #include <functional>
 #include <iostream>
-// #include <fstream>
-#include <curses.h>
 
 namespace ft
 {

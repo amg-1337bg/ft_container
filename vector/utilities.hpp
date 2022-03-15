@@ -1,7 +1,8 @@
 #ifndef UTILITIES_HPP
 #define UTILITIES_HPP
 
-#include <type_traits>
+// #include <types.h>
+// #include <type_traits>
 
 template <class Iterator>
 class iterator_traits
@@ -39,37 +40,102 @@ template<class T>
 struct enable_if<true, T>{ typedef T type; };
 
 template <class T>
-struct is_integral : public std::integral_constant<bool, false>{};
+struct is_integral {
+	static const bool value = false;
+	typedef bool value_type;
+	typedef is_integral<T> type;
+	// const operator T() { return T; }
+};
 template <>
-struct is_integral <bool> : public std::integral_constant<bool, true>{};
+struct is_integral <bool>{
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <char> : public std::integral_constant<char, true>{};
+struct is_integral <char> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
+// template <>
+// struct is_integral <char16_t> {
+// 	static const bool value = true;
+// 	typedef bool value_type;
+// 	// typedef is_integral<T> type;
+// };
+// template <>
+// struct is_integral <char32_t> {
+// 	static const bool value = true;
+// 	typedef bool value_type;
+// 	// typedef is_integral<T> type;
+// };
 template <>
-struct is_integral <char16_t> : public std::integral_constant<char16_t, true>{};
+struct is_integral<wchar_t> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <char32_t> : public std::integral_constant<char32_t, true>{};
+struct is_integral<signed char> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral<wchar_t> : public std::integral_constant<wchar_t, true>{};
+struct is_integral <short int> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral<signed char> : public std::integral_constant<signed char, true>{};
+struct is_integral <int> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <short int> : public std::integral_constant<short int, true>{};
+struct is_integral <long int>{
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <int> : public std::integral_constant<int, true>{};
+struct is_integral <long long int>{
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <long int> : public std::integral_constant<long int, true>{};
+struct is_integral <unsigned char> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <long long int> : public std::integral_constant<long long int, true>{};
+struct is_integral <unsigned short int> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <unsigned char> : public std::integral_constant<unsigned char, true>{};
+struct is_integral <unsigned int> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <unsigned short int> : public std::integral_constant<unsigned short int, true>{};
+struct is_integral <unsigned long int> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 template <>
-struct is_integral <unsigned int> : public std::integral_constant<unsigned int, true>{};
-template <>
-struct is_integral <unsigned long int> : public std::integral_constant<unsigned long int, true>{};
-template <>
-struct is_integral <unsigned long long int> : public std::integral_constant<unsigned long long int, true>{};
+struct is_integral <unsigned long long int> {
+	static const bool value = true;
+	typedef bool value_type;
+	// typedef is_integral<T> type;
+};
 
 
 template <class InputIterator1, class InputIterator2>
