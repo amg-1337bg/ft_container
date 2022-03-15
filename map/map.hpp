@@ -3,11 +3,15 @@
 
 #include <functional>
 #include <iostream>
+// #include <fstream>
+#include <curses.h>
 
 namespace ft
 {
 	#include "../vector/utilities.hpp"
 	#include "miterator.hpp"
+	#include "Node.hpp"
+	#include "map_helper.hpp"
 	#include "../vector/reverse_iterator.hpp"
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<Key, T> > >
 	class map
@@ -17,7 +21,6 @@ namespace ft
 			typedef T	mapped_type;
 			typedef pair<key_type, mapped_type>	value_type;
 			typedef	Compare	key_compare;
-			// template< class K, class U, class Comp = std::less<Key>, class Allo = std::allocator<pair<Key, T> > >
 			class 	value_compare;
 			typedef Alloc	allocator_type;
 			typedef	typename	allocator_type::reference reference;
@@ -28,111 +31,148 @@ namespace ft
 			typedef	size_t	size_type;
 		
 		private:
-			struct node
-			{
-				value_type pair;
-				node	*left;
-				node	*right;
-				node	*parent;
-			};
-
-			node *_node;
+			typedef Node<pointer, allocator_type> node_type;
 			key_compare _key_compare_copy;
 			allocator_type _allocator_copy;
 			size_type	_S;
+			node_type *_root;
+		
+		public :
+			typedef miterator< node_type >	iterator;
 
-			node	*new_node(const value_type &val)
+		private :
+
+			pair<iterator,bool> insert_node (node_type* new_node)
 			{
-				node *tmp;
-				std::allocator<node> alloc;
-
-				tmp = alloc.allocate(1);
-				tmp->left = NULL;
-				tmp->parent = NULL;
-				tmp->right = NULL;
-				tmp->pair = val;
-
-				return tmp;
+				pair<iterator, bool> ret;
+				iterator it;
+				if (!_root)
+				{
+					_root = new_node;
+					it = *_root;
+					ret.first = it;
+					ret.second = true;
+				}
+				else
+				{
+					node_type *tmp;
+					tmp = _root;
+					while (tmp)
+					{
+						if (_key_compare_copy(new_node->value->first, tmp->value->first))
+						{
+							if (!tmp->get_left())
+							{
+								new_node->set_parent(tmp);
+								tmp->set_left(new_node);
+								it = *new_node;
+								break ;
+							}
+							tmp = tmp->get_left();
+						}
+						else
+						{
+							if (new_node->value->first == tmp->value->first)
+							{
+								it = *tmp;
+								ret.first = it;
+								ret.second = false;
+								return ret;
+							}
+							if (!tmp->get_right())
+							{
+								new_node->set_parent(tmp);
+								tmp->set_right(new_node);
+								it = *new_node;
+								break ;
+ 							}
+							tmp = tmp->get_right();
+						}
+					}
+					calc_height(&_root ,&new_node);
+					ret.second = true;
+				}
+				return ret;
 			}
 		
 		public :
-			typedef	miterator<node>	iterator;
-			typedef	miterator<node>	const_iterator;
-			typedef	reverse_iterator<iterator>	reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 			explicit map (const key_compare& comp = key_compare(),
-				const allocator_type& alloc = allocator_type()) : _node() , _key_compare_copy(comp) , _allocator_copy(alloc), _S() {}
+				const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root() {}
 			
-			template <class InputIterator>
-  			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
+			// template <class InputIterator>
+  			// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
 			
-			map (const map& x);
+			// map (const map& x) {}
 
-			~map();
+			// ~map() {}
 
-			map& operator= (const map& x);
+			// map& operator= (const map& x) {}
+			pair<iterator,bool> insert (const value_type& val)
+			{
+				pair<iterator, bool> ret;
+				pointer tmp = _allocator_copy.allocate(1);
+				_allocator_copy.construct(tmp, val);
+				node_type *node = new node_type(tmp);
+				// Insert the node 
+				ret = insert_node(node);
+				return (ret);
+			}
 
 			iterator begin()
 			{
-				iterator it(&_node->pair);
+				iterator it(*(most_left(_root)));
 				return it;
 			}
-			const_iterator begin() const
+
+			void debug()
 			{
-				const_iterator it(_node);
-				return it;
-			}
-			iterator end();
-			const_iterator end() const;
-
-			reverse_iterator rbegin();
-			const_reverse_iterator rbegin() const;
-
-			reverse_iterator rend();
-			const_reverse_iterator rend() const;
-
-			bool	empty() const { return _S; }
-			size_type size() const { return _S; }
-			size_type max_size() const { return _allocator_copy.max_size(); }
-
-			mapped_type& operator[] (const key_type& k);
-
-			pair<iterator,bool> insert (const value_type& val)
-			{
-				if(_node == NULL)
-				{
-					_node = new_node(val);
-					iterator it = begin();
-					return pair< it , true >();
-				}
-				node *tmp;
-				tmp = _node;
+				// WINDOW *mywindows = initscr();
+				node_type *tmp = _root;
+				char ch;
+				// nodelay(mywindows, true);
+				// keypad(mywindows, TRUE);
+				// int y = 0;
 				while (tmp)
 				{
-					if (_key_compare_copy(val.first, tmp->pair.first))
+					std::cout << tmp->value->first << std::endl;
+					std::cin >> ch;
+					std::cin.ignore();
+					if (ch == 'i')
 					{
-						if (!tmp->left) // We found the position of the new value && element inserted
-						{
-							tmp->left = new_node(val);
-							iterator it (&tmp->left->pair);
-							return pair< it, true>();
-						}
-						tmp = tmp->left;
+						std::cout << "insert an int :";
+						int i;
+						std::cin >> i;
+						std::cin.ignore();
+						insert(ft::make_pair(i, i));
+						tmp = _root;
+						std::cout << "back to root" << std::endl;
 					}
-					else
+					else if (ch == 'w')
 					{
-						if (!tmp->right)  // We found the position of the new value && element inserted
-						{
-							tmp->right = new_node(val);
-							iterator it(&tmp->right->pair);
-							return pair< it, true>();
-						}
-						tmp = tmp->right;
+						if (!tmp->get_parent())
+							std::cout << "the parent is Null" << std::endl;
+						else
+							tmp = tmp->get_parent();
 					}
+					else if (ch == 'a')
+					{
+						if (!tmp->get_left())
+							std::cout << "the left child is Null" << std::endl;
+						else
+							tmp = tmp->get_left();
+					}
+					else if (ch == 'd')
+					{
+						if (!tmp->get_right())
+							std::cout << "the right child is Null" << std::endl;
+						else
+							tmp = tmp->get_right();
+					}
+					// std::cout << std::endl;
+					// move(0, ++y);
+					// wrefresh(mywindows);
 				}
-				
-
 			}
 
 	};

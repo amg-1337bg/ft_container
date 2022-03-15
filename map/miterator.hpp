@@ -9,67 +9,73 @@ class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
 	public:
 		typedef T	value_type;
 		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::difference_type	difference_type;
-		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::pointer	pointer;
-		typedef typename std::iterator<std::bidirectional_iterator_tag(), T>::reference	reference;
+		typedef typename T::pointer	pointer;
+		typedef typename T::reference	reference;
 		typedef typename std::bidirectional_iterator_tag	iterator_category;
-	
+
 	private:
-		T _ptr;
+		value_type _node;
+	
 	
 	public:
-		miterator() : _ptr(){}
-		miterator(const pointer &ptr) : _ptr(ptr) {}
-		miterator(const miterator &i) : _ptr(i) {}
+		miterator() : _node() {}
+		miterator(const T& ptr) : _node(ptr) {}
+		miterator(const miterator &i) : _node(i._node) {}
 		miterator &operator=(const miterator &i)
 		{
-			_ptr = i.ptr;
+			_node = i._node;
 			return *this;
 		}
-		~miterator ();
-
-		// comparison overloads == and !=
-		bool operator==(const miterator& x)
+		miterator &operator=(const T& i)
 		{
-			if (_ptr == x._ptr)
-				return true;
-			return false;
-		}
-		bool operator!=(const miterator& x)
-		{
-			if (_ptr != x._ptr)
-				return true;
-			return false;
-		}
-
-		// Dereference overloads
-		reference	operator*() { return *_ptr; }
-		pointer		operator->() { return _ptr; }
-
-		// post and pre incrementation
-
-		miterator &operator++()
-		{
-			_ptr++;
+			_node = i;
 			return *this;
 		}
-		miterator operator++(int)
-		{
-			miterator tmp(*this);
-			_ptr++;
-			return tmp;
-		}
+		~miterator () {}
 
-		miterator &operator--()
-		{
-			_ptr--;
-			return *this;
-		}
-		miterator operator--(int)
-		{
-			miterator tmp(*this);
-			_ptr--;
-			return tmp;
-		}
+		// comparison overloads ==   !=
+		// bool operator==(const miterator& x)
+		// {
+		// 	if (_ptr == x._ptr)
+		// 		return true;
+		// 	return false;
+		// }
+		// bool operator!=(const miterator& x)
+		// {
+		// 	if (_ptr != x._ptr)
+		// 		return true;
+		// 	return false;
+		// }
+
+		// // Dereference overloads
+		reference	operator*() { return *(_node.value); }
+		pointer	operator->() { return _node.value; }
+
+		// // post and pre incrementation
+
+		// miterator &operator++()
+		// {
+		// 	_ptr++;
+		// 	return *this;
+		// }
+		// miterator operator++(int)
+		// {
+		// 	miterator tmp(*this);
+		// 	_ptr++;
+		// 	return tmp;
+		// }
+
+		// miterator &operator--()
+		// {
+		// 	_ptr--;
+		// 	return *this;
+		// }
+		// miterator operator--(int)
+		// {
+		// 	miterator tmp(*this);
+		// 	_ptr--;
+		// 	return tmp;
+		// }
 };
 
 

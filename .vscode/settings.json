@@ -74,11 +74,17 @@
 		"set": "cpp",
 		"stack": "cpp",
 <<<<<<< HEAD
+<<<<<<< HEAD
 		"*.tcc": "cpp",
 		"clocale": "cpp",
 		"fstream": "cpp"
 =======
 		"__functional_03": "cpp"
 >>>>>>> 05ca88eda67e55b438de6f0e2d90c5edf9799443
+=======
+		"__functional_03": "cpp",
+		"filesystem": "cpp",
+		"fstream": "cpp"
+>>>>>>> d26b8ab0a32f8901ca8baec7196803f372f45d0f
 	}
 }
