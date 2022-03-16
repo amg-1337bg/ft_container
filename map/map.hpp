@@ -39,6 +39,7 @@ namespace ft
 		
 		public :
 			typedef miterator< node_type >	iterator;
+			typedef miterator< const node_type >	const_iterator;
 
 		private :
 
@@ -114,7 +115,6 @@ namespace ft
 				pointer tmp = _allocator_copy.allocate(1);
 				_allocator_copy.construct(tmp, val);
 				node_type *node = new node_type(tmp);
-				// Insert the node 
 				ret = insert_node(node);
 				return (ret);
 			}
@@ -122,6 +122,19 @@ namespace ft
 			iterator begin()
 			{
 				iterator it(*(most_left(_root)));
+				return it;
+			}
+			const_iterator begin() const
+			{
+				const_iterator it(*(most_left(_root)));
+				return it;
+			}
+
+			iterator end()
+			{
+				node_type *tmp = most_right(_root);
+				tmp++;
+				iterator it(tmp);
 				return it;
 			}
 

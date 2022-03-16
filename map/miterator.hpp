@@ -53,11 +53,11 @@ class miterator : public std::iterator<std::bidirectional_iterator_tag(), T>
 
 		// // post and pre incrementation
 
-		// miterator &operator++()
-		// {
-		// 	_ptr++;
-		// 	return *this;
-		// }
+		miterator &operator++()
+		{
+			_node++;
+			return *this;
+		}
 		// miterator operator++(int)
 		// {
 		// 	miterator tmp(*this);

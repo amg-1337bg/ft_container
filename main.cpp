@@ -18,6 +18,8 @@ int main()
 	mp.insert(ft::make_pair(95, 95));
 	mp.insert(ft::make_pair(97, 97));
 	mp.insert(ft::make_pair(101, 101));
+	mp.insert(ft::make_pair(65, 65));
+	mp.insert(ft::make_pair(64, 64));
 	// mp.insert(ft::make_pair(95, 95));
 	// mp.insert(ft::make_pair(12, 12));
 	mp.debug();

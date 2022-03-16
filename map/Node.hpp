@@ -42,6 +42,13 @@ struct Node
 		int		get_balance() const { return balancefac; }
 		int		get_l_h() const { return l_h; }
 		int		get_r_h() const	{ return r_h;}
+
+
+		Node& operator++()
+		{
+			Node	*tmp;
+			
+		}
 };
 
 #endif

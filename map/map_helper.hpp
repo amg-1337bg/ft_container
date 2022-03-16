@@ -15,6 +15,19 @@ Node<T, alloc >	*most_left(Node<T, alloc>* root)
 	}
 	return root;
 }
+
+template< class T, class alloc >
+Node<T, alloc >	*most_right(Node<T, alloc>* root)
+{
+	while (root)
+	{
+		if (!root->right)
+			break ;
+		root = root->right;
+	}
+	return root;
+}
+
 template<class T, class alloc>
 void	init_heights(Node<T, alloc> *node)
 {
@@ -95,7 +108,15 @@ void	right_left_rotate(Node<T, alloc> **node)
 {
 	Node<T, alloc> *tmp = *node;
 	Node<T, alloc> *tmp1 = tmp->get_right()->get_left();
+	Node<T, alloc> *tmp2 = tmp->get_right();
 
+	/*
+		tmp -> (A)
+				 \
+		tmp2->	  (B)
+				  /
+		tmp1->	(C)
+	*/
 	if (tmp->get_parent())
 	{
 		// std::cout << "here" << std::endl;
@@ -104,12 +125,28 @@ void	right_left_rotate(Node<T, alloc> **node)
 		else
 			tmp->get_parent()->set_right(tmp1);
 	}
+	if (tmp1->get_left())
+	{
+		tmp2->set_left(tmp1->get_left());
+		tmp1->get_left()->set_parent(tmp2);
+	}
+	else if (tmp1->get_right())
+	{
+		tmp2->set_left(tmp1->get_right());
+		tmp1->get_right()->set_parent(tmp2);
+	}
+	else
+	{
+		tmp2->set_right(nullptr);
+		tmp2->set_parent(tmp1);
+	}
 	tmp1->set_parent(tmp->get_parent());
+	tmp2->set_parent(tmp1);
 	tmp->set_parent(tmp1);
-	tmp1->set_right(tmp->get_right());
+	tmp1->set_right(tmp2);
 	tmp1->set_left(tmp);
 	tmp->set_right(nullptr);
-	tmp1->get_right()->set_left(nullptr);
+	// tmp1->get_right()->set_left(nullptr);
 	init_heights(tmp1->get_right());
 	tmp1->get_left()->set_r_h(0);
 	tmp1->set_l_h(1);
@@ -124,9 +161,15 @@ void	left_right_rotate(Node<T, alloc> **node)
 	Node<T, alloc> *tmp1 = tmp->get_left()->get_right();
 	Node<T, alloc> *tmp2 = tmp->get_left();
 
+	/*
+		tmp ->	 (A) ==> *node
+				 /
+		tmp2->(B)
+				\
+		tmp1->	(C)
+	*/
 	if (tmp->get_parent())
 	{
-		// std::cout << "here" << std::endl;
 		if (tmp == tmp->get_parent()->get_left())
 			tmp->get_parent()->set_left(tmp1);
 		else
