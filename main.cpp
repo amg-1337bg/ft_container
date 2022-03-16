@@ -18,11 +18,34 @@ int main()
 	mp.insert(ft::make_pair(95, 95));
 	mp.insert(ft::make_pair(97, 97));
 	mp.insert(ft::make_pair(101, 101));
-	mp.insert(ft::make_pair(65, 65));
-	mp.insert(ft::make_pair(64, 64));
+	// mp.insert(ft::make_pair(65, 65));
+	// mp.insert(ft::make_pair(64, 64));
 	// mp.insert(ft::make_pair(95, 95));
 	// mp.insert(ft::make_pair(12, 12));
 	mp.debug();
+	// ft::map<int, int>::iterator it = mp.begin();
+	// while (it != mp.end())
+	// {
+	// 	std::cout << it->first << std::endl;
+	// 	++it;
+	// }
+	
+	// ++it;
+	// std::cout << it->first <<std::endl;
+	// ++it;
+	// std::cout << it->first <<std::endl;
+	// ++it;
+	// std::cout << it->first <<std::endl;
+	// ++it;
+	// std::cout << it->first <<std::endl;
+	// ++it;
+	// std::cout << it->first <<std::endl;
+	// ++it;
+	// std::cout << it->first <<std::endl;
+	// ++it;
+	// std::cout << it->first <<std::endl;
+	
+	
 	// mp.insert(ft::make_pair(11, 11));
 	// mp.insert(ft::make_pair(12, 12));
 	// mp.insert(ft::make_pair(8, 8));

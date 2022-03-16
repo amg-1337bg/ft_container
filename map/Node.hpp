@@ -46,8 +46,17 @@ struct Node
 
 		Node& operator++()
 		{
-			Node	*tmp;
-			
+			Node	*ret;
+			std::cout << "this = " << parent->left << std::endl; 
+			if (right)
+				ret = most_left(right);
+			else if (parent && parent->left == this)
+				ret = parent;
+			else if (parent && parent->parent)
+				ret = parent->parent;
+			else
+				ret = NULL;
+			return *ret;
 		}
 };
 

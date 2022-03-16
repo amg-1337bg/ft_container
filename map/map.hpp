@@ -3,8 +3,6 @@
 
 #include <functional>
 #include <iostream>
-// #include <fstream>
-#include <curses.h>
 
 namespace ft
 {
@@ -32,6 +30,7 @@ namespace ft
 		
 		private:
 			typedef Node<pointer, allocator_type> node_type;
+			typedef node_type	node_ptr;
 			key_compare _key_compare_copy;
 			allocator_type _allocator_copy;
 			size_type	_S;
@@ -50,7 +49,7 @@ namespace ft
 				if (!_root)
 				{
 					_root = new_node;
-					it = *_root;
+					it = _root;
 					ret.first = it;
 					ret.second = true;
 				}
@@ -66,7 +65,7 @@ namespace ft
 							{
 								new_node->set_parent(tmp);
 								tmp->set_left(new_node);
-								it = *new_node;
+								it = new_node;
 								break ;
 							}
 							tmp = tmp->get_left();
@@ -75,7 +74,7 @@ namespace ft
 						{
 							if (new_node->value->first == tmp->value->first)
 							{
-								it = *tmp;
+								it = tmp;
 								ret.first = it;
 								ret.second = false;
 								return ret;
@@ -84,7 +83,7 @@ namespace ft
 							{
 								new_node->set_parent(tmp);
 								tmp->set_right(new_node);
-								it = *new_node;
+								it = new_node;
 								break ;
  							}
 							tmp = tmp->get_right();
@@ -121,20 +120,18 @@ namespace ft
 
 			iterator begin()
 			{
-				iterator it(*(most_left(_root)));
+				iterator it(most_left(_root));
 				return it;
 			}
 			const_iterator begin() const
 			{
-				const_iterator it(*(most_left(_root)));
+				const_iterator it(most_left(_root));
 				return it;
 			}
 
 			iterator end()
 			{
-				node_type *tmp = most_right(_root);
-				tmp++;
-				iterator it(tmp);
+				iterator it(NULL);
 				return it;
 			}
 

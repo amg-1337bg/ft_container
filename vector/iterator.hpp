@@ -1,17 +1,17 @@
 #ifndef ITERATOR_HPP
 #define ITERATOR_HPP
 
-#include <iterator>
+// #include <iterator>
 
 template <class T>
-class Iterator : public std::iterator<std::random_access_iterator_tag(), T>
+class Iterator
 {
 
 public :
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::value_type value_type;
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::difference_type difference_type;
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::pointer pointer;
-	typedef typename std::iterator<std::random_access_iterator_tag(), T>::reference reference;
+	typedef T	value_type;
+    typedef ptrdiff_t	difference_type;
+    typedef T*	pointer;
+    typedef T&	reference;
 	typedef typename std::random_access_iterator_tag iterator_category;
 
 private:
