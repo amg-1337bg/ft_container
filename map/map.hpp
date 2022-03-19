@@ -93,6 +93,7 @@ namespace ft
 					// height(_root);
 					ret.second = true;
 				}
+				_S++;
 				return ret;
 			}
 		
@@ -101,23 +102,27 @@ namespace ft
 			explicit map (const key_compare& comp = key_compare(),
 				const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root() {}
 			
-			// template <class InputIterator>
-  			// map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) {}
+			template <class InputIterator>
+  			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root()
+			{
+				insert (first, last);
+			}
 			
-			// map (const map& x) {}
+			map (const map& x) : _key_compare_copy(x._key_compare_copy), _allocator_copy(x._allocator_copy), _S(x._S) 
+			{
+				insert(x.begin(), x.end());
+			}
 
 			// ~map() {}
 
-			// map& operator= (const map& x) {}
-			pair<iterator,bool> insert (const value_type& val)
-			{
-				pair<iterator, bool> ret;
-				pointer tmp = _allocator_copy.allocate(1);
-				_allocator_copy.construct(tmp, val);
-				node_type *node = new node_type(tmp);
-				ret = insert_node(node);
-				return (ret);
-			}
+			// map& operator= (const map& x)
+			// {
+			// 	if (_root)
+			// 	{
+			// 		iter
+			// 	}
+			// }
+			
 
 			iterator begin()
 			{
@@ -135,6 +140,165 @@ namespace ft
 				iterator it(NULL);
 				return it;
 			}
+			bool empty() const { return _S; }
+			size_type size() const { return _S; }
+			size_type max_size() const { return _allocator_copy.max_size(); }
+
+
+			pair<iterator,bool> insert (const value_type& val)
+			{
+				pair<iterator, bool> ret;
+				pointer tmp = _allocator_copy.allocate(1);
+				_allocator_copy.construct(tmp, val);
+				node_type *node = new node_type(tmp);
+				ret = insert_node(node);
+				if (!ret.second)
+				{
+					_allocator_copy.destroy(tmp);
+					_allocator_copy.deallocate(tmp, 1);
+					delete node;
+				}
+				return (ret);
+			}
+			iterator insert (iterator position, const value_type& val) // NEEDS WORK
+			{
+				iterator it = position;
+				pair<iterator, bool> ret;
+				pointer tmp = _allocator_copy.allocate(1);
+				_allocator_copy.construct(tmp, val);
+				node_type *node = new node_type(tmp);
+				if (!ret.second)
+				{
+					_allocator_copy.destroy(tmp);
+					_allocator_copy.deallocate(tmp, 1);
+					delete node;
+				}
+				ret = insert_node(node);
+			}
+
+			template <class InputIterator>
+  			void insert (InputIterator first, InputIterator last)
+			{
+				while (first != last)
+				{
+					insert(*first);
+					first++;
+				}
+			}
+			iterator find (const key_type& k)
+			{
+				node_type *tmp = _root;
+				while (tmp)
+				{
+					if (_key_compare_copy(k, tmp->value->first))
+						tmp = tmp->get_left();
+					else
+					{
+						if (k == tmp->value->first)
+							return iterator(tmp);
+						tmp = tmp->get_right();
+					}
+				}
+				return end();
+			}
+
+			const_iterator find (const key_type& k) const
+			{
+				node_type *tmp = _root;
+				while (tmp)
+				{
+					if (_key_compare_copy(k, tmp->value->first))
+						tmp = tmp->get_left();
+					else
+					{
+						if (k == tmp->value->first)
+							return const_iterator(tmp);
+						tmp = tmp->get_right();
+					}
+				}
+				return end();
+			}
+
+			size_type count (const key_type& k) const
+			{
+				iterator it = find(k);
+				if (it != end())
+					return 1;
+				return 0;
+			}
+			iterator lower_bound (const key_type& k)
+			{
+				iterator it = begin();
+				while (it != end())
+				{
+					if (_key_compare_copy(it->first, k))
+						it++;
+					else
+						return it;
+				}
+				return end();
+			}
+			const_iterator lower_bound (const key_type& k) const
+			{
+				const_iterator it = begin();
+				while (it != end())
+				{
+					if (_key_compare_copy(it->first, k))
+						it++;
+					else
+						return it;
+				}
+				return end();
+			}
+
+			iterator upper_bound (const key_type& k)
+			{
+				iterator it = begin();
+				while (it != end())
+				{
+					if (_key_compare_copy(it->first, k))
+						it++;
+					else
+					{
+						if (it->first == k)
+							return ++it; 
+						return it;
+					}
+				}
+				return end();
+			}
+			const_iterator upper_bound (const key_type& k) const 
+			{
+				const_iterator it = begin();
+				while (it != end())
+				{
+					if (_key_compare_copy(it->first, k))
+						it++;
+					else
+					{
+						if (it->first == k)
+							return ++it;
+						return it;
+					}
+				}
+				return end();
+			}
+
+			pair<const_iterator,const_iterator> equal_range (const key_type& k) const
+			{
+				pair<const_iterator, const_iterator> ret;
+				ret.first = lower_bound(k);
+				ret.second = upper_bound(k);
+				return ret;
+			}
+			pair<iterator,iterator>             equal_range (const key_type& k)
+			{
+				pair<iterator, iterator> ret;
+				ret.first = lower_bound(k);
+				ret.second = upper_bound(k);
+				return ret;
+			}
+
 
 			void debug()
 			{

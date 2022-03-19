@@ -61,19 +61,17 @@ class miterator
 				tmp = most_left(_node->get_right());
 			else if (_node->get_parent() && _node->get_parent()->get_left() == _node)
 				tmp = _node->get_parent();
-			else if (_node->get_parent() && _node->get_parent()->get_parent()->get_left() == _node->get_parent())
-				tmp = _node->get_parent()->get_parent();
 			else
-				tmp = NULL;
+				tmp = left_child_occur(_node);
 			_node = tmp;
 			return *this;
 		}
-		// miterator operator++(int)
-		// {
-		// 	miterator tmp(*this);
-		// 	_ptr++;
-		// 	return tmp;
-		// }
+		miterator operator++(int)
+		{
+			miterator tmp(*this);
+			++(*this);
+			return tmp;
+		}
 
 		// miterator &operator--()
 		// {

@@ -43,6 +43,21 @@ Node<T, alloc >	*most_right(Node<T, alloc>* root)
 	return root;
 }
 
+template< class T, class alloc >
+Node<T, alloc >	*left_child_occur(Node<T, alloc>* node)
+{
+	Node<T, alloc >	*tmp = node;
+	node = tmp->get_parent();
+	while(node)
+	{
+		if (node->get_left() == tmp)
+			return node;
+		tmp = node;
+		node = node->get_parent();
+	}
+	return node;
+}
+
 template<class T, class alloc>
 void	init_heights(Node<T, alloc> *node)
 {
@@ -85,8 +100,32 @@ template<class T, class alloc>
 void	left_rotate(Node<T, alloc> **node)
 {
 	Node<T, alloc> *tmp = *node;
-	Node<T, alloc> *tmp1 = tmp->get_right()->get_right();
+	Node<T, alloc> *tmp1 = tmp->get_left();
 
+	/*
+		tmp -> (*node)
+				/
+			   /
+		tmp1->(B)
+			 /
+			/
+		  (C)
+	*/
+	if (tmp1->get_right())
+		set_to_left(tmp, tmp1->get_right());
+	else
+		tmp->set_left(NULL);
+	if (tmp->get_parent())
+	{
+		if (tmp == tmp->get_parent()->get_left())
+			set_to_parent(tmp->get_parent(), tmp1, false);
+		else
+			set_to_parent(tmp->get_parent(), tmp1, true);
+	}
+	else
+		tmp1->set_parent(NULL);
+	set_to_right(tmp1, tmp);
+	*node = tmp1;
 	// if (!tmp->get_parent())
 	// {
 	// 	tmp->set_parent(tmp1);
@@ -117,16 +156,32 @@ template<class T, class alloc>
 void	right_rotate(Node<T, alloc> **node)
 {
 	Node<T, alloc> *tmp = *node;
-	Node<T, alloc> *tmp1 = tmp->get_left();
-
+	Node<T, alloc> *tmp1 = tmp->get_right();
+	
+	/*
+		tmp -> (*node)
+					\
+					 \
+			tmp1 -> (B)
+			 		  \
+					   \
+					   (C)
+	*/
 	if (tmp1->get_left())
 		set_to_right(tmp, tmp1->get_left());
 	else
 		tmp->set_right(NULL);
 	if (tmp->get_parent())
 	{
-		set_to_parent(tmp1, tmp->get_parent());
+		if (tmp == tmp->get_parent()->get_left())
+			set_to_parent(tmp->get_parent(), tmp1, false);
+		else
+			set_to_parent(tmp->get_parent(), tmp1, true);
 	}
+	else
+		tmp1->set_parent(NULL);
+	set_to_left(tmp1, tmp);
+	*node = tmp1;
 	// if(tmp1->get_right())
 	// 	set_to_left(tmp-)
 	// if (!tmp->get_parent())
@@ -168,14 +223,14 @@ void	right_left_rotate(Node<T, alloc> **node)
 				  /
 		tmp1->	(C)
 	*/
-	if (tmp->get_left())
-		set_to_right(tmp, tmp->get_left());
+	if (tmp1->get_left())
+		set_to_right(tmp, tmp1->get_left());
 	else
 		tmp->set_right(NULL);
-	if (tmp->get_right())	
-		set_to_left(tmp2, tmp->get_right());
+	if (tmp1->get_right())	
+		set_to_left(tmp2, tmp1->get_right());
 	else
-		tmp->set_left(NULL);
+		tmp2->set_left(NULL);
 	if (tmp->get_parent())
 	{
 		if (tmp == tmp->get_parent()->get_left())
@@ -238,6 +293,7 @@ void	left_right_rotate(Node<T, alloc> **node)
 				\
 		tmp1->	(C)
 	*/
+	// std::cout << "goo " << tmp->value->first << std::endl;
 	if (tmp1->get_right())
 		set_to_left(tmp, tmp1->get_right());
 	else
@@ -309,9 +365,9 @@ void	rotate(Node<T, alloc> **node , std::string &rot)
 		return ;
 	}
 	if (rot == LL)
-		left_rotate(node);
-	else if (rot == RR)
 		right_rotate(node);
+	else if (rot == RR)
+		left_rotate(node);
 	else if (rot == LR)
 		left_right_rotate(node);
 	else if (rot == RL)
@@ -324,14 +380,13 @@ void	calc_height(Node <T, alloc >** root, Node <T, alloc >** node)
 {
 	Node<T, alloc> *tmp;
 	std::string Rotation;
-	int i = 0;
+	// int i = 0;
 
 	tmp = (*node)->get_parent();
 	while (tmp)
 	{
 		tmp->set_l_h(height(tmp->get_left()));
 		tmp->set_r_h(height(tmp->get_right()));
-		i++;
 		if (*node == tmp->get_left())
 				Rotation += "R";
 		else
@@ -346,7 +401,7 @@ void	calc_height(Node <T, alloc >** root, Node <T, alloc >** node)
 			}
 			else
 				rotate(&tmp, Rotation);
-			i--;
+			// break ;
 		}
 		*node = tmp;
 		tmp = tmp->get_parent();

@@ -2,33 +2,46 @@
 #include <map>
 #include "vector/utilities.hpp"
 // #include <iostream>
+#include "vector/vector.hpp"
+#include <vector>
 
 int main()
 {
-	ft::map<int, int> mp;
-	ft::pair<int, int> pa = ft::make_pair(100, 100);
-	mp.insert(pa);
-	mp.insert(ft::make_pair(90, 90));
-	// mp.insert(ft::make_pair(9, 9));
-	mp.insert(ft::make_pair(80, 80));
-	mp.insert(ft::make_pair(70, 70));
-	mp.insert(ft::make_pair(60, 60));
-	mp.insert(ft::make_pair(110, 110));
-	mp.insert(ft::make_pair(120, 120));
-	// mp.insert(ft::make_pair(130, 130));
-	mp.insert(ft::make_pair(95, 95));
-	mp.insert(ft::make_pair(97, 97));
-	mp.insert(ft::make_pair(101, 101));
-	// mp.insert(ft::make_pair(65, 65));
-	// mp.insert(ft::make_pair(64, 64));
-	// // mp.insert(ft::make_pair(95, 95));
-	// mp.insert(ft::make_pair(12, 12));
-	// mp.debug();
-	ft::map<int, int>::iterator it = mp.begin();
-	while (it != mp.end())
+	std::vector< std::pair< int, int> > ve;
+	ve.push_back(std::make_pair(151, 0));
+	ve.push_back(std::make_pair(-51, 0));
+	ve.push_back(std::make_pair(121, 0));
+	ve.push_back(std::make_pair(1, 0));
+	ve.push_back(std::make_pair(11, 0));
+	ve.push_back(std::make_pair(20, 0));
+	ve.push_back(std::make_pair(22, 0));
+	ve.push_back(std::make_pair(134, 0));
+	ve.push_back(std::make_pair(215, 0));
+	ve.push_back(std::make_pair(16, 0));
+	ve.push_back(std::make_pair(2, 0));
+	ve.push_back(std::make_pair(15, 0));
+	ve.push_back(std::make_pair(145, 0));
+	// std::map<std::string, int> mp(ve.begin(), ve.end());
+	// // mp.debug();
+
+	std::map <int, int> m(ve.begin(), ve.end());
+	// std::map<int, int>::iterator it = m.begin();
+	// // ft::map<std::string, int>::iterator fi = mp.find("");
+	// // if (fi != mp.end())
+	// // 	std::cout << "find = " << fi->first << std::endl;
+	// while (it != m.end())
+	// {
+	// 	std::cout << it->first << std::endl;
+	// 	it++;
+	// }
+
+	std::pair<std::map<int, int>::iterator, std::map<int, int>::iterator> ii = m.equal_range(3);
+	// if (ii.first != NULL)
+		std::cout << ii.first->first << std::endl;
+	while (ii.first != ii.second)
 	{
-		std::cout << it->first << std::endl;
-		++it;
+		std::cout << ii.first->first << std::endl;
+		ii.first++;
 	}
 	
 	// ++it;
