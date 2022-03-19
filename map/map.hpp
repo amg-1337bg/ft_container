@@ -90,6 +90,7 @@ namespace ft
 						}
 					}
 					calc_height(&_root ,&new_node);
+					// height(_root);
 					ret.second = true;
 				}
 				return ret;
@@ -145,7 +146,7 @@ namespace ft
 				// int y = 0;
 				while (tmp)
 				{
-					std::cout << tmp->value->first << std::endl;
+					std::cout << tmp->value->first << " left_height = " << tmp->get_l_h() << "r_height = " << tmp->get_r_h() << std::endl;
 					std::cin >> ch;
 					std::cin.ignore();
 					if (ch == 'i')
