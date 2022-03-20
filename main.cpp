@@ -7,42 +7,25 @@
 
 int main()
 {
-	std::vector< std::pair< int, int> > ve;
-	ve.push_back(std::make_pair(151, 0));
-	ve.push_back(std::make_pair(-51, 0));
-	ve.push_back(std::make_pair(121, 0));
-	ve.push_back(std::make_pair(1, 0));
-	ve.push_back(std::make_pair(11, 0));
-	ve.push_back(std::make_pair(20, 0));
-	ve.push_back(std::make_pair(22, 0));
-	ve.push_back(std::make_pair(134, 0));
-	ve.push_back(std::make_pair(215, 0));
-	ve.push_back(std::make_pair(16, 0));
-	ve.push_back(std::make_pair(2, 0));
-	ve.push_back(std::make_pair(15, 0));
-	ve.push_back(std::make_pair(145, 0));
-	// std::map<std::string, int> mp(ve.begin(), ve.end());
-	// // mp.debug();
+	ft::map<int,int> mp;
+	mp.insert(ft::make_pair(100, 100));	
+	mp.insert(ft::make_pair(90, 90));	
+	mp.insert(ft::make_pair(80, 80));	
+	mp.insert(ft::make_pair(70, 70));	
+	mp.insert(ft::make_pair(60, 60));
+	mp.insert(ft::make_pair(50, 50));
+	mp.insert(ft::make_pair(95, 95));
 
-	std::map <int, int> m(ve.begin(), ve.end());
-	// std::map<int, int>::iterator it = m.begin();
-	// // ft::map<std::string, int>::iterator fi = mp.find("");
-	// // if (fi != mp.end())
-	// // 	std::cout << "find = " << fi->first << std::endl;
-	// while (it != m.end())
-	// {
-	// 	std::cout << it->first << std::endl;
-	// 	it++;
-	// }
-
-	std::pair<std::map<int, int>::iterator, std::map<int, int>::iterator> ii = m.equal_range(3);
-	// if (ii.first != NULL)
-		std::cout << ii.first->first << std::endl;
-	while (ii.first != ii.second)
+	ft::map<int, int>::iterator it = mp.begin();
+	ft::map<int, int>::iterator fi = mp.find(100);
+	mp.erase(fi);
+	// mp.debug();
+	while (it != mp.end())
 	{
-		std::cout << ii.first->first << std::endl;
-		ii.first++;
+		std::cout << it->first << " " << it->second << std::endl;
+		it++;
 	}
+		
 	
 	// ++it;
 	// std::cout << it->first <<std::endl;

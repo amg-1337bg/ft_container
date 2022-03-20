@@ -11,6 +11,7 @@ namespace ft
 	#include "Node.hpp"
 	#include "map_helper.hpp"
 	#include "../vector/reverse_iterator.hpp"
+	#include "../vector/reverse_iterator.hpp"
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<Key, T> > >
 	class map
 	{
@@ -39,6 +40,8 @@ namespace ft
 		public :
 			typedef miterator< node_type >	iterator;
 			typedef miterator< const node_type >	const_iterator;
+			typedef	ft::reverse_iterator<iterator> reverse_iterator;
+			typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
 		private :
 
@@ -96,6 +99,23 @@ namespace ft
 				_S++;
 				return ret;
 			}
+
+			node_type* node_with(key_type &k)
+			{
+				node_type *tmp = _root;
+				while (tmp)
+				{
+					if (_key_compare_copy(k, tmp->value->first))
+						tmp = tmp->get_left();
+					else
+					{
+						if (k == tmp->value->first)
+							return tmp;
+						tmp = tmp->get_right();
+					}
+				}
+				return tmp;
+			}
 		
 		public :
 
@@ -140,9 +160,58 @@ namespace ft
 				iterator it(NULL);
 				return it;
 			}
+			const_iterator end() const
+			{
+				const_iterator it(NULL);
+				return it;
+			}
+
+			reverse_iterator rbegin()
+			{
+				iterator it(most_right(_root));
+				reverse_iterator rit(it);
+				return rit;
+			}
+			const_reverse_iterator rbegin() const
+			{
+				const_iterator it(most_right(_root));
+				const_reverse_iterator rit(it);
+				return rit;
+			}
+
+			reverse_iterator rend()
+			{
+				iterator it(NULL);
+				reverse_iterator rit(it);
+				return rit;
+			}
+			const_reverse_iterator rend() const
+			{
+				const_iterator it(NULL);
+				const_reverse_iterator rit(it);
+				return rit;
+			}
+
 			bool empty() const { return _S; }
 			size_type size() const { return _S; }
 			size_type max_size() const { return _allocator_copy.max_size(); }
+
+			mapped_type& operator[] (const key_type& k)
+			{
+				iterator it = find(k);
+				if (it != end())
+					return it->second;
+				else
+				{
+					pointer tmp = _allocator_copy.allocate(1);
+					value_type p;
+					_allocator_copy.construct(tmp, p);
+					tmp->first = k;
+					node_type* node = new node_type(tmp);
+					insert_node(node);
+					return tmp->second;
+				}
+			}
 
 
 			pair<iterator,bool> insert (const value_type& val)
@@ -176,6 +245,18 @@ namespace ft
 				ret = insert_node(node);
 			}
 
+			void erase (iterator position)
+			{
+				node_type* node = node_with(position->first);
+				if (node)
+				{
+					pointer tmp = node->value;
+					_allocator_copy.destroy(tmp);
+					_allocator_copy.deallocate(tmp, 1);
+					delete_node(&_root, node);
+				}
+			}
+
 			template <class InputIterator>
   			void insert (InputIterator first, InputIterator last)
 			{
@@ -201,6 +282,8 @@ namespace ft
 				}
 				return end();
 			}
+
+			key_compare key_comp() const { return _key_compare_copy;}
 
 			const_iterator find (const key_type& k) const
 			{
@@ -298,7 +381,8 @@ namespace ft
 				ret.second = upper_bound(k);
 				return ret;
 			}
-
+			
+			allocator_type get_allocator() const { return _allocator_copy; }
 
 			void debug()
 			{

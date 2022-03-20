@@ -28,6 +28,7 @@ struct Node
 			value = cp.value;
 			return *this;
 		}
+		~Node(){}
 
 		void	set_left(Node* l) { left = l; }
 		void	set_right(Node* r) { right = r; }
