@@ -58,18 +58,35 @@ Node<T, alloc >	*left_child_occur(Node<T, alloc>* node)
 	return node;
 }
 
+template< class T, class alloc >
+Node<T, alloc >	*right_child_occur(Node<T, alloc>* node)
+{
+	Node<T, alloc >	*tmp = node;
+	node = tmp->get_parent();
+	while(node)
+	{
+		if (node->get_right() == tmp)
+			return node;
+		tmp = node;
+		node = node->get_parent();
+	}
+	return node;
+}
+
 template<class T, class alloc>
 void	set_to_left(Node<T, alloc> *parent, Node<T, alloc> *child)
 {
 	parent->set_left(child);
-	child->set_parent(parent);
+	if (child)
+		child->set_parent(parent);
 }
 
 template<class T, class alloc>
 void	set_to_right(Node<T, alloc> *parent, Node<T, alloc> *child)
 {
 	parent->set_right(child);
-	child->set_parent(parent);
+	if (child)
+		child->set_parent(parent);
 }
 
 template<class T, class alloc>
@@ -316,48 +333,74 @@ template < class T, class alloc>
 void	delete_node(Node <T, alloc >** root, Node <T, alloc >* node)
 {
 	Node<T, alloc> *parent = node->get_parent();
-	if (parent == NULL)
-		return ;
 	if (!node->get_left() && !node->get_right()) // Node without child
 	{
-		if (parent->get_right() == node)
+		if (parent && parent->get_right() == node)
 			parent->set_right(NULL);
-		else
+		else if (parent)
 			parent->set_left(NULL);
+		else
+			*root = NULL;
 		delete node;
-		calc_after_delete(root, parent);
+		if (parent)
+			calc_after_delete(root, parent);
 	}
 	else if ( (node->get_left() && !node->get_right()) || (!node->get_left() && node->get_right()) ) //Node with One Child
 	{
 		if (node->get_left())
 		{
-			if (parent->get_left() == node)
+			if (parent && parent->get_left() == node)
 				set_to_left(parent, node->get_left());
-			else
+			else if (parent)
 				set_to_right(parent, node->get_left());
+			else
+			{
+				*root = node->get_left();
+				(*root)->set_parent(NULL);
+			}
 		}
 		else
 		{
-			if (parent->get_left() == node)
+			if (parent && parent->get_left() == node)
 				set_to_left(parent, node->get_right());
-			else
+			else if (parent)
 				set_to_right(parent, node->get_right());
+			else
+			{
+				*root = node->get_right();
+				(*root)->set_parent(NULL);
+			}
 		}
-		calc_after_delete(root, parent);
+		delete node;
+		if (parent)
+			calc_after_delete(root, parent);
 	}
-	else
+	else // node with Two childs
 	{
 		Node<T, alloc> *most_r, *most_r_parent;
-		*most_r = most_right(tmp->get_left());
-		*most_r_parent = *most_r->get_parent();
-		set_to_right(most_r_parent, most_r->get_left());
-		if (parent->get_left() == node)
-			set_to_left(parent, most_r)
-		else
+		most_r = most_right(node->get_left());
+		most_r_parent = most_r->get_parent();
+		if (most_r_parent != node)
+		{
+			set_to_right(most_r_parent, most_r->get_left());
+			set_to_left(most_r, node->get_left());
+		}
+		if (parent && parent->get_left() == node)
+			set_to_left(parent, most_r);
+		else if (parent)
 			set_to_right(parent, most_r);
 		set_to_right(most_r, node->get_right());
 		delete node;
-		calc_after_delete(root, most_r_parent);
+		if (parent && most_r_parent == node) //from where need to recalculate the balance
+			calc_after_delete(root, most_r);
+		else if (parent)
+			calc_after_delete(root, most_r_parent);
+		else
+		{
+			most_r->set_parent(NULL);
+			*root = most_r;
+			calc_after_delete(root, most_left(most_r));
+		}
 	}
 }
 

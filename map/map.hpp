@@ -157,25 +157,29 @@ namespace ft
 
 			iterator end()
 			{
-				iterator it(NULL);
+				node_type *tmp = most_right(_root);
+				tmp++;
+				iterator it(tmp);
 				return it;
 			}
 			const_iterator end() const
 			{
-				const_iterator it(NULL);
+				node_type *tmp = most_right(_root);
+				tmp++;
+				const_iterator it(tmp);
 				return it;
 			}
 
 			reverse_iterator rbegin()
 			{
 				iterator it(most_right(_root));
+				// std::cout << "inside = " << it->second << std::endl;
 				reverse_iterator rit(it);
 				return rit;
 			}
 			const_reverse_iterator rbegin() const
 			{
-				const_iterator it(most_right(_root));
-				const_reverse_iterator rit(it);
+				const_reverse_iterator rit(--end());
 				return rit;
 			}
 
@@ -244,19 +248,6 @@ namespace ft
 				}
 				ret = insert_node(node);
 			}
-
-			void erase (iterator position)
-			{
-				node_type* node = node_with(position->first);
-				if (node)
-				{
-					pointer tmp = node->value;
-					_allocator_copy.destroy(tmp);
-					_allocator_copy.deallocate(tmp, 1);
-					delete_node(&_root, node);
-				}
-			}
-
 			template <class InputIterator>
   			void insert (InputIterator first, InputIterator last)
 			{
@@ -266,6 +257,41 @@ namespace ft
 					first++;
 				}
 			}
+
+			void erase (iterator position)
+			{
+				node_type* node = node_with(position->first);
+				if (node)
+				{
+					pointer tmp = node->value;
+					delete_node(&_root, node);
+					_allocator_copy.destroy(tmp);
+					_allocator_copy.deallocate(tmp, 1);
+					_S--;
+				}
+			}
+			size_type erase (const key_type& k)
+			{
+				iterator it = find(k);
+				if (it != end())
+				{
+					erase(it);
+					return 1;
+				}
+				return 0;
+			}
+
+			void erase (iterator first, iterator last)
+			{
+				iterator tmp;
+				while (first != last)
+				{
+					tmp = first;
+					first++;
+					erase(tmp);
+				}
+			}
+
 			iterator find (const key_type& k)
 			{
 				node_type *tmp = _root;

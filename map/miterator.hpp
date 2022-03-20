@@ -16,14 +16,16 @@ class miterator
 	private:
 		typedef value_type* node_ptr;
 		node_ptr _node;
+		bool _first_time;
 	
 	public:
-		miterator() : _node() {}
-		miterator(node_ptr ptr) : _node(ptr) {}
-		miterator(const miterator &i) : _node(i._node) {}
+		miterator() : _node(), _first_time(true) {}
+		miterator(node_ptr ptr) : _node(ptr) , _first_time(true) {}
+		miterator(const miterator &i) : _node(i._node) , _first_time(i._first_time) {}
 		miterator &operator=(const miterator &i)
 		{
 			_node = i._node;
+			_first_time = i._first_time;
 			return *this;
 		}
 		miterator &operator=(const node_ptr& i)
@@ -55,15 +57,18 @@ class miterator
 
 		miterator &operator++()
 		{
-			node_ptr tmp;
-
+			node_ptr tmp = _node;
 			if (_node->get_right())
-				tmp = most_left(_node->get_right());
+				_node = most_left(_node->get_right());
 			else if (_node->get_parent() && _node->get_parent()->get_left() == _node)
-				tmp = _node->get_parent();
+				_node = _node->get_parent();
 			else
-				tmp = left_child_occur(_node);
-			_node = tmp;
+				_node = left_child_occur(_node);
+			if (!_node)
+			{
+				_node = most_right(tmp);
+				_node++;
+			}
 			return *this;
 		}
 		miterator operator++(int)
@@ -73,17 +78,30 @@ class miterator
 			return tmp;
 		}
 
-		// miterator &operator--()
-		// {
-		// 	_ptr--;
-		// 	return *this;
-		// }
-		// miterator operator--(int)
-		// {
-		// 	miterator tmp(*this);
-		// 	_ptr--;
-		// 	return tmp;
-		// }
+		miterator &operator--()
+		{
+			if (_first_time)
+			{
+				node_ptr tmp = _node;
+				tmp--;
+				if (tmp == most_right(tmp))
+					_node = most_right(tmp);
+			}
+			else if (_node->get_left())
+				_node = most_right(_node->get_left());
+			else if (_node->get_parent() && _node->get_parent()->get_right() == _node)
+				_node = _node->get_parent();
+			else
+				_node = right_child_occur(_node);
+			_first_time = false;
+			return *this;
+		}
+		miterator operator--(int)
+		{
+			miterator tmp(*this);
+			--(*this);
+			return tmp;
+		}
 };
 
 
