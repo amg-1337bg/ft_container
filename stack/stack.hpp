@@ -29,8 +29,7 @@ class stack
 		friend bool operator>=(const stack<U,C>& lhs, const stack<U,C>& rhs);
 	protected:
 		container_type c;
-		
-
+	
 	public:
 		explicit stack (const container_type& ctnr = container_type()) : c(ctnr) {}
 

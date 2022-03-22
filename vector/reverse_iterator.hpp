@@ -32,7 +32,6 @@ public:
 	}
 	iterator_type base() const
 	{
-		std::cout << "its here " << iter->first << " " << iter->second << std::endl;
 		iterator_type tmp = iter;
 		--tmp;
 		return tmp;

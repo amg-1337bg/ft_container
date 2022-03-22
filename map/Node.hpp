@@ -1,7 +1,7 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-template <class T, class alloc>
+template <class T>
 struct Node
 {
 	private:
@@ -10,11 +10,10 @@ struct Node
 		Node *parent;
 		int	 balancefac, l_h, r_h;
 	public :
-		typedef	T	pointer;
-		typedef alloc allocator_type;
-		typedef typename alloc::reference reference;
+		typedef	T	value_type;
+		typedef T*	pointer;
+		typedef T& reference;
 		pointer value;
-		allocator_type allocator;
 
 		Node() : left(), right(), parent(), balancefac(), l_h(), r_h(), value() {}
 		Node(const pointer &val) : left(), right(), parent(), balancefac(), l_h(), r_h(), value(val) {}
@@ -43,22 +42,6 @@ struct Node
 		int		get_balance() const { return balancefac; }
 		int		get_l_h() const { return l_h; }
 		int		get_r_h() const	{ return r_h;}
-
-
-		Node& operator++()
-		{
-			Node	*ret;
-			std::cout << "this = " << parent->left << std::endl; 
-			if (right)
-				ret = most_left(right);
-			else if (parent && parent->left == this)
-				ret = parent;
-			else if (parent && parent->parent)
-				ret = parent->parent;
-			else
-				ret = NULL;
-			return *ret;
-		}
 };
 
 #endif
