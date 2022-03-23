@@ -148,7 +148,10 @@ namespace ft
 			map& operator= (const map& x)
 			{
 				if (_root)
+				{
+					std::cout << "destroctp " << std::endl;
 					clear();
+				}
 				_allocator_copy = x.get_allocator();
 				_key_compare_copy = x._key_compare_copy;
 				insert(x.begin(), x.end());
@@ -311,7 +314,6 @@ namespace ft
 					erase(it);
 					it = begin();
 				}
-				
 			}
 
 			void erase (iterator position)
