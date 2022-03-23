@@ -100,9 +100,9 @@ namespace ft
 
 			void insert_from (node_type* here, node_type *new_node)
 			{
-				if (_key_compare_copy(new_node->value->first, here->value->first))
+				if (_key_compare_copy(new_node->value->first, here->value->first)) //MIN
 					set_to_left(here, new_node);
-				else if (_key_compare_copy(here->value->first, new_node->value->first))
+				else if (_key_compare_copy(here->value->first, new_node->value->first)) //MAX
 					set_to_right(here, new_node);
 				calc_height(&_root, &new_node);
 			}
@@ -123,20 +123,6 @@ namespace ft
 				}
 				return tmp;
 			}
-			void	Destroy_all(node_type *root)
-			{	
-				if (root)
-				{
-					Destroy_all(root->get_left());
-					Destroy_all(root->get_right());
-					value_type *tmp = root->value;
-					delete root;
-					_allocator_copy.destroy(tmp);
-					_allocator_copy.deallocate(tmp, 1);
-				}
-				_S = 0;
-				_root = NULL;
-			}
 		
 		public :
 
@@ -154,7 +140,7 @@ namespace ft
 				insert(x.begin(),  x.end());
 			}
 
-			~map() { Destroy_all(_root); }
+			~map() { clear(); }
 				
 
 			map& operator= (const map& x)
@@ -247,6 +233,7 @@ namespace ft
 				node_type *node = new node_type(tmp);
 				if (_min && _key_compare_copy(val.first, _min->value->first))
 				{
+					_min->set_l_h(1);
 					insert_from(_min, node);
 					_min = node;
 					ret.first = iterator (_min);
@@ -255,6 +242,7 @@ namespace ft
 				}
 				else if (_max && _key_compare_copy(_max->value->first, val.first))
 				{
+					_max->set_r_h(1);
 					insert_from(_max, node);
 					_max = node;
 					ret.first = iterator (_max);
@@ -314,10 +302,20 @@ namespace ft
 				std::swap(_key_compare_copy, x._key_compare_copy);
 			}
 
-			void clear() { Destroy_all(_root); }
+			void clear() {
+				iterator it = begin();
+				while (it != end())
+				{
+					erase(it);
+					it = begin();
+				}
+				
+			}
 
 			void erase (iterator position)
 			{
+				if (!_root)
+					return ;
 				node_type *tmp;
 				if (position->first == _min->value->first)
 				{

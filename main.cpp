@@ -20,10 +20,12 @@ void	test_leaks()
 	ft::map<int, int>::iterator it = mp2.begin();
 	while (it != mp2.end())
 	{
-		mp2.erase(it);
-		it = mp2.begin();
+		std::cout << it->first << std::endl;
+		it++;
+		// mp2.erase(it);
+		// it = mp2.begin();
 	}
-	std::cout << mp2.size() << std::endl;
+	// std::cout << mp2.size() << std::endl;
 	
 }
 
@@ -41,21 +43,26 @@ int main()
 	timeval start, end;
 	std::map<int, std::string> m;
 	ft::map<int, std::string> ft_m;
-	for (size_t i = 0; i < 10000; ++i)
+	gettimeofday(&start, NULL);
+	// test_leaks();
+	for (size_t i = 0; i < 1000000; ++i)
 	{
 	    m.insert(std::make_pair(i, "value"));
 	    // ft_m.insert(ft::make_pair(i, "value"));
 		// std::cout << "i = " << i << std::endl;
 	}
+	gettimeofday(&end, NULL);
+	print_time(start, end);
 	gettimeofday(&start, NULL);
-	for (size_t i = 0; i < 5000; i++)
+	for (size_t i = 0; i < 1000000; i++)
 	{
-		// std::cout << "here" << std::endl;
+		// std::cout << "i = " << i << std::endl;
 		m.erase(i);
 	}
 	gettimeofday(&end, NULL);
-	// ft_m.debug();
 	print_time(start, end);
+	// ft_m.debug();
+	// std::cout << "size = " << ft_m.size() << std::endl;
 	
 	// ft::map<int, std::string>::iterator it = ft_m.begin();
 	// while (it != ft_m.end())
