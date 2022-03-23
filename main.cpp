@@ -3,7 +3,7 @@
 #include "vector/utilities.hpp"
 #include <iostream>
 #include <sys/time.h>
-// #include "vector/vector.hpp"
+#include "vector/vector.hpp"
 // #include <vector>
 
 void	test_leaks()
@@ -36,41 +36,72 @@ void	print_time(timeval start, timeval end)
 	ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)) / 1000);
 	std::cout << "time is = " << ms_end - ms_start << std::endl;
 }
+struct classcomp
+{
+    bool operator()(const char &lhs, const char &rhs) const
+    {
+        return lhs < rhs;
+    }
+};
 
 int main()
 {
 	// test(NULL);
 	timeval start, end;
-	std::map<int, std::string> m;
+	// std::map<int, std::string> m;
 	ft::map<int, std::string> ft_m;
 	gettimeofday(&start, NULL);
 	// test_leaks();
-	for (size_t i = 0; i < 1000000; ++i)
-	{
-	    m.insert(std::make_pair(i, "value"));
-	    // ft_m.insert(ft::make_pair(i, "value"));
-		// std::cout << "i = " << i << std::endl;
-	}
+	// for (size_t i = 0; i < 1000000; ++i)
+	// {
+	//     // m.insert(std::make_pair(i, "value"));
+	//     ft_m.insert(ft::make_pair(i, "value"));
+	// 	// std::cout << "i = " << i << std::endl;
+	// }
 	gettimeofday(&end, NULL);
 	print_time(start, end);
-	gettimeofday(&start, NULL);
-	for (size_t i = 0; i < 1000000; i++)
-	{
-		// std::cout << "i = " << i << std::endl;
-		m.erase(i);
-	}
-	gettimeofday(&end, NULL);
-	print_time(start, end);
-	// ft_m.debug();
-	// std::cout << "size = " << ft_m.size() << std::endl;
-	
 	// ft::map<int, std::string>::iterator it = ft_m.begin();
-	// while (it != ft_m.end())
+	// while (++it != ft_m.end())
 	// {
 	// 	std::cout << it->first << std::endl;
-	// 	it++;
 	// }
+	// gettimeofday(&start, NULL);
+	// for (size_t i = 0; i < 1000000; i++)
+	// {
+	// 	// std::cout << "i = " << i << std::endl;
+	// 	ft_m.erase(i);
+	// }
+	// gettimeofday(&end, NULL);
+	// print_time(start, end);
+	// ft_m.debug();
+	// std::cout << "size = " << ft_m.size() << std::endl;
+	// int res = 0;
+	ft::pair<int, std::string> myints[] = {ft::make_pair(774, "hello"), ft::make_pair(736, "hello"), ft::make_pair(6, "hello"), ft::make_pair(-24, "hello"), ft::make_pair(14351, "hello"), ft::make_pair(135, "hello"), ft::make_pair(41, "hello")};
+	std::pair<int, std::string> ints[] = {std::make_pair(774, "hello"), std::make_pair(736, "hello"), std::make_pair(6, "hello"), std::make_pair(-24, "hello"), std::make_pair(14351, "hello"), std::make_pair(135, "hello"), std::make_pair(41, "hello")};
+	ft::vector< ft::pair<int, std::string> > ve(myints, myints + 7);
+	ft::vector< std::pair<int, std::string> > ve2(ints, ints + 7);
+    ft::map<int, std::string, classcomp> test(ve.begin(), ve.end());
+    std::map<int, std::string, classcomp> orig(ve2.begin(), ve2.end());
+	gettimeofday(&start, NULL);
+	ft::map<int, std::string, classcomp>::iterator it = test.begin();
+	while (it != test.end())
+	{
+		std::cout << it->first << std::endl;
+		it++;
+	}
+
+	std::cout << "--------Seperator------" << std::endl;
+	std::map<int, std::string, classcomp>::iterator its = orig.begin();
+	while (its != orig.end())
+	{
+		std::cout << its->first << std::endl;
+		its++;
+	}
 	
+    // ft::map<int, std::string> m(ft_m);
+	gettimeofday(&end, NULL);
+	print_time(start, end);
+
 
 	// ft_m.clear();
 	// test_leaks();

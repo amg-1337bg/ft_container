@@ -65,8 +65,10 @@ namespace ft
 						{
 							if (!tmp->get_left())
 							{
-								new_node->set_parent(tmp);
-								tmp->set_left(new_node);
+								set_to_left(tmp, new_node);
+								tmp->set_l_h(1);
+								// new_node->set_parent(tmp);
+								// tmp->set_left(new_node);
 								it = new_node;
 								break ;
 							}
@@ -83,8 +85,8 @@ namespace ft
 							}
 							if (!tmp->get_right())
 							{
-								new_node->set_parent(tmp);
-								tmp->set_right(new_node);
+								set_to_right(tmp, new_node);
+								tmp->set_r_h(1);
 								it = new_node;
 								break ;
  							}
@@ -135,7 +137,7 @@ namespace ft
 				insert (first, last);
 			}
 			
-			map (const map& x) : _key_compare_copy(x._key_compare_copy), _allocator_copy(x._allocator_copy), _S(x._S) 
+			map (const map& x) : _key_compare_copy(x._key_compare_copy), _allocator_copy(x._allocator_copy), _S(x._S), _root(), _min(), _max()
 			{ 
 				insert(x.begin(),  x.end());
 			}
@@ -146,7 +148,7 @@ namespace ft
 			map& operator= (const map& x)
 			{
 				if (_root)
-					Destroy_all(_root);
+					clear();
 				_allocator_copy = x.get_allocator();
 				_key_compare_copy = x._key_compare_copy;
 				insert(x.begin(), x.end());
