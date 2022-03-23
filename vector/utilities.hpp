@@ -2,6 +2,7 @@
 #define UTILITIES_HPP
 
 // #include <types.h>
+#include <stddef.h>
 // #include <type_traits>
 
 template <class Iterator>
@@ -58,18 +59,18 @@ struct is_integral <char> {
 	typedef bool value_type;
 	// typedef is_integral<T> type;
 };
-template <>
-struct is_integral <char16_t> {
-	static const bool value = true;
-	typedef bool value_type;
-	// typedef is_integral<T> type;
-};
-template <>
-struct is_integral <char32_t> {
-	static const bool value = true;
-	typedef bool value_type;
-	// typedef is_integral<T> type;
-};
+// template <>
+// struct is_integral <char16_t> {
+// 	static const bool value = true;
+// 	typedef bool value_type;
+// 	// typedef is_integral<T> type;
+// };
+// template <>
+// struct is_integral <char32_t> {
+// 	static const bool value = true;
+// 	typedef bool value_type;
+// 	// typedef is_integral<T> type;
+// };
 template <>
 struct is_integral<wchar_t> {
 	static const bool value = true;
@@ -184,7 +185,6 @@ struct pair
 	template<class U, class V>
 	pair(const pair <U,V>&pr) : first(pr.first) , second(pr.second){}
 	pair(const first_type &a, const second_type &b) : first(a) , second(b){}
-	operator  pair<const T1, T2> () { return pair<const T1, T2> (first, second); }
 };
 
 template <class T1, class T2>

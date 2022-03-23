@@ -1,4 +1,5 @@
 #include "map/map.hpp"
+#include <typeinfo>
 #include <map>
 #include "vector/utilities.hpp"
 #include <iostream>
@@ -48,11 +49,24 @@ bool fncomp(char lhs, char rhs) { return lhs < rhs; }
 int main()
 {
 	// test(NULL);
-	timeval start, end;
+	// timeval start, end;
+
+	ft::map<int, int> mp;
+	for (size_t i = 0; i < 10000; i++)
+		mp.insert(ft::pair<int, int> (i, i));
+	
+	mp.erase(mp.begin(), mp.end());
+	ft::map<int, int>::iterator it = mp.begin();
+	while (it != mp.end())
+	{
+		std::cout << it->first << std::endl;
+		it++;
+	}
+	std::cout << mp.size() << std::endl;
+	
 	// std::map<int, std::string> m;
 
 	// ft::map<int, std::string> ft_m;
-	// gettimeofday(&start, NULL);
 	// // test_leaks();
 	// // for (size_t i = 0; i < 1000000; ++i)
 	// // {
@@ -60,8 +74,6 @@ int main()
 	// //     ft_m.insert(ft::make_pair(i, "value"));
 	// // 	// std::cout << "i = " << i << std::endl;
 	// // }
-	// gettimeofday(&end, NULL);
-	// print_time(start, end);
 	// ft::map<int, std::string>::iterator it = ft_m.begin();
 	// while (++it != ft_m.end())
 	// {
@@ -78,40 +90,41 @@ int main()
 	// ft_m.debug();
 	// std::cout << "size = " << ft_m.size() << std::endl;
 	// int res = 0;
-	ft::pair<int, std::string> myints[] = {ft::make_pair(774, "hello"), ft::make_pair(736, "hello"), ft::make_pair(6, "hello"), ft::make_pair(-24, "hello"), ft::make_pair(14351, "hello"), ft::make_pair(135, "hello"), ft::make_pair(41, "hello")};
-	std::pair<int, std::string> ints[] = {std::make_pair(774, "hello"), std::make_pair(736, "hello"), std::make_pair(6, "hello"), std::make_pair(-24, "hello"), std::make_pair(14351, "hello"), std::make_pair(135, "hello"), std::make_pair(41, "hello")};
-	ft::vector< ft::pair<int, std::string> > ve(myints, myints + 7);
-	ft::vector< std::pair<int, std::string> > ve2(ints, ints + 7);
-    ft::map<int, std::string> test;
-    std::map<int, std::string> orig;
-	// // test.insert(ve.begin(), ve.end());
-	// orig.insert(ve2.begin(), ve2.end());
-	for (size_t i = 97; i < 110; i++)
-    {
-        test[i - 97] = i;
-        orig[i - 97] = i;
-    }
-	gettimeofday(&start, NULL);
-	ft::map<int, std::string, classcomp>::iterator it = test.begin();
-	while (it != test.end())
-	{
-		std::cout << it->first << std::endl;
-		it++;
-	}
+	// ft::pair<int, std::string> myints[] = {ft::make_pair(774, "hello"), ft::make_pair(736, "hello"), ft::make_pair(6, "hello"), ft::make_pair(-24, "hello"), ft::make_pair(14351, "hello"), ft::make_pair(135, "hello"), ft::make_pair(41, "hello")};
+	// std::pair<int, std::string> ints[] = {std::make_pair(774, "hello"), std::make_pair(736, "hello"), std::make_pair(6, "hello"), std::make_pair(-24, "hello"), std::make_pair(14351, "hello"), std::make_pair(135, "hello"), std::make_pair(41, "hello")};
+	// ft::vector< ft::pair<int, std::string> > ve(myints, myints + 7);
+	// ft::vector< std::pair<int, std::string> > ve2(ints, ints + 7);
+    // ft::map<int, std::string> test;
+    // std::map<int, std::string> orig;
+	// // // test.insert(ve.begin(), ve.end());
+	// // orig.insert(ve2.begin(), ve2.end());
+	// for (size_t i = 97; i < 110; i++)
+    // {
+    //     test[i - 97] = i;
+    //     orig[i - 97] = i;
+    // }
+	// gettimeofday(&start, NULL);
+	// ft::map<int, std::string, classcomp>::iterator it = test.begin();
+	// while (it != test.end())
+	// {
+	// 	std::cout << it->first << std::endl;
+	// 	it++;
+	// }
 
-	std::cout << "--------Seperator------" << std::endl;
-	std::map<int, std::string, classcomp>::iterator its = orig.begin();
-	while (its != orig.end())
-	{
-		std::cout << its->first << std::endl;
-		its++;
-	}
+	// std::cout << "--------Seperator------" << std::endl;
+	// std::map<int, std::string, classcomp>::iterator its = orig.begin();
+	// while (its != orig.end())
+	// {
+	// 	std::cout << its->first << std::endl;
+	// 	its++;
+	// }
 	
-    // ft::map<int, std::string> m(ft_m);
-	gettimeofday(&end, NULL);
-	test = ft::map<int, std::string>();
-	ft::map<int, std::string> te = test;
-	print_time(start, end);
+    // // ft::map<int, std::string> m(ft_m);
+	// gettimeofday(&end, NULL);
+	// // test.clear();
+	// test = ft::map<int, std::string>();
+	// ft::map<int, std::string> te = test;
+	// print_time(start, end);
 
 
 	// ft_m.clear();

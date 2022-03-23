@@ -137,7 +137,7 @@ namespace ft
 				insert (first, last);
 			}
 			
-			map (const map& x) : _key_compare_copy(x._key_compare_copy), _allocator_copy(x._allocator_copy), _S(x._S), _root(), _min(), _max()
+			map (const map& x) : _key_compare_copy(x._key_compare_copy), _allocator_copy(x._allocator_copy), _S(), _root(), _min(), _max()
 			{ 
 				insert(x.begin(),  x.end());
 			}
@@ -148,12 +148,11 @@ namespace ft
 			map& operator= (const map& x)
 			{
 				if (_root)
-				{
-					std::cout << "destroctp " << std::endl;
 					clear();
-				}
 				_allocator_copy = x.get_allocator();
 				_key_compare_copy = x._key_compare_copy;
+				_min = nullptr;
+				_max = nullptr;
 				insert(x.begin(), x.end());
 				return *this;
 			}
@@ -210,23 +209,30 @@ namespace ft
 				return rit;
 			}
 
-			bool empty() const { return _S; }
+			bool empty() const {
+				if (_S != 0)
+					return false;
+				return true;
+			}
 			size_type size() const { return _S; }
 			size_type max_size() const { return _allocator_copy.max_size() / sizeof(node_type); }
 
 			mapped_type& operator[] (const key_type& k)
 			{
-				iterator it = find(k);
-				if (it != end())
-					return it->second;
-				else
-				{
-					pointer tmp = _allocator_copy.allocate(1);
-					_allocator_copy.construct(tmp, value_type(k, mapped_type()));
-					node_type* node = new node_type(tmp);
-					insert_node(node);
-					return tmp->second;
-				}
+				value_type tmp = ft::make_pair(k, mapped_type());
+				pair<iterator, bool> ret = insert(tmp);
+				return ret.first->second;
+				// iterator it = find(k);
+				// if (it != end())
+				// 	return it->second;
+				// else
+				// {
+				// 	pointer tmp = _allocator_copy.allocate(1);
+				// 	_allocator_copy.construct(tmp, value_type(k, mapped_type()));
+				// 	node_type* node = new node_type(tmp);
+				// 	insert_node(node);
+				// 	return tmp->second;
+				// }
 			}
 
 
@@ -278,13 +284,13 @@ namespace ft
 				pointer tmp = _allocator_copy.allocate(1);
 				_allocator_copy.construct(tmp, val);
 				node_type *node = new node_type(tmp);
+				ret = insert_node(node);
 				if (!ret.second)
 				{
 					_allocator_copy.destroy(tmp);
 					_allocator_copy.deallocate(tmp, 1);
 					delete node;
 				}
-				ret = insert_node(node);
 				it = node;
 				return it;
 			}
@@ -328,6 +334,8 @@ namespace ft
 						_min = most_left(_min->get_right());
 					else
 						_min = _min->get_parent();
+					_allocator_copy.destroy(tmp->value);
+					_allocator_copy.deallocate(tmp->value, 1);
 					delete_node(&_root, tmp);
 					_S--;
 					return;
@@ -339,6 +347,8 @@ namespace ft
 						_max = most_right(_max->get_left());
 					else
 						_max = _max->get_parent();
+					_allocator_copy.destroy(tmp->value);
+					_allocator_copy.deallocate(tmp->value, 1);
 					delete_node(&_root, tmp);
 					_S--;
 					return;
@@ -370,7 +380,7 @@ namespace ft
 				while (first != last)
 				{
 					tmp = first;
-					first++;
+					++first;
 					erase(tmp);
 				}
 			}
