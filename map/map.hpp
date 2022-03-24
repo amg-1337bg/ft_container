@@ -31,6 +31,7 @@ namespace ft
 		private:
 			typedef Node<value_type> node_type;
 			typedef Node<const value_type> const_node_type;
+			typedef typename allocator_type::rebind<node_type>::other _node_alloc;
 			key_compare _key_compare_copy;
 			allocator_type _allocator_copy;
 			size_type	_S;
@@ -67,8 +68,6 @@ namespace ft
 							{
 								set_to_left(tmp, new_node);
 								tmp->set_l_h(1);
-								// new_node->set_parent(tmp);
-								// tmp->set_left(new_node);
 								it = new_node;
 								break ;
 							}

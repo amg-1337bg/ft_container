@@ -40,6 +40,8 @@ class miterator
 		}
 		~miterator () {}
 
+		pointer	base() { return _node->value; }
+
 		// comparison overloads ==   !=
 		bool operator==(const miterator& x)
 		{
