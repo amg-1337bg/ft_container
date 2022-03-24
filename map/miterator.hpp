@@ -26,13 +26,14 @@ class miterator
 			miterator <const T> ret(tmp);
 			return ret; 
 		}
+
 		miterator &operator=(const miterator &i)
 		{
 			_node = i._node;
 			_copy = i._copy;
 			return *this;
 		}
-		miterator &operator=(const node_ptr& i)
+		miterator &operator=(const node_ptr i)
 		{
 			_node = i;
 			return *this;

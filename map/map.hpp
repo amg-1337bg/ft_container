@@ -438,61 +438,89 @@ namespace ft
 			}
 			iterator lower_bound (const key_type& k)
 			{
-				// iterator it = begin();
+				if (_min->value->first > k)
+					return begin();
+				if (_max->value->first < k)
+					return end();
 				node_type *tmp = _root;
+				node_type *ret = NULL;
 				while (tmp)
 				{
-					if (_key_compare_copy(tmp->value->first, k))
+					if (!_key_compare_copy(tmp->value->first, k))
+					{
+						ret = tmp;
 						tmp = tmp->get_left();
+					}
 					else
-						return iterator(tmp);
+						tmp = tmp->get_right();
 				}
-				return end();
+				return iterator(ret);
 			}
 			const_iterator lower_bound (const key_type& k) const
 			{
-				const_iterator it = begin();
-				while (it != end())
+				if (_min->value->first > k)
+					return begin();
+				if (_max->value->first < k)
+					return end();
+				node_type *ret = NULL;
+				node_type *tmp = _root;
+				while (tmp)
 				{
-					if (_key_compare_copy(it->first, k))
-						it++;
+					if (!_key_compare_copy(tmp->value->first, k))
+					{
+						ret = tmp;
+						tmp = tmp->get_left();
+					}
 					else
-						return it;
+						tmp = tmp->get_right();
 				}
-				return end();
+				iterator it(ret);
+				return const_iterator(it);
 			}
 
 			iterator upper_bound (const key_type& k)
 			{
-				iterator it = begin();
-				while (it != end())
+				if (_min->value->first > k)
+					return begin();
+				if (_max->value->first < k)
+					return end();
+				node_type *tmp = _root;
+				iterator it;
+				while (tmp)
 				{
-					if (_key_compare_copy(it->first, k))
-						it++;
-					else
+					if (!_key_compare_copy(tmp->value->first, k))
 					{
+						it = tmp;
 						if (it->first == k)
-							return ++it; 
-						return it;
+							return ++it;
+						tmp = tmp->get_left();
 					}
+					else
+						tmp = tmp->get_right();
 				}
-				return end();
+				return it;
 			}
 			const_iterator upper_bound (const key_type& k) const 
 			{
-				const_iterator it = begin();
-				while (it != end())
+				if (_min->value->first > k)
+					return begin();
+				if (_max->value->first < k)
+					return end();
+				node_type *tmp = _root;
+				iterator it;
+				while (tmp)
 				{
-					if (_key_compare_copy(it->first, k))
-						it++;
-					else
+					if (!_key_compare_copy(tmp->value->first, k))
 					{
+						it = tmp;
 						if (it->first == k)
-							return ++it;
-						return it;
+							return const_iterator(++it);
+						tmp = tmp->get_left();
 					}
+					else
+						tmp = tmp->get_right();
 				}
-				return end();
+				return const_iterator(it);
 			}
 
 			pair<const_iterator,const_iterator> equal_range (const key_type& k) const

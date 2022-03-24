@@ -50,19 +50,40 @@ int main()
 {
 	// test(NULL);
 	timeval start, end;
-
-	ft::map<int, std::string> mp, sw;
-	for (size_t i = 0; i < 1e6; i++)
-		mp.insert(ft::pair<int, std::string> (i, "hello"));
+	int arr[] = {20, 10, 100, 15, 60, 90, 65, 200, 150}; // size = 9
+	ft::map<int, std::string> mp;
+	std::map<int, std::string> m;
+    for (size_t i = 0; i < 9; ++i)
+	{
+        mp.insert(ft::make_pair(arr[i], "value"));
+        m.insert(std::make_pair(arr[i], "value"));
+	}
+	// for (size_t i = 0; i < 1e6; i++)
+	// 	mp.insert(std::pair<int, std::string> (i, "hello"));
 	
 
 	// mp.erase(mp.begin(), mp.end());
-	// ft::map<int, int>::iterator it = mp.begin();
+	std::map<int, std::string>::reverse_iterator rit = m.rbegin();
+	std::map<int, std::string>::const_reverse_iterator crit = rit;
+	while (crit != mp.rend())
+	{
+		std::cout << crit->first << std::endl;
+		crit++;
+	}
+	
+	ft::map<int, std::string>::iterator it = mp.begin();
+	while (it != mp.end())
+	{
+		std::cout << it->first << std::endl;
+		it++;
+	}
+	
+	// mp.erase(mp.find(1e5));
 	gettimeofday(&start, NULL);
-	int res = mp.lower_bound(1e5)->first;
 	gettimeofday(&end, NULL);
 	print_time(start, end);
-	std::cout << res << std::endl;
+	// if (res != mp.end())
+	// 	std::cout << res->first << std::endl;
 
 	// while (it != mp.end())
 	// {
