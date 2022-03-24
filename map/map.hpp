@@ -308,6 +308,8 @@ namespace ft
 			void swap (map& x)
 			{
 				std::swap(_root, x._root);
+				std::swap(_min, x._min);
+				std::swap(_max, x._max);
 				std::swap(_S, x._S);
 				std::swap(_allocator_copy, x._allocator_copy);
 				std::swap(_key_compare_copy, x._key_compare_copy);
@@ -320,11 +322,13 @@ namespace ft
 					erase(it);
 					it = begin();
 				}
+				_min = nullptr;
+				_max = nullptr;
 			}
 
 			void erase (iterator position)
 			{
-				if (!_root)
+				if (!_root || position == end())
 					return ;
 				node_type *tmp;
 				if (position->first == _min->value->first)
@@ -434,13 +438,14 @@ namespace ft
 			}
 			iterator lower_bound (const key_type& k)
 			{
-				iterator it = begin();
-				while (it != end())
+				// iterator it = begin();
+				node_type *tmp = _root;
+				while (tmp)
 				{
-					if (_key_compare_copy(it->first, k))
-						it++;
+					if (_key_compare_copy(tmp->value->first, k))
+						tmp = tmp->get_left();
 					else
-						return it;
+						return iterator(tmp);
 				}
 				return end();
 			}

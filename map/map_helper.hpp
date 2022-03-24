@@ -343,18 +343,21 @@ void	calc_after_delete(Node<T>** root, Node<T>* node)
 		node->set_balance(node->get_l_h() - node->get_r_h());
 		if (node->get_balance() > 1 || node->get_balance() < -1)
 		{
+			// std::cout << "node == " << node->value->first << " " << node->get_l_h() << " " << node->get_r_h() << node->get_balance() << std::endl;
 			if (node->get_l_h() > node->get_r_h())
 			{
 				if (node->get_left() && node->get_left()->get_left())
 					Rotation = "RR";
-				else
+				else if (node->get_left() && node->get_left()->get_right())
 					Rotation = "LR";
 			} else
 			{
 				if (node->get_right() && node->get_right()->get_right())
 					Rotation = "LL";
-				else
+				else if (node->get_right() && node->get_right()->get_left())
+				{
 					Rotation = "RL";
+				}
 			}
 			if (*root == node)
 			{

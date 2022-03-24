@@ -49,20 +49,27 @@ bool fncomp(char lhs, char rhs) { return lhs < rhs; }
 int main()
 {
 	// test(NULL);
-	// timeval start, end;
+	timeval start, end;
 
-	ft::map<int, int> mp;
-	for (size_t i = 0; i < 10000; i++)
-		mp.insert(ft::pair<int, int> (i, i));
+	ft::map<int, std::string> mp, sw;
+	for (size_t i = 0; i < 1e6; i++)
+		mp.insert(ft::pair<int, std::string> (i, "hello"));
 	
-	mp.erase(mp.begin(), mp.end());
-	ft::map<int, int>::iterator it = mp.begin();
-	while (it != mp.end())
-	{
-		std::cout << it->first << std::endl;
-		it++;
-	}
-	std::cout << mp.size() << std::endl;
+
+	// mp.erase(mp.begin(), mp.end());
+	// ft::map<int, int>::iterator it = mp.begin();
+	gettimeofday(&start, NULL);
+	int res = mp.lower_bound(1e5)->first;
+	gettimeofday(&end, NULL);
+	print_time(start, end);
+	std::cout << res << std::endl;
+
+	// while (it != mp.end())
+	// {
+	// 	std::cout << it->first << std::endl;
+	// 	it++;
+	// }
+	// std::cout << mp.size() << std::endl;
 	
 	// std::map<int, std::string> m;
 
@@ -79,14 +86,12 @@ int main()
 	// {
 	// 	std::cout << it->first << std::endl;
 	// }
-	// gettimeofday(&start, NULL);
 	// for (size_t i = 0; i < 1000000; i++)
 	// {
 	// 	// std::cout << "i = " << i << std::endl;
 	// 	ft_m.erase(i);
 	// }
 	// gettimeofday(&end, NULL);
-	// print_time(start, end);
 	// ft_m.debug();
 	// std::cout << "size = " << ft_m.size() << std::endl;
 	// int res = 0;
