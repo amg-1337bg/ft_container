@@ -20,25 +20,30 @@ private:
 
 public:
 	reverse_iterator() : iter() {}
-	explicit reverse_iterator(iterator_type it) : iter(it){ 
-	}
-	template <class U>
-  	reverse_iterator (const reverse_iterator<U>& rev_it) : iter(rev_it.base()){}
-	template <class U>
-  	reverse_iterator& operator= (const reverse_iterator<U>& rev_it)
+	explicit reverse_iterator(iterator_type it) : iter(it){}
+	template <class Iter>
+  	reverse_iterator (const reverse_iterator<Iter>& rev_it) : iter(rev_it.base())
+	  {
+		  std::cout << "inside = "  << std::endl;
+		  iterator_type tmp = iter;
+		  tmp--;
+		  std::cout << "inside = " << tmp->first << std::endl;
+	  }
+	template <class Iter>
+  	reverse_iterator& operator= (const reverse_iterator<Iter>& rev_it)
 	{
 		iter = rev_it.base();
 		return *this;
 	}
 	iterator_type base() const
 	{
-		iterator_type tmp = iter;
-		--tmp;
-		return tmp;
+		return iter;
 	}
 	reference	operator*() const
 	{
-		return *base();
+		iterator_type tmp = iter;
+		tmp--;
+		return *tmp;
 	}
 	reverse_iterator operator+(difference_type n) 
 	{

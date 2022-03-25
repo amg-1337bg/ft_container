@@ -40,58 +40,57 @@ namespace ft
 		typedef reverse_iterator<iterator> reverse_iterator;
 		typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
 
-		explicit vector(const allocator_type &alloc = allocator_type()) : _buffer(), _S(), _C()
+		explicit vector(const allocator_type &alloc = allocator_type()) : _buffer(), _S(), _C(), allocator_copy(alloc) {}
+		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _buffer(), _S(n), _C(n), allocator_copy(alloc)
 		{
-			allocator_copy = alloc;
-		}
-		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type())
-		{
-			_S = n;
-			_C = n;
-			allocator_copy = alloc;
-			_buffer = allocator_copy.allocate(n + 1);
+			_buffer = allocator_copy.allocate(n);
 			for (size_type i = 0; i < n; i++)
 				allocator_copy.construct(&_buffer[i], val);
 		}
 		
 		template <class InputIterator>
 		vector  (InputIterator first, InputIterator last, const allocator_type &alloc = allocator_type(), typename enable_if<!(is_integral<InputIterator>::value), int>::type = 0)
-		: _buffer(), _S(), _C()
+		: _buffer(), _S(), _C(),allocator_copy (alloc)
 		{
-			allocator_copy = alloc;
 			assign(first, last);
 		}
 		
-		
-		vector(const vector &x) : _buffer(), _S(), _C()
+		vector(const vector &x) : _buffer(), _S(), _C(), allocator_copy(x.allocator_copy)
 		{
 			*this = x;
 		}
 		~vector()
 		{
-			iterator it = this->begin();
-			for (; it != this->end(); it++)
-				allocator_copy.destroy(&(*it));
-			allocator_copy.deallocate(_buffer, _S + 1);
+			if (_buffer)
+			{
+				for (iterator it = begin(); it != end(); it++)
+				{
+					allocator_copy.destroy(it.base());
+				}
+				allocator_copy.deallocate(_buffer, _C);
+			}
 		}
 
 		vector& operator= (const vector& x)
 		{
 			if (_buffer)
 			{
-				iterator it = this->begin();
-				for (; it != this->end(); it++)
-					allocator_copy.destroy(&(*it));
-				allocator_copy.deallocate(_buffer, _S + 1);
+				size_type i = 0;
+				for (iterator it = begin(); it != this->end(); it++)
+				{
+					// std::cout << i << " desttr = " << _C << " " << _S << std::endl;
+					allocator_copy.destroy(it.base());
+					i++;
+				}
+				allocator_copy.deallocate(_buffer, _C);
 			}
 			const_iterator it = x.begin();
-			const_iterator ite = x.end();
 			_S = x.size();
 			_C = x.capacity();
 			allocator_copy = x.get_allocator();
-			_buffer = allocator_copy.allocate(_S + 1);
-			int i = 0;
-			while (it != ite)
+			_buffer = allocator_copy.allocate(_C);
+			size_type i = 0;
+			while (it != x.end())
 			{
 				allocator_copy.construct(&(_buffer[i++]), *it);
 				it++;
@@ -193,7 +192,7 @@ namespace ft
 				try
 				{
 					pointer tmp;
-					tmp = allocator_copy.allocate(n + 1);
+					tmp = allocator_copy.allocate(n);
 					iterator it = this->begin();
 					size_type i = 0;
 					while(it != this->end())
@@ -283,9 +282,9 @@ namespace ft
 					{
 						for (size_t i = 0; i < _C; i++)
 							allocator_copy.destroy(&(_buffer[i]));
-						allocator_copy.deallocate(_buffer, _C + 1);
+						allocator_copy.deallocate(_buffer, _C);
 						_C = c;
-						_buffer = allocator_copy.allocate(_C + 1);
+						_buffer = allocator_copy.allocate(_C);
 					}
 					while (c <= _C && first != last)
 					{
@@ -310,9 +309,9 @@ namespace ft
 				{
 					for (size_t i = 0; i < _C; i++)
 						allocator_copy.destroy(&(_buffer[i]));
-					allocator_copy.deallocate(_buffer, _C + 1);
+					allocator_copy.deallocate(_buffer, _C);
 					_C = n;
-					_buffer = allocator_copy.allocate(_C + 1);
+					_buffer = allocator_copy.allocate(_C);
 				}
 				while (i < n)
 				{
@@ -353,7 +352,7 @@ namespace ft
 				try
 				{
 					pointer tmp;
-					tmp = allocator_copy.allocate((_C * 2) + 1);
+					tmp = allocator_copy.allocate((_C * 2));
 					iterator it = this->begin();
 					size_type i = 0;
 					while(it != this->end())
@@ -415,16 +414,16 @@ namespace ft
 			if (_S + n <= _C)
 			{
 				tmp.assign(position, end());
+				for (iterator it = position; it != end(); it++)
+					allocator_copy.destroy(it.base());
 				for (size_t i = 0; i < n; i++)
 				{
-					allocator_copy.destroy(&(*position));
-					*position = val;
+					allocator_copy.construct(position.base(), val);
 					position++;
 				}
 				for (iterator it = tmp.begin(); it != tmp.end(); it++)
 				{
-					allocator_copy.destroy(&(*position));
-					*position = *it;
+					allocator_copy.construct(position.base(), *it);
 					position++;
 				}
 				_S += n;
@@ -455,17 +454,16 @@ namespace ft
 			{
 				tmp2.assign(position, end());
 				iterator it = tmp.begin();
-				for (size_t i = 0; i < tmp.size(); i++)
+				for (iterator it = position; it != end(); it++)
+					allocator_copy.destroy(it.base());
+				for (iterator it = tmp.begin(); it != tmp.end(); it++)
 				{
-					allocator_copy.destroy(&(*position));
-					*position = *it;
+					allocator_copy.construct(position.base(), *it);
 					position++;
-					it++;
 				}
 				for (iterator it = tmp2.begin(); it != tmp2.end(); it++)
 				{
-					allocator_copy.destroy(&(*position));
-					*position = *it;
+					allocator_copy.construct(position.base(), *it);
 					position++;
 				}
 				_S += tmp.size();

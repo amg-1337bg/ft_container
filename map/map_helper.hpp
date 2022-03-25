@@ -323,7 +323,6 @@ void	calc_height(Node <T>** root, Node <T>** node)
 			}
 			else
 				rotate(&tmp, Rotation);
-			// break ;
 		}
 		*node = tmp;
 		tmp = tmp->get_parent();
@@ -332,7 +331,6 @@ void	calc_height(Node <T>** root, Node <T>** node)
 template < class T >
 void	calc_after_delete(Node<T>** root, Node<T>* node)
 {
-	// int l_max, r_max;
 	std::string Rotation;
 	while (node)
 	{
@@ -369,104 +367,6 @@ void	calc_after_delete(Node<T>** root, Node<T>* node)
 			// break ;
 		}
 		node = node->get_parent();
-	}
-}
-template < class T >
-void	delete_node(Node<T>** root, Node<T>* node)
-{
-	Node<T> *parent = node->get_parent();
-	if (!node->get_left() && !node->get_right()) // Node without child
-	{
-		if (parent && parent->get_right() == node)
-		{
-			parent->set_right(NULL);
-			parent->set_r_h(parent->get_r_h() - 1);
-		}
-		else if (parent)
-		{
-			parent->set_left(NULL);
-			parent->set_l_h(parent->get_l_h() - 1);
-		}
-		else
-			*root = NULL;
-		delete node;
-		if (parent)
-			calc_after_delete(root, parent);
-	}
-	else if ( (node->get_left() && !node->get_right()) || (!node->get_left() && node->get_right()) ) //Node with One Child
-	{
-		if (node->get_left())
-		{
-			if (parent && parent->get_left() == node)
-			{
-				set_to_left(parent, node->get_left());
-				parent->set_l_h(parent->get_l_h() - 1);
-			}
-			else if (parent)
-			{
-				set_to_right(parent, node->get_left());
-				parent->set_r_h(parent->get_r_h() - 1);
-			}
-			else
-			{
-				*root = node->get_left();
-				(*root)->set_parent(NULL);
-			}
-		}
-		else
-		{
-			if (parent && parent->get_left() == node)
-			{
-				set_to_left(parent, node->get_right());
-				parent->set_l_h(parent->get_l_h() - 1);
-			}
-			else if (parent)
-			{
-				set_to_right(parent, node->get_right());
-				parent->set_r_h(parent->get_r_h() - 1);
-			}
-			else
-			{
-				*root = node->get_right();
-				(*root)->set_parent(NULL);
-			}
-		}
-		delete node;
-		if (parent)
-			calc_after_delete(root, parent);
-	}
-	else // node with Two childs
-	{
-		Node<T> *most_r, *most_r_parent;
-		most_r = most_right(node->get_left());
-		most_r_parent = most_r->get_parent();
-		if (most_r_parent != node)
-		{
-			set_to_right(most_r_parent, most_r->get_left());
-			set_to_left(most_r, node->get_left());
-		}
-		if (parent && parent->get_left() == node)
-		{
-			set_to_left(parent, most_r);
-			parent->set_l_h(parent->get_l_h() - 1);
-		}
-		else if (parent)
-		{
-			set_to_right(parent, most_r);
-			parent->set_r_h(parent->get_r_h() - 1);
-		}
-		set_to_right(most_r, node->get_right());
-		delete node;
-		if (parent && most_r_parent == node) //from where need to recalculate the balance
-			calc_after_delete(root, most_r);
-		else if (parent)
-			calc_after_delete(root, most_r_parent);
-		else
-		{
-			most_r->set_parent(NULL);
-			*root = most_r;
-			calc_after_delete(root, most_left(most_r));
-		}
 	}
 }
 

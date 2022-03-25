@@ -5,6 +5,7 @@
 #include <iostream>
 #include <sys/time.h>
 #include "vector/vector.hpp"
+#include <vector>
 // #include <vector>
 
 void	test_leaks()
@@ -49,39 +50,96 @@ bool fncomp(char lhs, char rhs) { return lhs < rhs; }
 int main()
 {
 	// test(NULL);
-	timeval start, end;
-	int arr[] = {20, 10, 100, 15, 60, 90, 65, 200, 150}; // size = 9
-	ft::map<int, std::string> mp;
-	std::map<int, std::string> m;
-    for (size_t i = 0; i < 9; ++i)
-	{
-        mp.insert(ft::make_pair(arr[i], "value"));
-        m.insert(std::make_pair(arr[i], "value"));
-	}
-	// for (size_t i = 0; i < 1e6; i++)
-	// 	mp.insert(std::pair<int, std::string> (i, "hello"));
-	
+	// timeval start, end;
+	// int arr[] = {20, 10, 100, 15, 60, 90, 65, 200, 150}; // size = 9
+	// ft::map<int, std::string> mp;
+	// std::map<int, std::string> m;
+    // for (size_t i = 0; i < 9; ++i)
+	// {
+    //     mp.insert(ft::make_pair(arr[i], "value"));
+    //     m.insert(std::make_pair(arr[i], "value"));
+	// }
+	// for (size_t i = 0; i < 5; i++)
+	// 	mp.erase(mp.find(arr[i]));
+	ft::map<int, int> mp;
+	mp.insert(ft::make_pair(17,8));
+	mp.insert(ft::make_pair(24,652));
+	mp.insert(ft::make_pair(64,623));
+	mp.insert(ft::make_pair(70,2));
+	mp.insert(ft::make_pair(92,67));
+	mp.insert(ft::make_pair(2,723));
+	mp.insert(ft::make_pair(1,23));
+	mp.insert(ft::make_pair(50,752));
+	mp.insert(ft::make_pair(12,90));
 
-	// mp.erase(mp.begin(), mp.end());
-	std::map<int, std::string>::reverse_iterator rit = m.rbegin();
-	std::map<int, std::string>::const_reverse_iterator crit = rit;
-	while (crit != mp.rend())
+	ft::map<int, int>::reverse_iterator rit(mp.end());
+	ft::map<int, int>::reverse_iterator rite(mp.begin());
+	while (rit != rite)
 	{
-		std::cout << crit->first << std::endl;
-		crit++;
+		std::cout << rit->first << std::endl;
+		rit++;
 	}
-	
-	ft::map<int, std::string>::iterator it = mp.begin();
-	while (it != mp.end())
+
+		std::cout << "-------------------------------" << std::endl;
+	ft::map<int, char> my_m;
+    for (int i = 0; i < 1e2; i++)
+        my_m.insert(ft::make_pair(i, 'A'));
+    // ft::map<int, char>::reverse_iterator my_rit2(my_m.end());
+    ft::map<int, char>::reverse_iterator c_ob = my_m.rbegin(), rn = my_m.rend();
+
+	while(c_ob != rn)
 	{
-		std::cout << it->first << std::endl;
-		it++;
+		std::cout << c_ob->first << std::endl;
+		c_ob++;
 	}
+    // c_it = my_rit2;
+	// ft::map<int, char>::const_iterator it = c_ob.base();
+	// ft::pair<int, char> pa = *c_it;
+	// std::cout << pa.first << std::endl;
+	// std::cout << my_rit2->first << std::endl;
+	std::cout << c_ob->first << std::endl;
+	// std::cout << c_ob->first << std::endl;
+    // if (my_rit2->first == c_it->first && my_rit2->first == c_ob->first)
+	// 	std::cout << "True" << std::endl;
 	
-	// mp.erase(mp.find(1e5));
-	gettimeofday(&start, NULL);
-	gettimeofday(&end, NULL);
-	print_time(start, end);
+		// while (my_rit != my_rit1)
+	// {
+	// 	std::cout << "here " << *my_rit << std::endl;
+	// 	my_rit++;
+	// }
+	
+	// ft::vector<int>::iterator it = my_rit.base();
+	// std::cout << *it << std::endl;
+	// it--;
+	// std::cout << *it << std::endl;
+	// ft::map<int, char> my_m;
+    // for (int i = 0; i < 1e2; i++)
+    //     my_m.insert(ft::make_pair(i, 'A'));
+    // ft::map<int, char>::reverse_iterator my_rit2(my_m.end());
+    // ft::map<int, char>::const_reverse_iterator c_it, c_ob(my_m.end());
+    // c_it = my_rit2;
+    // if(my_rit2->first == c_it->first && my_rit2->first == c_ob->first)
+	// 	std::cout << "True" << std::endl;
+	// // mp.erase(mp.begin(), mp.end());
+	// std::map<int, std::string>::reverse_iterator rit = m.rbegin();
+	// std::map<int, std::string>::const_reverse_iterator crit = rit;
+	// while (crit != mp.rend())
+	// {
+	// 	std::cout << crit->first << std::endl;
+	// 	crit++;
+	// }
+	
+	// ft::map<int, std::string>::iterator it = mp.begin();
+	// while (it != mp.end())
+	// {
+	// 	std::cout << it->first << std::endl;
+	// 	it++;
+	// }
+	
+	// // mp.erase(mp.find(1e5));
+	// gettimeofday(&start, NULL);
+	// gettimeofday(&end, NULL);
+	// print_time(start, end);
 	// if (res != mp.end())
 	// 	std::cout << res->first << std::endl;
 

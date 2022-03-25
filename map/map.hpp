@@ -31,9 +31,12 @@ namespace ft
 		private:
 			typedef Node<value_type> node_type;
 			typedef Node<const value_type> const_node_type;
-			typedef typename allocator_type::rebind<node_type>::other _node_alloc;
+			typedef typename allocator_type::template rebind<node_type>::other _node_alloc_class;
+			typedef typename allocator_type::template rebind<const_node_type>::other const_node_alloc_class;
 			key_compare _key_compare_copy;
 			allocator_type _allocator_copy;
+			_node_alloc_class _node_alloc;
+			const_node_alloc_class const_node_alloc;
 			size_type	_S;
 			node_type *_root, *_min, *_max;
 		
@@ -99,6 +102,104 @@ namespace ft
 				return ret;
 			}
 
+			void	delete_node(node_type** root, node_type* node)
+			{
+				node_type *parent = node->get_parent();
+				if (!node->get_left() && !node->get_right()) // Node without child
+				{
+					if (parent && parent->get_right() == node)
+					{
+						parent->set_right(NULL);
+						parent->set_r_h(parent->get_r_h() - 1);
+					}
+					else if (parent)
+					{
+						parent->set_left(NULL);
+						parent->set_l_h(parent->get_l_h() - 1);
+					}
+					else
+						*root = NULL;
+					_node_alloc.deallocate(node, 1);
+					if (parent)
+						calc_after_delete(root, parent);
+				}
+				else if ( (node->get_left() && !node->get_right()) || (!node->get_left() && node->get_right()) ) //Node with One Child
+				{
+					if (node->get_left())
+					{
+						if (parent && parent->get_left() == node)
+						{
+							set_to_left(parent, node->get_left());
+							parent->set_l_h(parent->get_l_h() - 1);
+						}
+						else if (parent)
+						{
+							set_to_right(parent, node->get_left());
+							parent->set_r_h(parent->get_r_h() - 1);
+						}
+						else
+						{
+							*root = node->get_left();
+							(*root)->set_parent(NULL);
+						}
+					}
+					else
+					{
+						if (parent && parent->get_left() == node)
+						{
+							set_to_left(parent, node->get_right());
+							parent->set_l_h(parent->get_l_h() - 1);
+						}
+						else if (parent)
+						{
+							set_to_right(parent, node->get_right());
+							parent->set_r_h(parent->get_r_h() - 1);
+						}
+						else
+						{
+							*root = node->get_right();
+							(*root)->set_parent(NULL);
+						}
+					}
+					_node_alloc.deallocate(node, 1);
+					if (parent)
+						calc_after_delete(root, parent);
+				}
+				else // node with Two childs
+				{
+					node_type *most_r, *most_r_parent;
+					most_r = most_right(node->get_left());
+					most_r_parent = most_r->get_parent();
+					if (most_r_parent != node)
+					{
+						set_to_right(most_r_parent, most_r->get_left());
+						set_to_left(most_r, node->get_left());
+					}
+					if (parent && parent->get_left() == node)
+					{
+						set_to_left(parent, most_r);
+						parent->set_l_h(parent->get_l_h() - 1);
+					}
+					else if (parent)
+					{
+						set_to_right(parent, most_r);
+						parent->set_r_h(parent->get_r_h() - 1);
+					}
+					set_to_right(most_r, node->get_right());
+					_node_alloc.deallocate(node, 1);
+					if (parent && most_r_parent == node) //from where need to recalculate the balance
+						calc_after_delete(root, most_r);
+					else if (parent)
+						calc_after_delete(root, most_r_parent);
+					else
+					{
+						most_r->set_parent(NULL);
+						*root = most_r;
+						calc_after_delete(root, most_left(most_r));
+					}
+				}
+			}
+
 			void insert_from (node_type* here, node_type *new_node)
 			{
 				if (_key_compare_copy(new_node->value->first, here->value->first)) //MIN
@@ -128,7 +229,7 @@ namespace ft
 		public :
 
 			explicit map (const key_compare& comp = key_compare(),
-				const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root(), _min(), _max() {}
+				const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _node_alloc(), const_node_alloc(), _S(), _root(), _min(), _max() {}
 			
 			template <class InputIterator>
   			map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :  _key_compare_copy(comp) , _allocator_copy(alloc), _S(), _root(), _min(), _max()
@@ -136,7 +237,7 @@ namespace ft
 				insert (first, last);
 			}
 			
-			map (const map& x) : _key_compare_copy(x._key_compare_copy), _allocator_copy(x._allocator_copy), _S(), _root(), _min(), _max()
+			map (const map& x) : _key_compare_copy(x._key_compare_copy), _allocator_copy(x._allocator_copy), _node_alloc(x._node_alloc), const_node_alloc(x.const_node_alloc), _S(), _root(), _min(), _max()
 			{ 
 				insert(x.begin(),  x.end());
 			}
@@ -150,6 +251,8 @@ namespace ft
 					clear();
 				_allocator_copy = x.get_allocator();
 				_key_compare_copy = x._key_compare_copy;
+				_node_alloc = x._node_alloc;
+				const_node_alloc = x.const_node_alloc;
 				_min = nullptr;
 				_max = nullptr;
 				insert(x.begin(), x.end());
@@ -240,7 +343,8 @@ namespace ft
 				pair<iterator, bool> ret;
 				pointer tmp = _allocator_copy.allocate(1);
 				_allocator_copy.construct(tmp, val);
-				node_type *node = new node_type(tmp);
+				node_type *node = _node_alloc.allocate(1);
+				_node_alloc.construct(node, tmp);
 				if (_min && _key_compare_copy(val.first, _min->value->first))
 				{
 					_min->set_l_h(1);
@@ -266,7 +370,7 @@ namespace ft
 					{
 						_allocator_copy.destroy(tmp);
 						_allocator_copy.deallocate(tmp, 1);
-						delete node;
+						_node_alloc.deallocate(node, 1);
 					}
 					if (!_min && !_max)
 					{
@@ -282,13 +386,14 @@ namespace ft
 				pair<iterator, bool> ret;
 				pointer tmp = _allocator_copy.allocate(1);
 				_allocator_copy.construct(tmp, val);
-				node_type *node = new node_type(tmp);
+				node_type *node = _node_alloc.allocate(1);
+				_node_alloc.construct(node, tmp);
 				ret = insert_node(node);
 				if (!ret.second)
 				{
 					_allocator_copy.destroy(tmp);
 					_allocator_copy.deallocate(tmp, 1);
-					delete node;
+					_node_alloc.deallocate(node, 1);
 				}
 				it = node;
 				return it;
@@ -310,6 +415,8 @@ namespace ft
 				std::swap(_min, x._min);
 				std::swap(_max, x._max);
 				std::swap(_S, x._S);
+				std::swap(_node_alloc, x._node_alloc);
+				std::swap(const_node_alloc, x.const_node_alloc);
 				std::swap(_allocator_copy, x._allocator_copy);
 				std::swap(_key_compare_copy, x._key_compare_copy);
 			}
