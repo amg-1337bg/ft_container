@@ -90,8 +90,8 @@ int main()
 	mp.insert(ft::make_pair(2,24));
 	mp.insert(ft::make_pair(-8,24));
 
-	// if (mp.value_comp()(*(mp.find(-8)), *(mp.find(634))))
-	// 	std::cout << "true" << std::endl;
+	if (mp.value_comp()(*(mp.find(-8)), *(mp.find(634))))
+		std::cout << "true" << std::endl;
     // c_it = my_rit2;
 	// ft::map<int, char>::const_iterator it = c_ob.base();
 	// ft::pair<int, char> pa = *c_it;
