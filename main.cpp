@@ -61,43 +61,43 @@ int main()
 	// }
 	// for (size_t i = 0; i < 5; i++)
 	// 	mp.erase(mp.find(arr[i]));
+	// ft::map<int, int> mp;
+	// mp.insert(ft::make_pair(17,8));
+	// mp.insert(ft::make_pair(24,652));
+	// mp.insert(ft::make_pair(64,623));
+	// mp.insert(ft::make_pair(70,2));
+	// mp.insert(ft::make_pair(92,67));
+	// mp.insert(ft::make_pair(2,723));
+	// mp.insert(ft::make_pair(1,23));
+	// mp.insert(ft::make_pair(50,752));
+	// mp.insert(ft::make_pair(12,90));
+
+	// ft::map<int, int>::reverse_iterator rit(mp.end());
+	// ft::map<int, int>::reverse_iterator rite(mp.begin());
+	// while (rit != rite)
+	// {
+	// 	std::cout << rit->first << std::endl;
+	// 	rit++;
+	// }
+
 	ft::map<int, int> mp;
-	mp.insert(ft::make_pair(17,8));
-	mp.insert(ft::make_pair(24,652));
-	mp.insert(ft::make_pair(64,623));
-	mp.insert(ft::make_pair(70,2));
-	mp.insert(ft::make_pair(92,67));
-	mp.insert(ft::make_pair(2,723));
-	mp.insert(ft::make_pair(1,23));
-	mp.insert(ft::make_pair(50,752));
-	mp.insert(ft::make_pair(12,90));
+	mp.insert(ft::make_pair(23,24));
+	mp.insert(ft::make_pair(5,24));
+	mp.insert(ft::make_pair(3,24));
+	mp.insert(ft::make_pair(634,24));
+	mp.insert(ft::make_pair(2264,24));
+	mp.insert(ft::make_pair(25,24));
+	mp.insert(ft::make_pair(2,24));
+	mp.insert(ft::make_pair(-8,24));
 
-	ft::map<int, int>::reverse_iterator rit(mp.end());
-	ft::map<int, int>::reverse_iterator rite(mp.begin());
-	while (rit != rite)
-	{
-		std::cout << rit->first << std::endl;
-		rit++;
-	}
-
-		std::cout << "-------------------------------" << std::endl;
-	ft::map<int, char> my_m;
-    for (int i = 0; i < 1e2; i++)
-        my_m.insert(ft::make_pair(i, 'A'));
-    // ft::map<int, char>::reverse_iterator my_rit2(my_m.end());
-    ft::map<int, char>::reverse_iterator c_ob = my_m.rbegin(), rn = my_m.rend();
-
-	while(c_ob != rn)
-	{
-		std::cout << c_ob->first << std::endl;
-		c_ob++;
-	}
+	// if (mp.value_comp()(*(mp.find(-8)), *(mp.find(634))))
+	// 	std::cout << "true" << std::endl;
     // c_it = my_rit2;
 	// ft::map<int, char>::const_iterator it = c_ob.base();
 	// ft::pair<int, char> pa = *c_it;
 	// std::cout << pa.first << std::endl;
 	// std::cout << my_rit2->first << std::endl;
-	std::cout << c_ob->first << std::endl;
+	// std::cout << c_ob->first << std::endl;
 	// std::cout << c_ob->first << std::endl;
     // if (my_rit2->first == c_it->first && my_rit2->first == c_ob->first)
 	// 	std::cout << "True" << std::endl;

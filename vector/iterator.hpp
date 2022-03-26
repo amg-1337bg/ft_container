@@ -15,13 +15,12 @@ public :
 	typedef typename std::random_access_iterator_tag iterator_category;
 
 private:
-	template <class U, class Alloc>
-	friend class vector;
 	pointer ptr;
 
 public:
 
 	Iterator() : ptr() {}
+	Iterator(pointer p) : ptr(p) {}
 	template <typename S>
 	Iterator(const Iterator<S> &it) : ptr(it.base()) {}
 	template <typename S>

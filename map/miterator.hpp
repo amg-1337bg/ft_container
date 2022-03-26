@@ -20,10 +20,12 @@ class miterator
 	public:
 		miterator() : _node(), _copy() {}
 		miterator(node_ptr ptr) : _node(ptr) ,  _copy(){}
+		miterator(node_ptr ptr, node_ptr cop) : _node(ptr) ,  _copy(cop){}
 		miterator(const miterator &i) : _node(i._node), _copy(i._copy) {}
 		operator miterator<const T>() {
-			Node< const T >* tmp = (Node <const T>*)_node;
-			miterator <const T> ret(tmp);
+			Node< const T >*ptr = (Node <const T>*)_node;
+			Node< const T >*cop = (Node <const T>*)_copy;
+			miterator <const T> ret(ptr, cop);
 			return ret; 
 		}
 

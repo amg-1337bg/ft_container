@@ -78,7 +78,6 @@ namespace ft
 				size_type i = 0;
 				for (iterator it = begin(); it != this->end(); it++)
 				{
-					// std::cout << i << " desttr = " << _C << " " << _S << std::endl;
 					allocator_copy.destroy(it.base());
 					i++;
 				}
@@ -102,65 +101,48 @@ namespace ft
 
 		iterator begin()
 		{
-			iter.ptr = _buffer;
-			return iter;
+			return iterator (_buffer);
 		}
 		const_iterator begin() const
 		{
-			const_iterator it;
-			it.ptr = _buffer;
-			return it;
+			return const_iterator(_buffer);
 		}
 		iterator end()
 		{
-			iterator it;
-			it.ptr = &_buffer[_S];
-			return it;
+			return iterator (&_buffer[_S]);
 		}
 		const_iterator end() const
 		{
-			iterator it;
-			it.ptr = &(_buffer[_S]);
-			return it;
+			return const_iterator(&_buffer[_S]);
 		}
 		// Reverse Iterator rbegin() and rend()
 		reverse_iterator rbegin()
 		{
 			iterator it(end());
-			reverse_iterator rit(it);
-
-			return rit;
+			return reverse_iterator (it);
 		}
 		const_reverse_iterator rbegin() const
 		{
 			const_iterator it(end());
-			const_reverse_iterator rit(it);
-			return rit;
+			return const_reverse_iterator(it);
 		}
 		reverse_iterator rend()
 		{
 			iterator it(begin());
-			reverse_iterator rit(it);
-			return rit;
+			
+			return reverse_iterator (it);
 		}
 		const_reverse_iterator rend() const
 		{
 			const_iterator it(begin());
-			const_reverse_iterator rit(it);
-			return rit;
+			return const_reverse_iterator (it);
 		}
 
 		// Capacity Methods
 
-		size_type size() const
-		{
-			return _S;
-		}
+		size_type size() const { return _S; }
 
-		size_type max_size() const
-		{
-			return allocator_copy.max_size();
-		}
+		size_type max_size() const { return allocator_copy.max_size(); }
 
 		void resize (size_type n, value_type val = value_type())
 		{
@@ -492,10 +474,12 @@ namespace ft
 			iterator e = end();
 			while (position != e)
 			{
-				std::swap(*position, *(position + 1));
+				if ((position + 1) != e)
+					std::swap(*position, *(position + 1));
 				position++;
 			}
-			allocator_copy.destroy(&(e[0]));
+			e--;
+			allocator_copy.destroy(e.base());
 			_S--;
 			return ret;
 		}
