@@ -1,35 +1,49 @@
-#include "map/map.hpp"
-#include <typeinfo>
-#include <map>
-#include "vector/utilities.hpp"
 #include <iostream>
-#include <sys/time.h>
-#include "vector/vector.hpp"
-#include <vector>
-// #include <vector>
+#include <string>
+#include <deque>
+// #if 1 //CREATE A REAL STL EXAMPLE
+	#include "map/map.hpp"
+	#include "stack/stack.hpp"
+	#include "vector/vector.hpp"
+	// namespace ft = std;
+// #else
+	#include <map>
+	#include <stack>
+	#include <vector>
+// #endif
 
-void	test_leaks()
+#include <stdlib.h>
+
+#define MAX_RAM 4294967296
+#define BUFFER_SIZE 4096
+struct Buffer
 {
-	ft::map<int, int> mp2;
-	mp2.insert(ft::make_pair(13, 98));
-	mp2.insert(ft::make_pair(6, 8));
-	mp2.insert(ft::make_pair(72, 42));
-	mp2.insert(ft::make_pair(2, 548));
-	mp2.insert(ft::make_pair(15, 77));
-	mp2.insert(ft::make_pair(-14, 88));
+	int idx;
+	char buff[BUFFER_SIZE];
+};
 
-	// mp2.erase(mp2.find(-14));
-	ft::map<int, int>::iterator it = mp2.begin();
-	while (it != mp2.end())
+#include <sys/time.h>
+
+#define COUNT (MAX_RAM / (int)sizeof(Buffer))
+
+template<typename T>
+class MutantStack : public ft::stack<T>
+{
+public:
+	MutantStack() {}
+	MutantStack(const MutantStack<T>& src) { *this = src; }
+	MutantStack<T>& operator=(const MutantStack<T>& rhs) 
 	{
-		std::cout << it->first << std::endl;
-		it++;
-		// mp2.erase(it);
-		// it = mp2.begin();
+		this->c = rhs.c;
+		return *this;
 	}
-	// std::cout << mp2.size() << std::endl;
-	
-}
+	~MutantStack() {}
+
+	typedef typename ft::stack<T>::container_type::iterator iterator;
+
+	iterator begin() { return this->c.begin(); }
+	iterator end() { return this->c.end(); }
+};
 
 void	print_time(timeval start, timeval end)
 {
@@ -38,222 +52,79 @@ void	print_time(timeval start, timeval end)
 	ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)) / 1000);
 	std::cout << "time is = " << ms_end - ms_start << std::endl;
 }
-struct classcomp
-{
-    bool operator()(const char &lhs, const char &rhs) const
-    {
-        return lhs < rhs;
-    }
-};
 
-bool fncomp(char lhs, char rhs) { return lhs < rhs; }
-int main()
-{
-	// test(NULL);
-	// timeval start, end;
-	// int arr[] = {20, 10, 100, 15, 60, 90, 65, 200, 150}; // size = 9
-	// ft::map<int, std::string> mp;
-	// std::map<int, std::string> m;
-    // for (size_t i = 0; i < 9; ++i)
-	// {
-    //     mp.insert(ft::make_pair(arr[i], "value"));
-    //     m.insert(std::make_pair(arr[i], "value"));
-	// }
-	// for (size_t i = 0; i < 5; i++)
-	// 	mp.erase(mp.find(arr[i]));
-	// ft::map<int, int> mp;
-	// mp.insert(ft::make_pair(17,8));
-	// mp.insert(ft::make_pair(24,652));
-	// mp.insert(ft::make_pair(64,623));
-	// mp.insert(ft::make_pair(70,2));
-	// mp.insert(ft::make_pair(92,67));
-	// mp.insert(ft::make_pair(2,723));
-	// mp.insert(ft::make_pair(1,23));
-	// mp.insert(ft::make_pair(50,752));
-	// mp.insert(ft::make_pair(12,90));
+int main(int argc, char** argv) {
+	if (argc != 2)
+	{
+		std::cerr << "Usage: ./test seed" << std::endl;
+		std::cerr << "Provide a seed please" << std::endl;
+		std::cerr << "Count value:" << COUNT << std::endl;
+		return 1;
+	}
+	const int seed = atoi(argv[1]);
+	srand(seed);
 
-	// ft::map<int, int>::reverse_iterator rit(mp.end());
-	// ft::map<int, int>::reverse_iterator rite(mp.begin());
-	// while (rit != rite)
-	// {
-	// 	std::cout << rit->first << std::endl;
-	// 	rit++;
-	// }
+	ft::vector<std::string> vector_str;
+	ft::vector<int> vector_int;
+	ft::stack<int> stack_int;
+	ft::vector<Buffer> vector_buffer;
+	ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
+	ft::map<int, int> map_int;
 
-	ft::map<int, int> mp;
-	mp.insert(ft::make_pair(23,24));
-	mp.insert(ft::make_pair(5,24));
-	mp.insert(ft::make_pair(3,24));
-	mp.insert(ft::make_pair(634,24));
-	mp.insert(ft::make_pair(2264,24));
-	mp.insert(ft::make_pair(25,24));
-	mp.insert(ft::make_pair(2,24));
-	mp.insert(ft::make_pair(-8,24));
+	for (int i = 0; i < COUNT; i++)
+	{
+		vector_buffer.push_back(Buffer());
+	}
 
-	if (mp.value_comp()(*(mp.find(-8)), *(mp.find(634))))
-		std::cout << "true" << std::endl;
-    // c_it = my_rit2;
-	// ft::map<int, char>::const_iterator it = c_ob.base();
-	// ft::pair<int, char> pa = *c_it;
-	// std::cout << pa.first << std::endl;
-	// std::cout << my_rit2->first << std::endl;
-	// std::cout << c_ob->first << std::endl;
-	// std::cout << c_ob->first << std::endl;
-    // if (my_rit2->first == c_it->first && my_rit2->first == c_ob->first)
-	// 	std::cout << "True" << std::endl;
-	
-		// while (my_rit != my_rit1)
-	// {
-	// 	std::cout << "here " << *my_rit << std::endl;
-	// 	my_rit++;
-	// }
-	
-	// ft::vector<int>::iterator it = my_rit.base();
-	// std::cout << *it << std::endl;
-	// it--;
-	// std::cout << *it << std::endl;
-	// ft::map<int, char> my_m;
-    // for (int i = 0; i < 1e2; i++)
-    //     my_m.insert(ft::make_pair(i, 'A'));
-    // ft::map<int, char>::reverse_iterator my_rit2(my_m.end());
-    // ft::map<int, char>::const_reverse_iterator c_it, c_ob(my_m.end());
-    // c_it = my_rit2;
-    // if(my_rit2->first == c_it->first && my_rit2->first == c_ob->first)
-	// 	std::cout << "True" << std::endl;
-	// // mp.erase(mp.begin(), mp.end());
-	// std::map<int, std::string>::reverse_iterator rit = m.rbegin();
-	// std::map<int, std::string>::const_reverse_iterator crit = rit;
-	// while (crit != mp.rend())
-	// {
-	// 	std::cout << crit->first << std::endl;
-	// 	crit++;
-	// }
-	
-	// ft::map<int, std::string>::iterator it = mp.begin();
-	// while (it != mp.end())
-	// {
-	// 	std::cout << it->first << std::endl;
-	// 	it++;
-	// }
-	
-	// // mp.erase(mp.find(1e5));
-	// gettimeofday(&start, NULL);
-	// gettimeofday(&end, NULL);
-	// print_time(start, end);
-	// if (res != mp.end())
-	// 	std::cout << res->first << std::endl;
+	for (int i = 0; i < COUNT; i++)
+	{
+		const int idx = rand() % COUNT;
+		vector_buffer[idx].idx = 5;
+	}
+	ft::vector<Buffer>().swap(vector_buffer);
 
-	// while (it != mp.end())
-	// {
-	// 	std::cout << it->first << std::endl;
-	// 	it++;
-	// }
-	// std::cout << mp.size() << std::endl;
-	
-	// std::map<int, std::string> m;
-
-	// ft::map<int, std::string> ft_m;
-	// // test_leaks();
-	// // for (size_t i = 0; i < 1000000; ++i)
-	// // {
-	// //     // m.insert(std::make_pair(i, "value"));
-	// //     ft_m.insert(ft::make_pair(i, "value"));
-	// // 	// std::cout << "i = " << i << std::endl;
-	// // }
-	// ft::map<int, std::string>::iterator it = ft_m.begin();
-	// while (++it != ft_m.end())
-	// {
-	// 	std::cout << it->first << std::endl;
-	// }
-	// for (size_t i = 0; i < 1000000; i++)
-	// {
-	// 	// std::cout << "i = " << i << std::endl;
-	// 	ft_m.erase(i);
-	// }
-	// gettimeofday(&end, NULL);
-	// ft_m.debug();
-	// std::cout << "size = " << ft_m.size() << std::endl;
-	// int res = 0;
-	// ft::pair<int, std::string> myints[] = {ft::make_pair(774, "hello"), ft::make_pair(736, "hello"), ft::make_pair(6, "hello"), ft::make_pair(-24, "hello"), ft::make_pair(14351, "hello"), ft::make_pair(135, "hello"), ft::make_pair(41, "hello")};
-	// std::pair<int, std::string> ints[] = {std::make_pair(774, "hello"), std::make_pair(736, "hello"), std::make_pair(6, "hello"), std::make_pair(-24, "hello"), std::make_pair(14351, "hello"), std::make_pair(135, "hello"), std::make_pair(41, "hello")};
-	// ft::vector< ft::pair<int, std::string> > ve(myints, myints + 7);
-	// ft::vector< std::pair<int, std::string> > ve2(ints, ints + 7);
-    // ft::map<int, std::string> test;
-    // std::map<int, std::string> orig;
-	// // // test.insert(ve.begin(), ve.end());
-	// // orig.insert(ve2.begin(), ve2.end());
-	// for (size_t i = 97; i < 110; i++)
-    // {
-    //     test[i - 97] = i;
-    //     orig[i - 97] = i;
-    // }
-	// gettimeofday(&start, NULL);
-	// ft::map<int, std::string, classcomp>::iterator it = test.begin();
-	// while (it != test.end())
-	// {
-	// 	std::cout << it->first << std::endl;
-	// 	it++;
-	// }
-
-	// std::cout << "--------Seperator------" << std::endl;
-	// std::map<int, std::string, classcomp>::iterator its = orig.begin();
-	// while (its != orig.end())
-	// {
-	// 	std::cout << its->first << std::endl;
-	// 	its++;
-	// }
-	
-    // // ft::map<int, std::string> m(ft_m);
-	// gettimeofday(&end, NULL);
-	// // test.clear();
-	// test = ft::map<int, std::string>();
-	// ft::map<int, std::string> te = test;
-	// print_time(start, end);
+	try
+	{
+		for (int i = 0; i < COUNT; i++)
+		{
+			const int idx = rand() % COUNT;
+			vector_buffer.at(idx);
+			std::cerr << "Error: THIS VECTOR SHOULD BE EMPTY!!" <<std::endl;
+		}
+	}
+	catch(const std::exception& e)
+	{
+		//NORMAL ! :P
+	}
+	timeval start, end;
+	gettimeofday(&start, NULL);
+	for (int i = 0; i < COUNT; ++i)
+	{
+		map_int.insert(ft::make_pair(rand(), rand()));
+		std::cout << "here count " << rand() << std::endl;
+	}
+	gettimeofday(&end, NULL);
+	print_time(start, end);
 
 
-	// ft_m.clear();
-	// test_leaks();
-	// ft_m.insert(ft::make_pair(31, "value"));
-	// ft_m.insert(ft::make_pair(123, "value"));
-	// ft_m.insert(ft::make_pair(11, "value"));
-	// ft_m.insert(ft::make_pair(3311, "value"));
-	// ft_m.insert(ft::make_pair(-13, "value"));
-	// ft_m.insert(ft::make_pair(13, "value"));
-	// ft_m.insert(ft::make_pair(5, "value"));
-	// ft_m.debug();
-	// ft::map<int, std::string>::iterator it = ft_m.begin();
-	// while (it != ft_m.end())
-	// {
-	// 	std::cout << it->first << std::endl;
-	// 	it++;
-	// }
-	
-		// std::cout << pa.first << " " << pa.second << std::endl;
-	// while (first != last)
-	// {
-	// 	std::cout << first->first << " " << first->second << std::endl;
-	// 	first++;
-	// ++it;
-	// std::cout << it->first <<std::endl;
-	// ++it;
-	// std::cout << it->first <<std::endl;
-	// ++it;
-	// std::cout << it->first <<std::endl;
-	// ++it;
-	// std::cout << it->first <<std::endl;
-	// ++it;
-	// std::cout << it->first <<std::endl;
-	// ++it;
-	// std::cout << it->first <<std::endl;
-	// ++it;
-	// std::cout << it->first <<std::endl;
-	
-	
-	// mp.insert(ft::make_pair(11, 11));
-	// mp.insert(ft::make_pair(12, 12));
-	// mp.insert(ft::make_pair(8, 8));
-	// ft::map<int, int>::iterator it = mp.begin();
-	// std::map<int, int>::iterator it_cop(it);
-	// it->second = 10;
-	// std::cout << (*it).second << std::endl;
+	int sum = 0;
+	for (int i = 0; i < 10000; i++)
+	{
+		int access = rand();
+		sum += map_int[access];
+	}
+	std::cout << "should be constant with the same seed: " << sum << std::endl;
+
+	{
+		ft::map<int, int> copy = map_int;
+	}
+	MutantStack<char> iterable_stack;
+	for (char letter = 'a'; letter <= 'z'; letter++)
+		iterable_stack.push(letter);
+	for (MutantStack<char>::iterator it = iterable_stack.begin(); it != iterable_stack.end(); it++)
+	{
+		std::cout << *it;
+	}
+	std::cout << std::endl;
+	return (0);
 }
