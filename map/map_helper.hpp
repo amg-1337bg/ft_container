@@ -297,6 +297,7 @@ void	calc_height(Node <T>** root, Node <T>** node)
 			}
 			else
 				rotate(&tmp, Rotation);
+			break ;
 		}
 		*node = tmp;
 		tmp = tmp->get_parent();
@@ -333,6 +334,7 @@ void	calc_after_delete(Node<T>** root, Node<T>* node)
 			}
 			else
 				rotate(&node, Rotation);
+			break ;
 		}
 		node = node->get_parent();
 	}

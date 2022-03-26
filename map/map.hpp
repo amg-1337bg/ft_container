@@ -10,7 +10,15 @@ namespace ft
 	#include "../vector/utilities.hpp"
 	#include "miterator.hpp"
 	#include "Node.hpp"
+	#include <sys/time.h>
 	#include "../vector/reverse_iterator.hpp"
+	void	print_time(timeval start, timeval end)
+	{
+		long ms_start, ms_end;
+		ms_start = (((start.tv_sec * 1000000) + (start.tv_usec)));
+		ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)));
+		std::cout << "time is = " << ms_end - ms_start << std::endl;
+	}
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 	class map
 	{
