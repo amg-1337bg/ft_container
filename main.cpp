@@ -72,6 +72,12 @@ int main(int argc, char** argv) {
 	ft::vector<Buffer> vector_buffer;
 	ft::stack<Buffer, std::deque<Buffer> > stack_deq_buffer;
 	ft::map<int, int> map_int;
+	std::map<int, int>::value_compare comp(std::less<int>);
+
+	std::pair<int, int> fi(19, 0);
+	std::pair<int, int> se(120, 0);
+	if (comp(fi, se))
+		std::cout << "True" << std::endl;
 
 	for (int i = 0; i < COUNT; i++)
 	{
