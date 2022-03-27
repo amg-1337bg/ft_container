@@ -96,6 +96,7 @@ namespace ft
 						}
 					}
 					calc_height(&_root ,&new_node);
+					ret.first = iterator (new_node);
 					ret.second = true;
 				}
 				_S++;
