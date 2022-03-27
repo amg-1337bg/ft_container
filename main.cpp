@@ -5,7 +5,7 @@
 	#include "map/map.hpp"
 	#include "stack/stack.hpp"
 	#include "vector/vector.hpp"
-	// namespace ft = std;
+	// namespace std = std;
 // #else
 	#include <map>
 	#include <stack>
@@ -22,8 +22,17 @@ struct Buffer
 	char buff[BUFFER_SIZE];
 };
 
+#include <sys/time.h>
 
 #define COUNT (MAX_RAM / (int)sizeof(Buffer))
+
+void	print_time(timeval start, timeval end)
+{
+	long ms_start, ms_end;
+	ms_start = (((start.tv_sec * 1000000) + (start.tv_usec)) / 1000);
+	ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)) / 1000);
+	std::cout << "time is = " << ms_end - ms_start << std::endl;
+}
 
 template<typename T>
 class MutantStack : public ft::stack<T>
@@ -45,6 +54,7 @@ public:
 };
 
 int main(int argc, char** argv) {
+	timeval start, end;
 	if (argc != 2)
 	{
 		std::cerr << "Usage: ./test seed" << std::endl;
@@ -54,6 +64,7 @@ int main(int argc, char** argv) {
 	}
 	const int seed = atoi(argv[1]);
 	srand(seed);
+	gettimeofday(&start, NULL);
 
 	ft::vector<std::string> vector_str;
 	ft::vector<int> vector_int;
@@ -112,5 +123,8 @@ int main(int argc, char** argv) {
 		std::cout << *it;
 	}
 	std::cout << std::endl;
+	gettimeofday(&end, NULL);
+	// ft_m.debug();
+	print_time(start, end);
 	return (0);
 }

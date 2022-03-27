@@ -95,8 +95,8 @@ namespace ft
 							tmp = tmp->get_right();
 						}
 					}
-					calc_height(&_root ,&new_node);
 					ret.first = iterator (new_node);
+					calc_height(&_root ,new_node);
 					ret.second = true;
 				}
 				_S++;
@@ -207,7 +207,7 @@ namespace ft
 					set_to_left(here, new_node);
 				else if (_key_compare_copy(here->value->first, new_node->value->first)) //MAX
 					set_to_right(here, new_node);
-				calc_height(&_root, &new_node);
+				calc_height(&_root, new_node);
 			}
 
 			node_type* node_with(const key_type &k)
@@ -324,6 +324,7 @@ namespace ft
 			{
 				value_type tmp = ft::make_pair(k, mapped_type());
 				pair<iterator, bool> ret = insert(tmp);
+				// std::cout << "second = " << ret.first->second << std::endl;
 				return ret.first->second;
 			}
 

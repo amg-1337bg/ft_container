@@ -264,13 +264,13 @@ void	rotate(Node<T> **node , std::string &rot)
 
 
 template < class T >
-void	calc_height(Node <T>** root, Node <T>** node)
+void	calc_height(Node <T>** root, Node <T>* node)
 {
 	Node<T> *tmp;
 	std::string Rotation;
 	int l_max = 0, r_max = 0;
 
-	tmp = (*node)->get_parent();
+	tmp = node->get_parent();
 	while (tmp)
 	{
 		if (tmp->get_left())
@@ -308,7 +308,6 @@ void	calc_height(Node <T>** root, Node <T>** node)
 				rotate(&tmp, Rotation);
 			break ;
 		}
-		*node = tmp;
 		tmp = tmp->get_parent();
 	}
 }
