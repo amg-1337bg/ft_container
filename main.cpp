@@ -111,14 +111,19 @@ int main(int argc, char** argv) {
 	
 	
 	timeval start, end;
-	ft::gettimeofday(&start, NULL);
+	gettimeofday(&start, NULL);
 	for (int i = 0; i < 1e6; ++i)
 	{
 		map_int.insert(ft::make_pair(rand(), int()));
 	}
-		ft::gettimeofday(&end, NULL);
-		print_time(start, end);
-	
+	map_int.debug();
+	gettimeofday(&end, NULL);
+	print_time(start, end);
+	gettimeofday(&start, NULL);
+	for(ft::map<int, int>::iterator it = map_int.begin(); it != map_int.end(); it++)
+		;
+	gettimeofday(&end, NULL);
+	print_time(start, end);
 /* 
 
 	int ft_Strlen(char *&s)

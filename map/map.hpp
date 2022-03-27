@@ -10,15 +10,7 @@ namespace ft
 	#include "../vector/utilities.hpp"
 	#include "miterator.hpp"
 	#include "Node.hpp"
-	#include <sys/time.h>
 	#include "../vector/reverse_iterator.hpp"
-	void	print_time(timeval start, timeval end)
-	{
-		long ms_start, ms_end;
-		ms_start = (((start.tv_sec * 1000000) + (start.tv_usec)));
-		ms_end = (((end.tv_sec * 1000000) + (end.tv_usec)));
-		std::cout << "time is = " << ms_end - ms_start << std::endl;
-	}
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 	class map
 	{
@@ -419,12 +411,8 @@ namespace ft
 			}
 
 			void clear() {
-				iterator it = begin();
-				while (it != end())
-				{
-					erase(it);
-					it = begin();
-				}
+				while (_root)
+					delete_node(&_root, _root);
 				_min = nullptr;
 				_max = nullptr;
 			}
@@ -642,6 +630,53 @@ namespace ft
 			}
 			
 			allocator_type get_allocator() const { return _allocator_copy; }
+			void debug()
+			{
+				// WINDOW *mywindows = initscr();
+				node_type *tmp = _root;
+				char ch;
+				// nodelay(mywindows, true);
+				// keypad(mywindows, TRUE);
+				// int y = 0;
+				while (tmp)
+				{
+					std::cout << tmp->value->first << " left_height = " << tmp->get_l_h() << "r_height = " << tmp->get_r_h() << std::endl;
+					std::cin >> ch;
+					std::cin.ignore();
+					if (ch == 'i')
+					{
+						std::cout << "insert an int :";
+						int i;
+						std::cin >> i;
+						tmp = _root;
+						std::cout << "back to root" << std::endl;
+					}
+					else if (ch == 'w')
+					{
+						if (!tmp->get_parent())
+							std::cout << "the parent is Null" << std::endl;
+						else
+							tmp = tmp->get_parent();
+					}
+					else if (ch == 'a')
+					{
+						if (!tmp->get_left())
+							std::cout << "the left child is Null" << std::endl;
+						else
+							tmp = tmp->get_left();
+					}
+					else if (ch == 'd')
+					{
+						if (!tmp->get_right())
+							std::cout << "the right child is Null" << std::endl;
+						else
+							tmp = tmp->get_right();
+					}
+					// std::cout << std::endl;
+					// move(0, ++y);
+					// wrefresh(mywindows);
+				}
+			}
 
 	};
 
