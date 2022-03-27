@@ -3,14 +3,14 @@
 
 #include <functional>
 #include <iostream>
+#include "../utils/utilities.hpp"
+#include "../utils/reverse_iterator.hpp"
 
 namespace ft
 {
 	#include "map_helper.hpp"
-	#include "../vector/utilities.hpp"
 	#include "miterator.hpp"
 	#include "Node.hpp"
-	#include "../vector/reverse_iterator.hpp"
 	template < class Key, class T, class Compare = std::less<Key>, class Alloc = std::allocator<pair<const Key, T> > >
 	class map
 	{

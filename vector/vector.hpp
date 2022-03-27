@@ -6,12 +6,12 @@
 #include <stdexcept>
 #include <algorithm>
 
+#include "../utils/reverse_iterator.hpp"
+#include "../utils/utilities.hpp"
 
 namespace ft
 {
 #include "iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "utilities.hpp"
 
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
