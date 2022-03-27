@@ -415,6 +415,7 @@ namespace ft
 			void clear() {
 				while (_root)
 					delete_node(&_root, _root);
+				_S = 0;
 				_min = nullptr;
 				_max = nullptr;
 			}
