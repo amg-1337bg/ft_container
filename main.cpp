@@ -945,13 +945,15 @@ int main()
 	timeval start, end;
 	
 	gettimeofday(&start, NULL);
-	std::cout << "-----------------Vector Tests--------------------" << std::endl;
-	vector_tests();
+	// std::cout << "-----------------Vector Tests--------------------" << std::endl;
+	// vector_tests();
 	std::cout << "-----------------Stack Tests--------------------" << std::endl;
 	stack_tests();
-	std::cout << "-----------------Map Tests--------------------" << std::endl;
-	map_tests();
+	// std::cout << "-----------------Map Tests--------------------" << std::endl;
+	// map_tests();
 	gettimeofday(&end, NULL);
 	print_time(start, end);
+	while (1);
+	
 	return 0;
 }

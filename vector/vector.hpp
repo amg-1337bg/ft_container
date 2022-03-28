@@ -69,12 +69,11 @@ namespace ft
 		}
 		~vector()
 		{
+			std::cout << "here" << std::endl;
 			if (_buffer)
 			{
 				for (iterator it = begin(); it != end(); it++)
-				{
 					allocator_copy.destroy(it.base());
-				}
 				allocator_copy.deallocate(_buffer, _C);
 			}
 		}
@@ -533,7 +532,7 @@ namespace ft
 			iterator it = begin();
 			while (it != end())
 			{
-				allocator_copy.destroy(&(*it));
+				allocator_copy.destroy(it.base());
 				it++;
 			}
 			_S = 0;

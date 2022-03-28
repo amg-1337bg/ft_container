@@ -950,5 +950,7 @@ int main()
 	map_tests();
 	gettimeofday(&end, NULL);
 	print_time(start, end);
+	while (1);
+	
 	return 0;
 }

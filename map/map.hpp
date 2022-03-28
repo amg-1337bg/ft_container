@@ -429,7 +429,11 @@ namespace ft
 
 			void clear() {
 				while (_root)
+				{
+					_allocator_copy.destroy(_root->value);
+					_allocator_copy.deallocate(_root->value, 1);
 					delete_node(&_root, _root);
+				}
 				_S = 0;
 				_min = nullptr;
 				_max = nullptr;
