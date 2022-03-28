@@ -332,30 +332,63 @@ namespace ft
 			pair<iterator,bool> insert (const value_type& val)
 			{
 				pair<iterator, bool> ret;
-				pointer tmp = _allocator_copy.allocate(1);
-				_allocator_copy.construct(tmp, val);
-				node_type *node = _node_alloc.allocate(1);
-				_node_alloc.construct(node, tmp);
-				if (_min && _key_compare_copy(val.first, _min->value->first))
+				try
 				{
-					_min->set_l_h(1);
-					insert_from(_min, node);
-					_min = node;
-					ret.first = iterator (_min);
-					ret.second = true;
-					_S++;
+					pointer tmp = _allocator_copy.allocate(1);
+					_allocator_copy.construct(tmp, val);
+					node_type *node = _node_alloc.allocate(1);
+					_node_alloc.construct(node, tmp);
+					if (_min && _key_compare_copy(val.first, _min->value->first))
+					{
+						_min->set_l_h(1);
+						insert_from(_min, node);
+						_min = node;
+						ret.first = iterator (_min);
+						ret.second = true;
+						_S++;
+					}
+					else if (_max && _key_compare_copy(_max->value->first, val.first))
+					{
+						_max->set_r_h(1);
+						insert_from(_max, node);
+						_max = node;
+						ret.first = iterator (_max);
+						ret.second = true;
+						_S++;
+					}
+					else
+					{
+						ret = insert_node(node);
+						if (!ret.second)
+						{
+							_allocator_copy.destroy(tmp);
+							_allocator_copy.deallocate(tmp, 1);
+							_node_alloc.deallocate(node, 1);
+						}
+						if (!_min && !_max)
+						{
+							_min = node;
+							_max = node;
+						}
+					}
 				}
-				else if (_max && _key_compare_copy(_max->value->first, val.first))
+				catch(const std::exception& e)
 				{
-					_max->set_r_h(1);
-					insert_from(_max, node);
-					_max = node;
-					ret.first = iterator (_max);
-					ret.second = true;
-					_S++;
+					std::cerr << e.what() << std::endl;
 				}
-				else
+				
+				return (ret);
+			}
+			iterator insert (iterator position, const value_type& val)
+			{
+				iterator it = position;
+				try
 				{
+					pair<iterator, bool> ret;
+					pointer tmp = _allocator_copy.allocate(1);
+					_allocator_copy.construct(tmp, val);
+					node_type *node = _node_alloc.allocate(1);
+					_node_alloc.construct(node, tmp);
 					ret = insert_node(node);
 					if (!ret.second)
 					{
@@ -363,30 +396,12 @@ namespace ft
 						_allocator_copy.deallocate(tmp, 1);
 						_node_alloc.deallocate(node, 1);
 					}
-					if (!_min && !_max)
-					{
-						_min = node;
-						_max = node;
-					}
+					it = node;
 				}
-				return (ret);
-			}
-			iterator insert (iterator position, const value_type& val) // NEEDS WORK
-			{
-				iterator it = position;
-				pair<iterator, bool> ret;
-				pointer tmp = _allocator_copy.allocate(1);
-				_allocator_copy.construct(tmp, val);
-				node_type *node = _node_alloc.allocate(1);
-				_node_alloc.construct(node, tmp);
-				ret = insert_node(node);
-				if (!ret.second)
+				catch(const std::exception& e)
 				{
-					_allocator_copy.destroy(tmp);
-					_allocator_copy.deallocate(tmp, 1);
-					_node_alloc.deallocate(node, 1);
+					std::cerr << e.what() << std::endl;
 				}
-				it = node;
 				return it;
 			}
 

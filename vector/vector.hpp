@@ -43,9 +43,17 @@ namespace ft
 		explicit vector(const allocator_type &alloc = allocator_type()) : _buffer(), _S(), _C(), allocator_copy(alloc) {}
 		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _buffer(), _S(n), _C(n), allocator_copy(alloc)
 		{
+			try
+			{
 			_buffer = allocator_copy.allocate(n);
 			for (size_type i = 0; i < n; i++)
 				allocator_copy.construct(&_buffer[i], val);
+			}
+			catch(const std::exception& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+			
 		}
 		
 		template <class InputIterator>
@@ -73,6 +81,8 @@ namespace ft
 
 		vector& operator= (const vector& x)
 		{
+			try
+			{
 			if (_buffer)
 			{
 				size_type i = 0;
@@ -93,7 +103,13 @@ namespace ft
 			{
 				allocator_copy.construct(&(_buffer[i++]), *it);
 				it++;
+			}	
 			}
+			catch(const std::exception& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+			
 			return *this;
 		}
 
@@ -352,7 +368,7 @@ namespace ft
 				}
 				catch(const std::exception& e)
 				{
-					std::cerr << e.what() << '\n';
+					std::cerr << e.what() << std::endl;
 				}
 			}
 		}
@@ -549,11 +565,7 @@ namespace ft
 	template <class T, class Alloc>
   	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs.size() < rhs.size())
-			return true;
-		else if (lhs.size() == rhs.size())
-			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class T, class Alloc>
