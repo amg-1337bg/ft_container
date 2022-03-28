@@ -23,7 +23,7 @@ void vector_tests()
   		std::cout << "The contents of fifth are:";
   		for (ft::vector<int>::iterator it = fifth.begin(); it != fifth.end(); ++it)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector operator= test" << std::endl;
@@ -33,8 +33,8 @@ void vector_tests()
   		bar = foo;
   		foo = ft::vector<int>();
 
-  		std::cout << "Size of foo: " << int(foo.size()) << '\n';
-  		std::cout << "Size of bar: " << int(bar.size()) << '\n';
+  		std::cout << "Size of foo: " << int(foo.size()) << std::endl;
+  		std::cout << "Size of bar: " << int(bar.size()) << std::endl;
 	}
 	{
 		std::cout << "vector begin() test" << std::endl;
@@ -44,7 +44,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (ft::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector end() test" << std::endl;
@@ -54,7 +54,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (ft::vector<int>::iterator it = myvector.begin() ; it != myvector.end(); ++it)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector rbegin() test" << std::endl;
@@ -69,7 +69,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector rend() test" << std::endl;
@@ -84,21 +84,21 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (ft::vector<int>::iterator it = myvector.begin(); it != myvector.end(); ++it)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector Size() test" << std::endl;
 		ft::vector<int> myints;
-  		std::cout << "0. size: " << myints.size() << '\n';
+  		std::cout << "0. size: " << myints.size() << std::endl;
 
   		for (int i=0; i<10; i++) myints.push_back(i);
-  		std::cout << "1. size: " << myints.size() << '\n';
+  		std::cout << "1. size: " << myints.size() << std::endl;
 
   		myints.insert (myints.end(),10,100);
-  		std::cout << "2. size: " << myints.size() << '\n';
+  		std::cout << "2. size: " << myints.size() << std::endl;
 
   		myints.pop_back();
-  		std::cout << "3. size: " << myints.size() << '\n';
+  		std::cout << "3. size: " << myints.size() << std::endl;
 	}
 	{
 		std::cout << "vector max_size() test" << std::endl;
@@ -125,7 +125,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (size_t i=0;i < myvector.size();i++)
   		  std::cout << ' ' << myvector[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector capacity() test" << std::endl;
@@ -134,9 +134,9 @@ void vector_tests()
   		// set some content in the vector:
   		for (int i=0; i<100; i++) myvector.push_back(i);
 
-  		std::cout << "size: " << (int) myvector.size() << '\n';
-  		std::cout << "capacity: " << (int) myvector.capacity() << '\n';
-  		std::cout << "max_size: " << (int) myvector.max_size() << '\n';
+  		std::cout << "size: " << (int) myvector.size() << std::endl;
+  		std::cout << "capacity: " << (int) myvector.capacity() << std::endl;
+  		std::cout << "max_size: " << (int) myvector.max_size() << std::endl;
 	}
 	{
 		std::cout << "vector empty() test" << std::endl;
@@ -151,7 +151,7 @@ void vector_tests()
   		   myvector.pop_back();
   		}
 
-  		std::cout << "total: " << sum << '\n';
+  		std::cout << "total: " << sum << std::endl;
 	}
 	{
 		std::cout << "vector reserve() test" << std::endl;
@@ -164,7 +164,7 @@ void vector_tests()
 			foo.push_back(i);
 			if (sz!=foo.capacity()) {
 				sz = foo.capacity();
-				std::cout << "capacity changed: " << sz << '\n';
+				std::cout << "capacity changed: " << sz << std::endl;
 			}
 		}
 		ft::vector<int> bar;
@@ -175,7 +175,7 @@ void vector_tests()
 			bar.push_back(i);
 			if (sz!=bar.capacity()) {
 				sz = bar.capacity();
-				std::cout << "capacity changed: " << sz << '\n';
+				std::cout << "capacity changed: " << sz << std::endl;
 			}
 		}
 	}
@@ -200,7 +200,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (unsigned i=0; i<sz; i++)
   		  std::cout << ' ' << myvector[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector at() test" << std::endl;
@@ -213,7 +213,7 @@ void vector_tests()
 		std::cout << "myvector contains:";
 		for (unsigned i=0; i<myvector.size(); i++)
 		  std::cout << ' ' << myvector.at(i);
-		std::cout << '\n';
+		std::cout << std::endl;
 
 	}
 	{
@@ -227,7 +227,7 @@ void vector_tests()
 
   		myvector.front() -= myvector.back();
 
-  		std::cout << "myvector.front() is now " << myvector.front() << '\n';
+  		std::cout << "myvector.front() is now " << myvector.front() << std::endl;
 	}
 	{
 		std::cout << "vector back() test" << std::endl;
@@ -243,7 +243,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (unsigned i=0; i<myvector.size() ; i++)
   		  std::cout << ' ' << myvector[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector assign() test" << std::endl;
@@ -261,9 +261,9 @@ void vector_tests()
   		int myints[] = {1776,7,4};
   		third.assign (myints,myints+3);   // assigning from array.
 
-  		std::cout << "Size of first: " << int (first.size()) << '\n';
-  		std::cout << "Size of second: " << int (second.size()) << '\n';
-  		std::cout << "Size of third: " << int (third.size()) << '\n';
+  		std::cout << "Size of first: " << int (first.size()) << std::endl;
+  		std::cout << "Size of second: " << int (second.size()) << std::endl;
+  		std::cout << "Size of third: " << int (third.size()) << std::endl;
 	}
 	{
 		std::cout << "vector push_back() test" << std::endl;
@@ -288,7 +288,7 @@ void vector_tests()
   		  myvector.pop_back();
   		}
 
-  		std::cout << "The elements of myvector add up to " << sum << '\n';
+  		std::cout << "The elements of myvector add up to " << sum << std::endl;
 	}
 	{
 		std::cout << "vector insert() test" << std::endl;
@@ -312,7 +312,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (it=myvector.begin(); it<myvector.end(); it++)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector erase() test" << std::endl;
@@ -330,7 +330,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (unsigned i=0; i<myvector.size(); ++i)
   		  std::cout << ' ' << myvector[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector swap() test" << std::endl;
@@ -342,12 +342,12 @@ void vector_tests()
   		std::cout << "foo contains:";
   		for (unsigned i=0; i<foo.size(); i++)
   		  std::cout << ' ' << foo[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 
   		std::cout << "bar contains:";
   		for (unsigned i=0; i<bar.size(); i++)
   		  std::cout << ' ' << bar[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector clear() test" << std::endl;
@@ -359,7 +359,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (unsigned i=0; i<myvector.size(); i++)
   		  std::cout << ' ' << myvector[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 		
   		myvector.clear();
   		myvector.push_back (1101);
@@ -368,7 +368,7 @@ void vector_tests()
   		std::cout << "myvector contains:";
   		for (unsigned i=0; i<myvector.size(); i++)
   		  std::cout << ' ' << myvector[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "vector get_allocator() test" << std::endl;
@@ -384,7 +384,7 @@ void vector_tests()
 
   		std::cout << "The allocated array contains:";
   		for (i=0; i<5; i++) std::cout << ' ' << p[i];
-  		std::cout << '\n';
+  		std::cout << std::endl;
 
   		// destroy and deallocate:
   		for (i=0; i<5; i++) myvector.get_allocator().destroy(&p[i]);
@@ -412,12 +412,12 @@ void vector_tests()
   		std::cout << "foo contains:";
   		for (ft::vector<int>::iterator it = foo.begin(); it!=foo.end(); ++it)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 		
   		std::cout << "bar contains:";
   		for (ft::vector<int>::iterator it = bar.begin(); it!=bar.end(); ++it)
   		  std::cout << ' ' << *it;
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 }
 
@@ -434,10 +434,10 @@ void	stack_tests()
   		ft::stack<int,ft::vector<int> > third;  // empty stack using vector
   		ft::stack<int,ft::vector<int> > fourth (myvector);
 
-  		std::cout << "size of first: " << first.size() << '\n';
-  		std::cout << "size of second: " << second.size() << '\n';
-  		std::cout << "size of third: " << third.size() << '\n';
-  		std::cout << "size of fourth: " << fourth.size() << '\n';
+  		std::cout << "size of first: " << first.size() << std::endl;
+  		std::cout << "size of second: " << second.size() << std::endl;
+  		std::cout << "size of third: " << third.size() << std::endl;
+  		std::cout << "size of fourth: " << fourth.size() << std::endl;
 	}
 	{
 		std::cout << "stack empty() test" << std::endl;
@@ -452,18 +452,18 @@ void	stack_tests()
   		   mystack.pop();
   		}
 
-  		std::cout << "total: " << sum << '\n';
+  		std::cout << "total: " << sum << std::endl;
 	}
 	{
 		std::cout << "stack size() test" << std::endl;
 		ft::stack<int> myints;
-		std::cout << "0. size: " << myints.size() << '\n';
+		std::cout << "0. size: " << myints.size() << std::endl;
 
 	  	for (int i=0; i<5; i++) myints.push(i);
-	  	std::cout << "1. size: " << myints.size() << '\n';
+	  	std::cout << "1. size: " << myints.size() << std::endl;
 
 	  	myints.pop();
-	  	std::cout << "2. size: " << myints.size() << '\n';
+	  	std::cout << "2. size: " << myints.size() << std::endl;
 
 	}
 	{
@@ -475,7 +475,7 @@ void	stack_tests()
 
   		mystack.top() -= 5;
 
-  		std::cout << "mystack.top() is now " << mystack.top() << '\n';
+  		std::cout << "mystack.top() is now " << mystack.top() << std::endl;
 	}
 	{
 		std::cout << "stack push() test" << std::endl;
@@ -489,7 +489,7 @@ void	stack_tests()
   		   std::cout << ' ' << mystack.top();
   		   mystack.pop();
   		}
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "stack pop() test" << std::endl;
@@ -503,7 +503,7 @@ void	stack_tests()
   		   std::cout << ' ' << mystack.top();
   		   mystack.pop();
   		}
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 }
 
@@ -545,8 +545,8 @@ void	map_tests()
   		second=first;                // second now contains 3 ints
   		first=ft::map<char,int>();  // and first is now empty
 
-  		std::cout << "Size of first: " << first.size() << '\n';
-  		std::cout << "Size of second: " << second.size() << '\n';
+  		std::cout << "Size of first: " << first.size() << std::endl;
+  		std::cout << "Size of second: " << second.size() << std::endl;
 	}
 	{
 		std::cout << "map begin() test" << std::endl;
@@ -557,7 +557,7 @@ void	map_tests()
 		mymap['c'] = 300;
 		// show content:
 		for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-			std::cout << it->first << " => " << it->second << '\n';
+			std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 		std::cout << "map end() test" << std::endl;
@@ -569,7 +569,7 @@ void	map_tests()
 
 		// show content:
 		for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-			std::cout << it->first << " => " << it->second << '\n';
+			std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 		std::cout << "map rbegin() test" << std::endl;
@@ -581,7 +581,7 @@ void	map_tests()
 		// show content:
 		ft::map<char,int>::reverse_iterator rit;
 		for (rit=mymap.rbegin(); rit!=mymap.rend(); ++rit)
-			std::cout << rit->first << " => " << rit->second << '\n';
+			std::cout << rit->first << " => " << rit->second << std::endl;
 	}
 	{
 		std::cout << "map rend() test" << std::endl;
@@ -593,7 +593,7 @@ void	map_tests()
 		// show content:
 		ft::map<char,int>::reverse_iterator rit;
 		for (rit=mymap.rbegin(); rit!=mymap.rend(); ++rit)
-			std::cout << rit->first << " => " << rit->second << '\n';
+			std::cout << rit->first << " => " << rit->second << std::endl;
 	}
 	{
 		std::cout << "map empty() test" << std::endl;
@@ -604,7 +604,7 @@ void	map_tests()
 		mymap['c']=30;		
 		while (!mymap.empty())
 		{
-		  std::cout << mymap.begin()->first << " => " << mymap.begin()->second << '\n';
+		  std::cout << mymap.begin()->first << " => " << mymap.begin()->second << std::endl;
 		  mymap.erase(mymap.begin());
 		}
 	}
@@ -614,7 +614,7 @@ void	map_tests()
 		mymap['a']=101;
 		mymap['b']=202;
 		mymap['c']=302;
-		std::cout << "mymap.size() is " << mymap.size() << '\n';
+		std::cout << "mymap.size() is " << mymap.size() << std::endl;
 	}
 	{
 
@@ -636,10 +636,10 @@ void	map_tests()
 		mymap['a']="an element";
 		mymap['b']="another element";
 		mymap['c']=mymap['b'];		
-		std::cout << "mymap['a'] is " << mymap['a'] << '\n';
-		std::cout << "mymap['b'] is " << mymap['b'] << '\n';
-		std::cout << "mymap['c'] is " << mymap['c'] << '\n';
-		std::cout << "mymap['d'] is " << mymap['d'] << '\n';		
+		std::cout << "mymap['a'] is " << mymap['a'] << std::endl;
+		std::cout << "mymap['b'] is " << mymap['b'] << std::endl;
+		std::cout << "mymap['c'] is " << mymap['c'] << std::endl;
+		std::cout << "mymap['d'] is " << mymap['d'] << std::endl;		
 		std::cout << "mymap now contains " << mymap.size() << " elements.\n";
 	}
 	{
@@ -654,7 +654,7 @@ void	map_tests()
 		ret = mymap.insert ( ft::pair<char,int>('z',500) );
 		if (ret.second==false) {
 		  std::cout << "element 'z' already existed";
-		  std::cout << " with a value of " << ret.first->second << '\n';
+		  std::cout << " with a value of " << ret.first->second << std::endl;
 		}
 		
 		// second insert function version (with hint position):
@@ -669,11 +669,11 @@ void	map_tests()
 		// showing contents:
 		std::cout << "mymap contains:\n";
 		for (it=mymap.begin(); it!=mymap.end(); ++it)
-		  std::cout << it->first << " => " << it->second << '\n';
+		  std::cout << it->first << " => " << it->second << std::endl;
 	
 		std::cout << "anothermap contains:\n";
 		for (it=anothermap.begin(); it!=anothermap.end(); ++it)
-		  std::cout << it->first << " => " << it->second << '\n';
+		  std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 
@@ -699,7 +699,7 @@ void	map_tests()
 
   		// show content:
   		for (it=mymap.begin(); it!=mymap.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 		std::cout << "map swap() test" << std::endl;
@@ -717,11 +717,11 @@ void	map_tests()
 		
   		std::cout << "foo contains:\n";
   		for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 		
   		std::cout << "bar contains:\n";
   		for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 		std::cout << "map clear() test" << std::endl;
@@ -733,7 +733,7 @@ void	map_tests()
 		
   		std::cout << "mymap contains:\n";
   		for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 		
   		mymap.clear();
   		mymap['a']=1101;
@@ -741,7 +741,7 @@ void	map_tests()
 		
   		std::cout << "mymap contains:\n";
   		for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 		std::cout << "map key_comp() test" << std::endl;
@@ -759,10 +759,10 @@ void	map_tests()
 
   		ft::map<char,int>::iterator it = mymap.begin();
   		do {
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
   		} while ( mycomp((*it++).first, highest) );
 
-  		std::cout << '\n';
+  		std::cout << std::endl;
 	}
 	{
 		std::cout << "map value_comp() test" << std::endl;
@@ -778,7 +778,7 @@ void	map_tests()
 
   		ft::map<char,int>::iterator it = mymap.begin();
   		do {
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
   		} while ( mymap.value_comp()(*it++, highest) );
 	}
 	{
@@ -796,10 +796,10 @@ void	map_tests()
   		  mymap.erase (it);
 
   		// print content:
-  		std::cout << "elements in mymap:" << '\n';
-  		std::cout << "a => " << mymap.find('a')->second << '\n';
-  		std::cout << "c => " << mymap.find('c')->second << '\n';
-  		std::cout << "d => " << mymap.find('d')->second << '\n';
+  		std::cout << "elements in mymap:" << std::endl;
+  		std::cout << "a => " << mymap.find('a')->second << std::endl;
+  		std::cout << "c => " << mymap.find('c')->second << std::endl;
+  		std::cout << "d => " << mymap.find('d')->second << std::endl;
 	}
 	{
 		std::cout << "map count() test" << std::endl;
@@ -837,7 +837,7 @@ void	map_tests()
 
   		// print content:
   		for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 		std::cout << "map upper_bound() test" << std::endl;
@@ -857,7 +857,7 @@ void	map_tests()
 
   		// print content:
   		for (ft::map<char,int>::iterator it=mymap.begin(); it!=mymap.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 	}
 	{
 		std::cout << "map equal_range() test" << std::endl;
@@ -871,10 +871,10 @@ void	map_tests()
   		ret = mymap.equal_range('b');
 
   		std::cout << "lower bound points to: ";
-  		std::cout << ret.first->first << " => " << ret.first->second << '\n';
+  		std::cout << ret.first->first << " => " << ret.first->second << std::endl;
 
   		std::cout << "upper bound points to: ";
-  		std::cout << ret.second->first << " => " << ret.second->second << '\n';
+  		std::cout << ret.second->first << " => " << ret.second->second << std::endl;
 
 	}
 	{
@@ -924,11 +924,11 @@ void	map_tests()
 		
   		std::cout << "foo contains:\n";
   		for (ft::map<char,int>::iterator it=foo.begin(); it!=foo.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 		
   		std::cout << "bar contains:\n";
   		for (ft::map<char,int>::iterator it=bar.begin(); it!=bar.end(); ++it)
-  		  std::cout << it->first << " => " << it->second << '\n';
+  		  std::cout << it->first << " => " << it->second << std::endl;
 	}
 }
 

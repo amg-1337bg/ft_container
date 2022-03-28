@@ -69,7 +69,6 @@ namespace ft
 		}
 		~vector()
 		{
-			std::cout << "here" << std::endl;
 			if (_buffer)
 			{
 				for (iterator it = begin(); it != end(); it++)
@@ -92,12 +91,12 @@ namespace ft
 				}
 				allocator_copy.deallocate(_buffer, _C);
 			}
-			const_iterator it = x.begin();
 			_S = x.size();
 			_C = x.capacity();
 			allocator_copy = x.get_allocator();
 			_buffer = allocator_copy.allocate(_C);
 			size_type i = 0;
+			const_iterator it = x.begin();
 			while (it != x.end())
 			{
 				allocator_copy.construct(&(_buffer[i++]), *it);
