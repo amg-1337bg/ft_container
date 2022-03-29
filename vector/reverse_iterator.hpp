@@ -22,13 +22,7 @@ public:
 	reverse_iterator() : iter() {}
 	explicit reverse_iterator(iterator_type it) : iter(it){}
 	template <class Iter>
-  	reverse_iterator (const reverse_iterator<Iter>& rev_it) : iter(rev_it.base())
-	  {
-		  std::cout << "inside = "  << std::endl;
-		  iterator_type tmp = iter;
-		  tmp--;
-		  std::cout << "inside = " << tmp->first << std::endl;
-	  }
+  	reverse_iterator (const reverse_iterator<Iter>& rev_it) : iter(rev_it.base()) {}
 	template <class Iter>
   	reverse_iterator& operator= (const reverse_iterator<Iter>& rev_it)
 	{

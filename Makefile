@@ -1,3 +1,3 @@
 
 all:
-	clang++ -g -fsanitize=address  -Wall -Wextra -Werror main.cpp
+	clang++ -g  -Wall -Wextra -Werror main.cpp

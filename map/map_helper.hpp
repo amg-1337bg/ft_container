@@ -3,8 +3,6 @@
 
 #include "Node.hpp"
 
-int		balance(int l_h, int r_h) {	return l_h - r_h; }
-
 template < class T>
 int height(Node<T>* root) {
    int h = 0;
@@ -129,10 +127,6 @@ void	left_rotate(Node<T> **node)
 	set_to_right(tmp1, tmp);
 	tmp->set_l_h(tmp->get_l_h() - 2);
 	tmp1->set_r_h(tmp1->get_r_h() + 1);
-	// tmp->set_l_h(height(tmp->get_left()));
-	// tmp->set_r_h(height(tmp->get_right()));
-	// tmp1->set_l_h(height(tmp1->get_left()));
-	// tmp1->set_r_h(height(tmp1->get_right()));
 	*node = tmp1;
 }
 
@@ -167,10 +161,6 @@ void	right_rotate(Node<T> **node)
 	set_to_left(tmp1, tmp);
 	tmp->set_r_h(tmp->get_r_h() - 2);
 	tmp1->set_l_h(tmp1->get_l_h() + 1);
-	// tmp->set_l_h(height(tmp->get_left()));
-	// tmp->set_r_h(height(tmp->get_right()));
-	// tmp1->set_l_h(height(tmp1->get_left()));
-	// tmp1->set_r_h(height(tmp1->get_right()));
 	*node = tmp1;
 }
 
@@ -211,12 +201,6 @@ void	right_left_rotate(Node<T> **node)
 	tmp1->set_r_h(tmp1->get_r_h() + 1);
 	tmp2->set_l_h(tmp2->get_l_h() - 1);
 	tmp->set_r_h(tmp->get_r_h() - 1);
-	// tmp->set_l_h(height(tmp->get_left()));
-	// tmp->set_r_h(height(tmp->get_right()));
-	// tmp2->set_l_h(height(tmp2->get_left()));
-	// tmp2->set_r_h(height(tmp2->get_right()));
-	// tmp1->set_l_h(height(tmp1->get_left()));
-	// tmp1->set_r_h(height(tmp1->get_right()));
 	*node = tmp1;
 }
 
@@ -234,7 +218,6 @@ void	left_right_rotate(Node<T> **node)
 				\
 		tmp1->	(C)
 	*/
-	// std::cout << "goo " << tmp->value->first << std::endl;
 	if (tmp1->get_right())
 		set_to_left(tmp, tmp1->get_right());
 	else
@@ -258,12 +241,6 @@ void	left_right_rotate(Node<T> **node)
 	tmp1->set_r_h(tmp1->get_r_h() + 1);
 	tmp2->set_r_h(tmp2->get_r_h() - 1);
 	tmp->set_l_h(tmp->get_l_h() - 1);
-	// tmp->set_l_h(height(tmp->get_left()));
-	// tmp->set_r_h(height(tmp->get_right()));
-	// tmp2->set_l_h(height(tmp2->get_left()));
-	// tmp2->set_r_h(height(tmp2->get_right()));
-	// tmp1->set_l_h(height(tmp1->get_left()));
-	// tmp1->set_r_h(height(tmp1->get_right()));
 	*node = tmp1;
 }
 
@@ -293,14 +270,11 @@ void	calc_height(Node <T>** root, Node <T>** node)
 {
 	Node<T> *tmp;
 	std::string Rotation;
-	// int i = 0;
 	int l_max = 0, r_max = 0;
 
 	tmp = (*node)->get_parent();
 	while (tmp)
 	{
-		// tmp->set_l_h(height(tmp->get_left()));
-		// tmp->set_r_h(height(tmp->get_right()));
 		if (tmp->get_left())
 			l_max = std::max(tmp->get_left()->get_l_h(), tmp->get_left()->get_r_h());
 		if (tmp->get_right())
@@ -313,7 +287,7 @@ void	calc_height(Node <T>** root, Node <T>** node)
 			tmp->set_l_h(l_max + 1);
 		if (r_max != 0)
 			tmp->set_r_h(r_max + 1);
-		tmp->set_balance(ft::balance(tmp->get_l_h() , tmp->get_r_h()));
+		tmp->set_balance(tmp->get_l_h() - tmp->get_r_h());
 		if (tmp->get_balance() > 1 || tmp->get_balance() < -1)
 		{
 			if (*root == tmp)
@@ -323,6 +297,7 @@ void	calc_height(Node <T>** root, Node <T>** node)
 			}
 			else
 				rotate(&tmp, Rotation);
+			break ;
 		}
 		*node = tmp;
 		tmp = tmp->get_parent();
@@ -334,14 +309,9 @@ void	calc_after_delete(Node<T>** root, Node<T>* node)
 	std::string Rotation;
 	while (node)
 	{
-		// node->set_l_h(height(node->get_left()));
-		// node->set_r_h(height(node->get_right()));
-		// l_max = std::max(node->get_left()->get_l_h(), node->get_left()->get_r_h());
-		// r_max = std::max(node->get_right()->get_l_h(), node->get_right()->get_r_h());
 		node->set_balance(node->get_l_h() - node->get_r_h());
 		if (node->get_balance() > 1 || node->get_balance() < -1)
 		{
-			// std::cout << "node == " << node->value->first << " " << node->get_l_h() << " " << node->get_r_h() << node->get_balance() << std::endl;
 			if (node->get_l_h() > node->get_r_h())
 			{
 				if (node->get_left() && node->get_left()->get_left())
@@ -364,7 +334,7 @@ void	calc_after_delete(Node<T>** root, Node<T>* node)
 			}
 			else
 				rotate(&node, Rotation);
-			// break ;
+			break ;
 		}
 		node = node->get_parent();
 	}
