@@ -1,9 +1,8 @@
 #ifndef UTILITIES_HPP
 #define UTILITIES_HPP
 
-// #include <types.h>
-#include <stddef.h>
-// #include <type_traits>
+namespace ft
+{
 
 template <class Iterator>
 class iterator_traits
@@ -43,83 +42,114 @@ struct enable_if<true, T>{ typedef T type; };
 template <class T>
 struct is_integral {
 	static const bool value = false;
-	typedef bool value_type;
-	typedef is_integral<T> type;
+	typedef T value_type;
+	typedef T type;
+	operator value_type() const { return value; }
 };
 template <>
 struct is_integral <bool>{
 	static const bool value = true;
 	typedef bool value_type;
+	typedef bool type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <char> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef char type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <char16_t> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef char16_t type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <char32_t> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef char32_t type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral<wchar_t> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef wchar_t type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral<signed char> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef signed char type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <short int> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef short int type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <int> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef int type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <long int>{
 	static const bool value = true;
 	typedef bool value_type;
+	typedef long int type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <long long int>{
 	static const bool value = true;
 	typedef bool value_type;
+	typedef long long int type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <unsigned char> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef unsigned char type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <unsigned short int> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef unsigned short int type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <unsigned int> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef unsigned int type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <unsigned long int> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef unsigned long int type;
+	operator value_type() { return value; }
 };
 template <>
 struct is_integral <unsigned long long int> {
 	static const bool value = true;
 	typedef bool value_type;
+	typedef unsigned long long int type;
+	operator value_type() { return value; }
 };
 
 
@@ -131,7 +161,7 @@ template <class InputIterator1, class InputIterator2>
 	{
 		if (first2 == last2 || *first2 < *first1)
 			return false;
-		else if (*first1<*first2)
+		else if (*first1 < *first2)
 			return true;
 		++first1;
 		++first2;
@@ -228,4 +258,5 @@ template <class InputIterator1, class InputIterator2, class BinaryPredicate>
 	return true;
 }
 
+}
 #endif

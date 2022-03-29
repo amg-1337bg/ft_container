@@ -6,12 +6,12 @@
 #include <stdexcept>
 #include <algorithm>
 
+#include "../utils/reverse_iterator.hpp"
+#include "../utils/utilities.hpp"
 
 namespace ft
 {
 #include "iterator.hpp"
-#include "reverse_iterator.hpp"
-#include "utilities.hpp"
 
 	template <class T, class Alloc = std::allocator<T> >
 	class vector
@@ -43,9 +43,17 @@ namespace ft
 		explicit vector(const allocator_type &alloc = allocator_type()) : _buffer(), _S(), _C(), allocator_copy(alloc) {}
 		explicit vector(size_type n, const value_type &val = value_type(), const allocator_type &alloc = allocator_type()) : _buffer(), _S(n), _C(n), allocator_copy(alloc)
 		{
+			try
+			{
 			_buffer = allocator_copy.allocate(n);
 			for (size_type i = 0; i < n; i++)
 				allocator_copy.construct(&_buffer[i], val);
+			}
+			catch(const std::exception& e)
+			{
+				std::cerr << e.what() << std::endl;
+			}
+			
 		}
 		
 		template <class InputIterator>
@@ -64,36 +72,45 @@ namespace ft
 			if (_buffer)
 			{
 				for (iterator it = begin(); it != end(); it++)
-				{
 					allocator_copy.destroy(it.base());
-				}
 				allocator_copy.deallocate(_buffer, _C);
 			}
 		}
 
 		vector& operator= (const vector& x)
 		{
-			if (_buffer)
+			try
 			{
-				size_type i = 0;
-				for (iterator it = begin(); it != this->end(); it++)
+				if (_buffer)
 				{
-					allocator_copy.destroy(it.base());
-					i++;
+					size_type i = 0;
+					for (iterator it = begin(); it != this->end(); it++)
+					{
+						allocator_copy.destroy(it.base());
+						i++;
+					}
+					allocator_copy.deallocate(_buffer, _C);
+					_buffer = NULL;
 				}
-				allocator_copy.deallocate(_buffer, _C);
+				_S = x.size();
+				_C = x.capacity();
+				allocator_copy = x.get_allocator();
+				if (_C == 0)
+					return *this;
+				_buffer = allocator_copy.allocate(_C);
+				size_type i = 0;
+				const_iterator it = x.begin();
+				while (it != x.end())
+				{
+					allocator_copy.construct(&(_buffer[i++]), *it);
+					it++;
+				}	
 			}
-			const_iterator it = x.begin();
-			_S = x.size();
-			_C = x.capacity();
-			allocator_copy = x.get_allocator();
-			_buffer = allocator_copy.allocate(_C);
-			size_type i = 0;
-			while (it != x.end())
+			catch(const std::exception& e)
 			{
-				allocator_copy.construct(&(_buffer[i++]), *it);
-				it++;
+				std::cerr << e.what() << std::endl;
 			}
+			
 			return *this;
 		}
 
@@ -314,7 +331,7 @@ namespace ft
 			{
 				try
 				{
-					_buffer = allocator_copy.allocate(2);
+					_buffer = allocator_copy.allocate(1);
 					allocator_copy.construct(&(_buffer[0]), val);
 					_S = 1;
 					_C = 1;
@@ -352,7 +369,7 @@ namespace ft
 				}
 				catch(const std::exception& e)
 				{
-					std::cerr << e.what() << '\n';
+					std::cerr << e.what() << std::endl;
 				}
 			}
 		}
@@ -517,7 +534,7 @@ namespace ft
 			iterator it = begin();
 			while (it != end())
 			{
-				allocator_copy.destroy(&(*it));
+				allocator_copy.destroy(it.base());
 				it++;
 			}
 			_S = 0;
@@ -549,11 +566,7 @@ namespace ft
 	template <class T, class Alloc>
   	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs.size() < rhs.size())
-			return true;
-		else if (lhs.size() == rhs.size())
-			return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template <class T, class Alloc>

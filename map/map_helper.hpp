@@ -249,8 +249,6 @@ void	rotate(Node<T> **node , std::string &rot)
 {
 	std::string LL("LL"), RR("RR"), LR("LR"), RL("RL");
 
-	if (rot.length() > 2)
-		rot.erase(0, 1);
 	if (rot.empty())
 		return ;
 	if (rot == LL)
@@ -266,23 +264,19 @@ void	rotate(Node<T> **node , std::string &rot)
 
 
 template < class T >
-void	calc_height(Node <T>** root, Node <T>** node)
+void	calc_height(Node <T>** root, Node <T>* node)
 {
 	Node<T> *tmp;
 	std::string Rotation;
 	int l_max = 0, r_max = 0;
 
-	tmp = (*node)->get_parent();
+	tmp = node->get_parent();
 	while (tmp)
 	{
 		if (tmp->get_left())
 			l_max = std::max(tmp->get_left()->get_l_h(), tmp->get_left()->get_r_h());
 		if (tmp->get_right())
 			r_max = std::max(tmp->get_right()->get_l_h(), tmp->get_right()->get_r_h());
-		if (*node == tmp->get_left())
-				Rotation += "R";
-		else
-				Rotation += "L";
 		if (l_max != 0)
 			tmp->set_l_h(l_max + 1);
 		if (r_max != 0)
@@ -290,6 +284,21 @@ void	calc_height(Node <T>** root, Node <T>** node)
 		tmp->set_balance(tmp->get_l_h() - tmp->get_r_h());
 		if (tmp->get_balance() > 1 || tmp->get_balance() < -1)
 		{
+			if (l_max > r_max)
+			{
+				if (tmp->get_left() && tmp->get_left()->get_left())
+					Rotation = "RR";
+				else if (tmp->get_left() && tmp->get_left()->get_right())
+					Rotation = "LR";
+			} else
+			{
+				if (tmp->get_right() && tmp->get_right()->get_right())
+					Rotation = "LL";
+				else if (tmp->get_right() && tmp->get_right()->get_left())
+				{
+					Rotation = "RL";
+				}
+			}
 			if (*root == tmp)
 			{
 				rotate(root, Rotation);
@@ -299,7 +308,6 @@ void	calc_height(Node <T>** root, Node <T>** node)
 				rotate(&tmp, Rotation);
 			break ;
 		}
-		*node = tmp;
 		tmp = tmp->get_parent();
 	}
 }

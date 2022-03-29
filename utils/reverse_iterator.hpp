@@ -3,6 +3,10 @@
 
 #include "utilities.hpp"
 
+namespace ft
+{
+
+
 template <class iterator>
 class reverse_iterator
 {
@@ -148,4 +152,5 @@ template <class Iterator>
 	return rhs.base() - lhs.base();
 }
 
+}
 #endif

@@ -1,7 +1,6 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-
 #include "../vector/vector.hpp"
 
 namespace ft
@@ -32,6 +31,7 @@ class stack
 	
 	public:
 		explicit stack (const container_type& ctnr = container_type()) : c(ctnr) {}
+		// ~stack() { c.clear(); }
 
 		bool empty() const { return c.empty(); }
 		size_type size() const { return c.size(); }
